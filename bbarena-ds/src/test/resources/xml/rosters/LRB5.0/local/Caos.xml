@@ -1,0 +1,192 @@
+<roster>
+  <race>Caos</race>
+  <description>Chaos teams are not noted for the subtlety or originality of their game play. A simple drive up the	centre of the pitch, maiming and injuring as many opposing players as possible, is about the limit of their game plan. They rarely, if ever, worry about such minor considerations like picking up the ball and	scoring touchdowns – not while there are any players left alive on the opposing team, anyway.</description>
+  <players>
+    <playertemplate>
+      <roster reference="../../.."/>
+      <quantity>
+        <min>0</min>
+        <max>16</max>
+      </quantity>
+      <position>Beastmen</position>
+      <cost>60000</cost>
+      <attributes>
+        <attributeMap>
+          <entry>
+            <attribute>MA</attribute>
+            <int>6</int>
+          </entry>
+          <entry>
+            <attribute>ST</attribute>
+            <int>3</int>
+          </entry>
+          <entry>
+            <attribute>AV</attribute>
+            <int>8</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
+            <int>3</int>
+          </entry>
+        </attributeMap>
+      </attributes>
+      <skills>
+        <skill>
+          <name>Horns</name>
+        </skill>
+      </skills>
+      <normal>
+        <skillcategory>
+          <id>G</id>
+          <name>General</name>
+          <description>General skills</description>
+          <skills class="tree-set">
+            <no-comparator/>
+          </skills>
+        </skillcategory>
+        <skillcategory>
+          <id>S</id>
+          <name>Strenght</name>
+          <description>Strenght skills</description>
+          <skills class="tree-set">
+            <no-comparator/>
+          </skills>
+        </skillcategory>
+        <skillcategory>
+          <id>M</id>
+          <name>Mutation</name>
+          <description>Mutation skills</description>
+          <skills class="tree-set">
+            <no-comparator/>
+          </skills>
+        </skillcategory>
+      </normal>
+      <doubles>
+        <skillcategory>
+          <id>A</id>
+          <name>Agility</name>
+          <description>Agility skills</description>
+          <skills class="tree-set">
+            <no-comparator/>
+          </skills>
+        </skillcategory>
+        <skillcategory>
+          <id>P</id>
+          <name>Passing</name>
+          <description>Passing skills</description>
+          <skills class="tree-set">
+            <no-comparator/>
+          </skills>
+        </skillcategory>
+      </doubles>
+    </playertemplate>
+    <playertemplate>
+      <roster reference="../../.."/>
+      <quantity>
+        <min>0</min>
+        <max>4</max>
+      </quantity>
+      <position>Caos Warriors</position>
+      <cost>100000</cost>
+      <attributes>
+        <attributeMap>
+          <entry>
+            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry/attribute"/>
+            <int>5</int>
+          </entry>
+          <entry>
+            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[2]/attribute"/>
+            <int>4</int>
+          </entry>
+          <entry>
+            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[3]/attribute"/>
+            <int>9</int>
+          </entry>
+          <entry>
+            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[4]/attribute"/>
+            <int>3</int>
+          </entry>
+        </attributeMap>
+      </attributes>
+      <skills/>
+      <normal>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory[2]"/>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory[3]"/>
+      </normal>
+      <doubles>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[2]"/>
+      </doubles>
+    </playertemplate>
+    <playertemplate>
+      <roster reference="../../.."/>
+      <quantity>
+        <min>0</min>
+        <max>1</max>
+      </quantity>
+      <position>Minotaur</position>
+      <cost>150000</cost>
+      <attributes>
+        <attributeMap>
+          <entry>
+            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry/attribute"/>
+            <int>5</int>
+          </entry>
+          <entry>
+            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[2]/attribute"/>
+            <int>5</int>
+          </entry>
+          <entry>
+            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[3]/attribute"/>
+            <int>9</int>
+          </entry>
+          <entry>
+            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[4]/attribute"/>
+            <int>2</int>
+          </entry>
+        </attributeMap>
+      </attributes>
+      <skills>
+        <skill>
+          <name>Loner</name>
+        </skill>
+        <skill>
+          <name>Frenzy</name>
+        </skill>
+        <skill reference="../../../playertemplate/skills/skill"/>
+        <skill>
+          <name>Mighty blow</name>
+        </skill>
+        <skill>
+          <name>Thick skull</name>
+        </skill>
+        <skill>
+          <name>Wild animal</name>
+        </skill>
+      </skills>
+      <normal>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory[2]"/>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory[3]"/>
+      </normal>
+      <doubles>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[2]"/>
+      </doubles>
+    </playertemplate>
+  </players>
+  <rerolls>
+    <min>0</min>
+    <max>8</max>
+  </rerolls>
+  <rerollCost>60000</rerollCost>
+  <starsId>
+    <string>Brick Far’th &amp; Grotty</string>
+    <string>Grashnak Blackhoof</string>
+    <string>Lord Borak the Despoiler</string>
+    <string>Max Spleenripper</string>
+    <string>Morg ‘n’ Thorg</string>
+    <string>Ripper</string>
+  </starsId>
+</roster>
