@@ -1,6 +1,8 @@
 package net.sf.bbarena.model.replay;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.bbarena.model.Coach;
 import net.sf.bbarena.model.RuleSet;
@@ -44,31 +46,44 @@ public class Replayer implements RuleSet<ReplayChoice> {
 		}
 	}
 
-	private ReplayChoice[] buildChoices(EventManager eventManager) {
-		ReplayChoice[] res = null;
+	private Set<ReplayChoice> buildChoices(EventManager eventManager) {
+		Set<ReplayChoice> res = new HashSet<>();
 		
 		if (eventManager.getCurrentPosition() == 0) {
-			res = new ReplayChoice[]{ReplayChoice.EXIT, ReplayChoice.NEXT};
+			res.add(ReplayChoice.EXIT);
+			res.add(ReplayChoice.NEXT);
 		} else if (eventManager.getCurrentPosition() == eventManager.getEventsSize()) {
-			res = new ReplayChoice[]{ReplayChoice.EXIT, ReplayChoice.PREV};
+			res.add(ReplayChoice.EXIT);
+			res.add(ReplayChoice.PREV);
 		} else {
-			res = new ReplayChoice[]{ReplayChoice.EXIT, ReplayChoice.PREV, ReplayChoice.NEXT};
+			res.add(ReplayChoice.EXIT);
+			res.add(ReplayChoice.NEXT);
+			res.add(ReplayChoice.PREV);
 		}
 		
 		return res;
 	}
 
-	private void next(EventManager eventManager) {
+	private boolean next(EventManager eventManager) {
+		boolean last = false;
 		int nextPos = eventManager.getCurrentPosition() + 1;
 		if (_events != null && _events.size() >= nextPos) {
 			eventManager.forward();
 		} else {
+			last = true;
 			_log.info("No more events");
 		}
+		return last;
 	}
 
-	private void prev(EventManager eventManager) {
-		eventManager.backward();
+	private boolean prev(EventManager eventManager) {
+		boolean begin = false;
+		if (eventManager.getCurrentPosition() == 0) {
+			begin = true;
+		} else {
+			eventManager.backward();
+		}
+		return begin;
 	}
 
 }

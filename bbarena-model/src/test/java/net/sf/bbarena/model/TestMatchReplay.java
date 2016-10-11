@@ -2,6 +2,7 @@ package net.sf.bbarena.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.bbarena.model.dice.JavaRandomizer;
 import net.sf.bbarena.model.event.Event;
@@ -26,13 +27,18 @@ public class TestMatchReplay {
 		}
 		
 		@Override
-		public ReplayChoice ask(String question, ReplayChoice... choices) {
-			ReplayChoice res = ReplayChoice.NEXT;
-			int roll = die.getRollFace(100, "");
-			if (roll < 30) {
-				res = ReplayChoice.PREV;
-			} else if (roll == 100){
+		public ReplayChoice ask(String question, Set<ReplayChoice> choices) {
+			ReplayChoice res;
+			if (!choices.contains(ReplayChoice.NEXT)) {
 				res = ReplayChoice.EXIT;
+			} else {
+				res = ReplayChoice.NEXT;
+			}
+			if (choices.contains(ReplayChoice.PREV)) {
+				int roll = die.getRollFace(100, "");
+				if (roll < 30) {
+					res = ReplayChoice.PREV;
+				}
 			}
 			return res;
 		}

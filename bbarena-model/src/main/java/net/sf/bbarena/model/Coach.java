@@ -2,6 +2,7 @@ package net.sf.bbarena.model;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.bbarena.model.team.Team;
 
@@ -21,8 +22,13 @@ public abstract class Coach<C extends Choice> {
 		return _teams;
 	}
 	
-	public C choice(String question, C... choices) {
+	public C choice(String question, Set<C> choices) {
 		C res = ask(question, choices);
+
+		if (!choices.contains(res)) {
+			throw new IllegalArgumentException("Choice " + res + " not valid, valid values are: " + choices.toString());
+		}
+
 		StringBuilder msg = new StringBuilder();
 		msg.append("choice: ")
 			.append(question)
@@ -41,7 +47,7 @@ public abstract class Coach<C extends Choice> {
 		log.info(msg.toString());
 	}
 	
-	protected abstract C ask(String question, C... choices);
+	protected abstract C ask(String question, Set<C> choices);
 	
 	protected abstract void say(String message, C... choices);
 	

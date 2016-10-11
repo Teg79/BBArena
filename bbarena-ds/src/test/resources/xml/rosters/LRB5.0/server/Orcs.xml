@@ -1,6 +1,6 @@
 <roster>
   <race>Orcs</race>
-  <description>Orcs have been playing Blood Bowl since the game was invented, and Orc teams such as the Gouged Eye and Severed Heads are amongst the best in the league. Orc teams are tough and hard-hitting, grinding down the opposition’s line to create gaps for their excellent Orc Blitzers to exploit.</description>
+  <description>Orcs have been playing Blood Bowl since the game was invented, and Orc teams such as the Gouged Eye and Severed Heads are amongst the best in the league. Orc teams are tough and hard-hitting, grinding down the opposition&#x92;s line to create gaps for their excellent Orc Blitzers to exploit.</description>
   <players>
     <playertemplate>
       <roster reference="../../.."/>
@@ -17,12 +17,12 @@
             <int>5</int>
           </entry>
           <entry>
-            <attribute>ST</attribute>
-            <int>3</int>
-          </entry>
-          <entry>
             <attribute>AV</attribute>
             <int>9</int>
+          </entry>
+          <entry>
+            <attribute>ST</attribute>
+            <int>3</int>
           </entry>
           <entry>
             <attribute>AG</attribute>
@@ -79,19 +79,19 @@
       <attributes>
         <attributeMap>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry/attribute"/>
+            <attribute>MA</attribute>
             <int>6</int>
           </entry>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[2]/attribute"/>
-            <int>2</int>
-          </entry>
-          <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[3]/attribute"/>
+            <attribute>AV</attribute>
             <int>7</int>
           </entry>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[4]/attribute"/>
+            <attribute>ST</attribute>
+            <int>2</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
             <int>3</int>
           </entry>
         </attributeMap>
@@ -127,19 +127,19 @@
       <attributes>
         <attributeMap>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry/attribute"/>
+            <attribute>MA</attribute>
             <int>5</int>
           </entry>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[2]/attribute"/>
-            <int>3</int>
-          </entry>
-          <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[3]/attribute"/>
+            <attribute>AV</attribute>
             <int>8</int>
           </entry>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[4]/attribute"/>
+            <attribute>ST</attribute>
+            <int>3</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
             <int>3</int>
           </entry>
         </attributeMap>
@@ -172,19 +172,19 @@
       <attributes>
         <attributeMap>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry/attribute"/>
+            <attribute>MA</attribute>
             <int>4</int>
           </entry>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[2]/attribute"/>
-            <int>4</int>
-          </entry>
-          <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[3]/attribute"/>
+            <attribute>AV</attribute>
             <int>9</int>
           </entry>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[4]/attribute"/>
+            <attribute>ST</attribute>
+            <int>4</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
             <int>2</int>
           </entry>
         </attributeMap>
@@ -210,19 +210,19 @@
       <attributes>
         <attributeMap>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry/attribute"/>
+            <attribute>MA</attribute>
             <int>6</int>
           </entry>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[2]/attribute"/>
-            <int>3</int>
-          </entry>
-          <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[3]/attribute"/>
+            <attribute>AV</attribute>
             <int>9</int>
           </entry>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[4]/attribute"/>
+            <attribute>ST</attribute>
+            <int>3</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
             <int>3</int>
           </entry>
         </attributeMap>
@@ -252,19 +252,19 @@
       <attributes>
         <attributeMap>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry/attribute"/>
+            <attribute>MA</attribute>
             <int>4</int>
           </entry>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[2]/attribute"/>
-            <int>5</int>
-          </entry>
-          <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[3]/attribute"/>
+            <attribute>AV</attribute>
             <int>9</int>
           </entry>
           <entry>
-            <attribute reference="../../../../../playertemplate/attributes/attributeMap/entry[4]/attribute"/>
+            <attribute>ST</attribute>
+            <int>5</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
             <int>1</int>
           </entry>
         </attributeMap>

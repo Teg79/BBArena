@@ -29,7 +29,7 @@ public class XmlRosterDSTest extends TestCase {
 				"their game play. A simple drive up the	centre of the pitch, maiming and " +
 				"injuring as many opposing players as possible, is about the limit of their game plan. " +
 				"They rarely, if ever, worry about such minor considerations like picking up the ball and	" +
-				"scoring touchdowns – not while there are any players left alive on the opposing team, anyway.", 0, 8, 60000);
+				"scoring touchdowns Â– not while there are any players left alive on the opposing team, anyway.", 0, 8, 60000);
 		
 		SkillCategory general = new SkillCategory('G',"General", "General skills");
 		SkillCategory strenght = new SkillCategory('S',"Strenght", "Strenght skills");
@@ -109,11 +109,11 @@ public class XmlRosterDSTest extends TestCase {
 		caosRoster.addPlayer(caosWarriors);
 		caosRoster.addPlayer(minotaur);
 		
-		String starId1 = "Brick Far’th & Grotty";
+		String starId1 = "Brick FarÂ’th & Grotty";
 		String starId2 = "Grashnak Blackhoof";
 		String starId3 = "Lord Borak the Despoiler";
 		String starId4 = "Max Spleenripper";
-		String starId5 = "Morg ‘n’ Thorg";
+		String starId5 = "Morg Â‘nÂ’ Thorg";
 		String starId6 = "Ripper";
 		
 		caosRoster.addStarId(starId1);
@@ -134,7 +134,7 @@ public class XmlRosterDSTest extends TestCase {
 	public void testOrcRosterCreateAndSave(){
 		Roster orcRoster = new Roster("Orcs", "Orcs have been playing Blood Bowl since the game was invented, and Orc teams such as the Gouged " +
 				"Eye and Severed Heads are amongst the best in the league. Orc teams are tough and hard-hitting, " +
-				"grinding down the opposition’s line to create gaps for their excellent Orc Blitzers to exploit.", 0, 8, 60000);
+				"grinding down the oppositionÂ’s line to create gaps for their excellent Orc Blitzers to exploit.", 0, 8, 60000);
 		
 		SkillCategory general = new SkillCategory('G',"General", "General skills");
 		SkillCategory strenght = new SkillCategory('S',"Strenght", "Strenght skills");

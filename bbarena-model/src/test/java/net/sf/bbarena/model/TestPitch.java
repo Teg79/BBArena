@@ -45,101 +45,101 @@ public class TestPitch {
 			}
 		}
 	}
-
-	@Test
-	public void testPitch() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetSquares() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAddDugout() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetPitchName() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetWidth() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetHeight() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetSquare() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetTZCount() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetNextSquare() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testMovePlayerPlayerDirection() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testMovePlayerPlayerDirectionInt() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testMoveBallBallDirection() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testMoveBallBallDirectionInt() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testPutPlayerPlayerCoordinate() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testPutBall() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testRemoveBall() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testPutPlayerPlayerDugoutRoom() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetDugouts() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetDugout() {
-		fail("Not yet implemented");
-	}
+//
+//	@Test
+//	public void testPitch() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testSetSquares() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testAddDugout() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testGetPitchName() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testGetWidth() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testGetHeight() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testGetSquare() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testGetTZCount() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testGetNextSquare() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testMovePlayerPlayerDirection() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testMovePlayerPlayerDirectionInt() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testMoveBallBallDirection() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testMoveBallBallDirectionInt() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testPutPlayerPlayerCoordinate() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testPutBall() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testRemoveBall() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testPutPlayerPlayerDugoutRoom() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testGetDugouts() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	public void testGetDugout() {
+//		fail("Not yet implemented");
+//	}
 
 	@Test
 	public void testGetPlayersInRange() {

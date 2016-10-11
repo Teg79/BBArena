@@ -14,6 +14,10 @@ public class SkillCategory {
 	private String name;
 	private String description;
 	private Set<Skill> skills;
+
+	public SkillCategory() {
+
+	}
 	
 	public SkillCategory(char id, String name, String description) {
 		this.id = id;
