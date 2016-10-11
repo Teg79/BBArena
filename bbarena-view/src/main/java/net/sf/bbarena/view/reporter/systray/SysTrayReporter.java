@@ -7,14 +7,19 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 
 import net.sf.bbarena.view.reporter.ReporterImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SysTrayReporter extends ReporterImpl {
+
+	private static final Logger log = LoggerFactory.getLogger(SysTrayReporter.class);
+
 	private TrayIcon trayIcon;
 	private Image image;
 	
 	public SysTrayReporter() {
 		if(!SystemTray.isSupported()) {
-			System.out.println("Sorry, the system tray is not supported on your system.");
+			log.warn("Sorry, the system tray is not supported on your system.");
 		} else {
 			trayIcon = this.getTrayIcon();
 			
@@ -22,8 +27,7 @@ public class SysTrayReporter extends ReporterImpl {
 			try {
 				SystemTray.getSystemTray().add(trayIcon);
 			} catch (AWTException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.warn("Error adding tray icon: " + e.getMessage(), e);
 			}
 		}
 		

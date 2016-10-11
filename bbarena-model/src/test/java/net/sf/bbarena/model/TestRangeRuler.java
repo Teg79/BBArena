@@ -12,12 +12,16 @@ import net.sf.bbarena.model.team.Team;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author f.bellentani
  * 
  */
 public class TestRangeRuler {
+
+	private static final Logger log = LoggerFactory.getLogger(TestPitch.class);
 
 	private RangeRuler ruler = null;
 
@@ -63,11 +67,12 @@ public class TestRangeRuler {
 	public void testGetRange() {
 		Coordinate from = new Coordinate(5, 5);
 		for (int x = 0; x < pitch.getWidth(); x++) {
+			StringBuilder line = new StringBuilder();
 			for (int y = 0; y < pitch.getHeight(); y++) {
 				Range range = ruler.getRange(from, new Coordinate(x, y));
-				System.out.print(range.getSymbol() + " ");
+				line.append(range.getSymbol()).append(" ");
 			}
-			System.out.println();
+			log.info(line.toString());
 		}
 	}
 
@@ -83,6 +88,7 @@ public class TestRangeRuler {
 
 		// Print the pitch
 		for (int x = 0; x < pitch.getWidth(); x++) {
+			StringBuilder line = new StringBuilder();
 			for (int y = 0; y < pitch.getHeight(); y++) {
 				Player p = pitch.getSquare(new Coordinate(x, y)).getPlayer();
 				String name = "";
@@ -91,10 +97,15 @@ public class TestRangeRuler {
 				} else {
 					name = (p == null ? " - " : p.getName());
 				}
-				System.out.print(name + " ");
+				if (name.length() < 3) {
+					line.append(" ");
+				}
+				if (name.length() < 2) {
+					line.append(" ");
+				}
+				line.append(name).append(" ");
 			}
-			System.out.println();
-			System.out.println();
+			log.info(line.toString());
 		}
 	}
 

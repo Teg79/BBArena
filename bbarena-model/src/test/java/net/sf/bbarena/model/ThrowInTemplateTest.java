@@ -6,8 +6,12 @@ import net.sf.bbarena.model.team.Team;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ThrowInTemplateTest {
+
+	private static final Logger log = LoggerFactory.getLogger(ThrowInTemplateTest.class);
 
 	private ThrowInTemplate tit = null;
 
@@ -38,14 +42,13 @@ public class ThrowInTemplateTest {
 	public void testThrowInDirection() {
 		try {
 			for (Coordinate c : coords) {
-				System.out.println("Coordinate: " + c.toString());
+				log.info("Coordinate: " + c.toString());
 				for (int i = 1; i <= 6; i++) {
-					System.out.print(tit.getThrowInDirection(i, c) + " ");
+					log.info(tit.getThrowInDirection(i, c) + " ");
 				}
-				System.out.println();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 			fail("FAILED!!!");
 		}
 	}

@@ -16,7 +16,8 @@ import org.slf4j.LoggerFactory;
  */
 public class PitchFactory {
 	
-	private static final Logger log = LoggerFactory.getLogger(PitchFactory.class); 
+	private static final Logger log = LoggerFactory.getLogger(PitchFactory.class);
+
 	public static final String DEFAULT_PITCH_TYPE = "DEFAULT";
 	public static final String DEFAULT_PITCH_NAME = "BB";
 	public static final int DEFAULT_WIDTH = 26;
@@ -106,27 +107,6 @@ public class PitchFactory {
 		// TODO: Load from properties the PitchFactory implementation
 		PitchFactory pf = new PitchFactory(teams);
 		return pf.buildPitch();
-	}
-
-	public static void main (String[] args) {
-		log.info("Start...");
-		Team t1 = new Team(1L, null);
-		t1.setName("1");
-		Team t2 = new Team(2L, null);
-		t2.setName("2");
-		Pitch p = PitchFactory.getPitch(t1, t2);
-		log.debug("Pitch created");
-		for(int x = 0; x < p.getWidth(); x++) {
-			System.out.println();
-			for(int y = 0; y < p.getHeight(); y++) {
-				Square s = p.getSquare(new Coordinate(x, y));
-				Team t = s.getTeamOwner();
-				String team = (t == null ? "0" : t.getName());
-				System.out.print(s.getType().toString() + team);
-			}
-		}
-		System.out.println();
-		log.info("Done!");
 	}
 
 }

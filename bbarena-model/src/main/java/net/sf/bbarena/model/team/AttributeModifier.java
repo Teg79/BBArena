@@ -86,10 +86,5 @@ public class AttributeModifier implements Serializable {
     public void setType(Attribute type) {
     	this.type = type;
     }
-    
-    public static void main(String[] args){
-        AttributeModifier b = new AttributeModifier("-10 St");
-        AttributeModifier a = new AttributeModifier("+13Ag");
-        System.out.println(a.toString()+"\n"+b.toString());        
-    }
+
 }

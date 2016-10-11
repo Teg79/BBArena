@@ -1,5 +1,8 @@
 package net.sf.bbarena.model.dice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StreamTokenizer;
@@ -14,6 +17,7 @@ import java.security.SecureRandom;
  */
 public class RandomOrgRandomizer extends SecureRandom implements DieRandomizer {
 
+	private static final Logger log = LoggerFactory.getLogger(RandomOrgRandomizer.class);
 	private static final long serialVersionUID = 921076210048471019L;
 
 	private static RandomOrgRandomizer randomizer;
@@ -56,15 +60,15 @@ public class RandomOrgRandomizer extends SecureRandom implements DieRandomizer {
 				bytes[i] = cache[iterator++];
 			}
 		} catch (IOException e) {
-			System.err.println("Exception while receiving true random bytes: "
-					+ e + ". Use super class java.security.SecureRandom.");
+			log.warn("Exception while receiving true random bytes: "
+					+ e.getMessage() + ". Use super class java.security.SecureRandom.", e);
 			super.nextBytes(bytes);
 		}
 	}
 
 	private void connectRandomOrgAndFillCache() throws IOException {
 
-		System.out.println("Connecting www.random.org ...");
+		log.info("Connecting www.random.org ...");
 		URL randomOrg = new URL("http://www.random.org/cgi-bin/randbyte?"
 				+ "nbytes=" + cacheSize + "&format=dec");
 		HttpURLConnection con = (HttpURLConnection) randomOrg.openConnection();
@@ -73,8 +77,7 @@ public class RandomOrgRandomizer extends SecureRandom implements DieRandomizer {
 		con.setDoOutput(false);
 		con.setRequestMethod("GET");
 
-		// TODO: change mail address!
-		con.setRequestProperty("User-Agent", "your-email@your-domain.com");
+		con.setRequestProperty("User-Agent", "dice@bbarena.com");
 
 		StreamTokenizer st = new StreamTokenizer(new InputStreamReader(con
 				.getInputStream()));
@@ -112,7 +115,7 @@ public class RandomOrgRandomizer extends SecureRandom implements DieRandomizer {
 			throws IOException {
 		int face = 0;
 
-		System.out.println("Connecting www.random.org/integers ...");
+		log.info("Connecting www.random.org/integers ...");
 		URL randomOrg = new URL(
 				"http://preview.random.org/integers/?num=1&min=1&max="
 						+ facesNumber + "&unique=off&format=plain&rnd=id."

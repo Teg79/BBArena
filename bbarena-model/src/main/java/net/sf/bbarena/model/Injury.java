@@ -199,11 +199,6 @@ public class Injury implements Serializable {
 	}
 
 	public static void main(String[] args) {
-		List<Injury> injs = Injury.parseInjury("N+MNG Crowd; AC");
-
-		for (Injury inj : injs) {
-			System.out.println(inj.toString());
-		}
 	}
 
 }
