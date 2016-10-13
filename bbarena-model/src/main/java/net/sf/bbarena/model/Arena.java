@@ -56,6 +56,8 @@ public class Arena implements Serializable {
 
 	private Referee _referee = null;
 
+	private Weather _weather = Weather.getWeather(Weather.WeatherType.NICE);
+
 	/**
 	 * This constructor must be used to create a new Match with the Default
 	 * Pitch Type
@@ -194,4 +196,11 @@ public class Arena implements Serializable {
 		return res;
 	}
 
+	public Weather getWeather() {
+		return _weather;
+	}
+
+	public void setWeather(Weather weather) {
+		_weather = weather;
+	}
 }

@@ -11,7 +11,9 @@ public class PickUpBallEvent extends BallEvent {
 
 	private static final long serialVersionUID = 8477756281960807889L;
 
-	private long _playerId = 0;
+    public static final String PICK_UP_BALL_ROLL = "PICK_UP_BALL";
+
+    private long _playerId = 0;
 	private Ball _ball = null;
 	private Player _player = null;
 

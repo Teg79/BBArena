@@ -6,8 +6,8 @@ public class RollModifier implements Serializable {
 
 	private static final long serialVersionUID = -4692545546332381896L;
 
-	private int _modifier = 0;
-	private String _description = "";
+	private final int _modifier;
+	private final String _description;
 
 	public RollModifier(int modifier, String description) {
 		_modifier = modifier;
@@ -20,6 +20,11 @@ public class RollModifier implements Serializable {
 
 	public int getModifier() {
 		return _modifier;
+	}
+
+	@Override
+	public String toString() {
+		return new StringBuilder(_modifier).append(" (").append(_description).append(")").toString();
 	}
 
 }

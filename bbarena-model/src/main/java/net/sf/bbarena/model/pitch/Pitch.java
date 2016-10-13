@@ -1,7 +1,9 @@
 package net.sf.bbarena.model.pitch;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.bbarena.model.Coordinate;
 import net.sf.bbarena.model.Direction;
@@ -24,39 +26,43 @@ import net.sf.bbarena.model.team.Team;
  */
 public class Pitch {
 
-	private String _name = null;
-	private Square[][] _squares = null;
-	private List<Dugout> _dugouts = null;
-	private List<Ball> _balls = new ArrayList<Ball>();
+	private final String _name;
+	private final Square[][] _squares;
+	private final List<Dugout> _dugouts;
+	private final List<Ball>  _balls;
+	private final Set<Player> _players;
 
 	/**
 	 * Constructor for a general pitch The pitch MUST be rectangular or a
 	 * square, each row must have the same number of squares. Fill every square
 	 * out of bounds with a SquareType.OUT
-	 *
 	 * @param name
 	 *            Name of the pitch
-	 * @param pitch
-	 *            Squares of the pitch If null or emtry matrix will be created a
-	 *            1x1 pitch with only a SquareType.OUT
+	 * @param width
+     * 			  Width of the pitch
+	 * @param height
+	 * 			  Height of the pitch
 	 */
-	public Pitch(String name) {
+	public Pitch(String name, int width, int height) {
 		_name = name;
 
-		_squares = new Square[1][1];
-		_squares[0][0] = new Square(this, null, SquareType.OUT);
-	}
+		_squares = new Square[width][height];
+        for (int x = 0; x < width; x++) {
+        	for (int y = 0; y < height; y++) {
+				_squares[x][y] = new Square(this, new Coordinate(x, y));
+			}
+		}
 
-	public void setSquares(Square[][] pitch) {
-		_squares = pitch;
+		_dugouts = new ArrayList<>();
+
+		_balls = new ArrayList<>();
+
+		_players = new LinkedHashSet<>();
 	}
 
 	public boolean addDugout(Dugout dugout) {
 		boolean res = false;
 		if (dugout != null) {
-			if (_dugouts == null) {
-				_dugouts = new ArrayList<Dugout>();
-			}
 			res = _dugouts.add(dugout);
 		}
 		return res;
@@ -411,6 +417,7 @@ public class Pitch {
 		if (player.isInDugout()) {
 			Dugout dugout = getDugout(player.getTeam());
 			dugout.removePlayer(player);
+			_players.add(player);
 		}
 
 		Square origin = player.getSquare();
@@ -487,7 +494,7 @@ public class Pitch {
 	 * @return true if the player is successfully added, false otherwise
 	 */
 	public boolean putPlayer(Player player, DugoutRoom room) {
-		boolean res = false;
+		boolean res;
 
 		Dugout dugout = getDugout(player.getTeam());
 		res = dugout.addPlayer(room, player);
@@ -496,6 +503,7 @@ public class Pitch {
 			if (square != null) {
 				square.removePlayer();
 				player.setSquare(null);
+				_players.remove(player);
 			}
 		}
 
@@ -575,6 +583,19 @@ public class Pitch {
 
 	public RangeRuler getRangeRuler() {
 		return new RangeRuler(this);
+	}
+
+	public Set<Player> getPlayers() {
+		return _players;
+	}
+
+	void setSquare(Coordinate xy, SquareType type) {
+	    setSquare(xy, type, null);
+    }
+
+	void setSquare(Coordinate xy, SquareType type, Team teamOwner) {
+		Square s = new Square(this, xy, type, teamOwner);
+		_squares[xy.getX()][xy.getY()] = s;
 	}
 
 }

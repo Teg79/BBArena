@@ -45,8 +45,7 @@ public class EventFactory {
 		try {
 			Constructor<? extends Event> c = eventClass.getConstructor(new Class[] {
 					Arena.class, String.class });
-			res = (Event) c
-					.newInstance(new Object[] { arena, serializedEvent });
+			res = c.newInstance(new Object[] { arena, serializedEvent });
 		} catch (Exception e) {
 			String msg = "Unable to load event " + type.toString() + ": "
 					+ e.getMessage();

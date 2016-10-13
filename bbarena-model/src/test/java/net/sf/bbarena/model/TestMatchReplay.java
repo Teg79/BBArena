@@ -20,6 +20,8 @@ public class TestMatchReplay {
 	
 	private class RandomCoach extends Coach<ReplayChoice> {
 
+		private final int maxSteps = 100;
+		private int steps = 0;
 		private JavaRandomizer die = new JavaRandomizer();
 
 		public RandomCoach(Team... teams) {
@@ -35,11 +37,17 @@ public class TestMatchReplay {
 				res = ReplayChoice.NEXT;
 			}
 			if (choices.contains(ReplayChoice.PREV)) {
-				int roll = die.getRollFace(100, "");
+				int roll = die.getRollFace(100);
 				if (roll < 30) {
 					res = ReplayChoice.PREV;
 				}
 			}
+
+			steps++;
+			if (steps > maxSteps) {
+				res = ReplayChoice.EXIT;
+			}
+
 			return res;
 		}
 

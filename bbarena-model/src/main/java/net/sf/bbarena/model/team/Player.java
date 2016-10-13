@@ -71,6 +71,11 @@ public class Player implements Serializable {
 
 	private boolean dugout = true;
 
+	/**
+	 * A player can be used in the Kick-Off set up only if this is true
+	 */
+	private boolean playable = true;
+
 	/** Creates a new instance of Player */
 	public Player(long id, int num, String name) {
 		this(id, num, name, null, null, null, null);
@@ -548,6 +553,14 @@ public class Player implements Serializable {
 
 	public void setPitchStatus(PlayerPitchStatus pitchStatus) {
 		this.pitchStatus = pitchStatus;
+	}
+
+	public boolean isPlayable() {
+		return playable;
+	}
+
+	public void setPlayable(boolean playable) {
+		this.playable = playable;
 	}
 
 }

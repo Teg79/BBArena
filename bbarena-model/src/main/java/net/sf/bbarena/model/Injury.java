@@ -198,7 +198,4 @@ public class Injury implements Serializable {
 		return res;
 	}
 
-	public static void main(String[] args) {
-	}
-
 }

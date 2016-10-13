@@ -10,6 +10,7 @@ public enum Die implements Serializable {
 	D6(6),
 	D8(8),
 	D10(10),
+	D11(11),
 	D12(12),
 	D16(16),
 	D100(100),
@@ -21,7 +22,7 @@ public enum Die implements Serializable {
 
 	private Integer[] _faces;
 
-	private Die(Integer... faces) {
+	Die(Integer... faces) {
 		_faces = faces;
 	}
 

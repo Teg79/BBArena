@@ -7,14 +7,16 @@ package net.sf.bbarena.model.event;
  */
 public interface EventFlowListener {
 
-	public void beforeDoEvent(Event e);
+	void beforeDoEvent(Event e);
 
-	public void afterDoEvent(Event e);
+	void afterDoEvent(Event e);
 
-	public void beforeUndoEvent(Event e);
+	void beforeUndoEvent(Event e);
 
-	public void afterUndoEvent(Event e);
+	void afterUndoEvent(Event e);
 
-	public void eventSizeChanged(int newSize);
+	void eventSizeChanged(int newSize);
+
+    void setEventManager(EventManager eventManager);
 
 }

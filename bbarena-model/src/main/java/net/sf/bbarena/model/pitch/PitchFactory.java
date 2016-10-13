@@ -55,28 +55,23 @@ public class PitchFactory {
 	}	
 	
 	protected Pitch buildPitch() {
-		Pitch res = new Pitch(_name);
-		Square[][] pitch = new Square[_width][_height];
+		Pitch res = new Pitch(_name, _width, _height);
 		for(int x = 0; x < _width; x++) {
 			for(int y = 0; y < _height; y++) {
-				Square s = null;
 				Coordinate xy = new Coordinate(x, y);
+				SquareType type = SquareType.NORMAL;
 
 				if(x == 0 || x == _width-1) {
-					s = new Square(res, xy, SquareType.END_ZONE, getTeamOwner(x, y));
+					type = SquareType.END_ZONE;
 				} else if(y < _wideZone || y >= _height-_wideZone) {
-					s = new Square(res, xy, SquareType.WIDE_ZONE, getTeamOwner(x, y));
+					type = SquareType.WIDE_ZONE;
 				} else if(x == _width/2 || x == (_width/2)-1) {
-					s = new Square(res, xy, SquareType.LOS, getTeamOwner(x, y));
-				} else {
-					s = new Square(res, xy);
-					s.setTeamOwner(getTeamOwner(x, y));
+					type = SquareType.LOS;
 				}
 
-				pitch[x][y] = s;
+				res.setSquare(xy, type, getTeamOwner(x, y));
 			}
 		}
-		res.setSquares(pitch);
 		res.addDugout(new DefaultDogout(getTeam(0)));
 		res.addDugout(new DefaultDogout(getTeam(1)));
 

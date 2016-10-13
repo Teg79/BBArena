@@ -12,6 +12,8 @@ public class PassBallEvent extends BallEvent {
 
 	private static final long serialVersionUID = 7623559099296775845L;
 
+	public static String PASS_ROLL = "Pass";
+
 	private Ball _ball = null;
 	private Player _from = null;
 	private Coordinate _to = null;

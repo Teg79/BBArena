@@ -24,7 +24,7 @@ public class EventManager implements Serializable {
 	private static final long serialVersionUID = -2236209545925666897L;
 
 	protected Logger log = LoggerFactory.getLogger("arena.events");
-	private List<EventFlowListener> _listeners = new ArrayList<EventFlowListener>();
+	private List<EventFlowListener> _listeners = new ArrayList<>();
 	private Arena _arena;
 	private List<Event> _events = new ArrayList<Event>();
 	private int _current = 0;
@@ -167,6 +167,7 @@ public class EventManager implements Serializable {
 
 	public void addListener(EventFlowListener listener) {
 		_listeners.add(listener);
+		listener.setEventManager(this);
 	}
 
 	public void removeListener(EventFlowListener listener) {

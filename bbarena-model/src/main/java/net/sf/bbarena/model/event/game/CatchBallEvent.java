@@ -11,7 +11,9 @@ public class CatchBallEvent extends BallEvent {
 
 	private static final long serialVersionUID = -8383445710083022190L;
 
-	private long _playerId = 0;
+	public static final String CATCH_ROLL = "CATCH";
+
+    private long _playerId = 0;
 	private Ball _ball = null;
 	private Player _player = null;
 

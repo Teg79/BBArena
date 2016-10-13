@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.bbarena.model.Arena;
+import net.sf.bbarena.model.RollResult;
 
 public abstract class Event implements Serializable {
 
@@ -27,7 +28,7 @@ public abstract class Event implements Serializable {
 		SetPlayerAction (sets current players action i.e. move, block, blitz, etc.)
 		SpellSet (sets active spell)
 		SetMatchState (sets matches global state, if I only could remember what those were)
-		SetWeather (sets current weather)
+		ChangeWeather (sets current weather)
 		PlayerMove
 		PlayerSetInjuryText
 		PlayerSetStatus
@@ -44,7 +45,7 @@ public abstract class Event implements Serializable {
 
 	protected Arena _arena = null;
 	private int _id = 0;
-	private List<EventRoll> _diceRolls = new ArrayList<EventRoll>();
+	private List<RollResult> _diceRolls = new ArrayList<>();
 	private boolean _executed = false;
 
 	protected void setId(int id) {
@@ -55,11 +56,11 @@ public abstract class Event implements Serializable {
 		return _id;
 	}
 
-	public List<EventRoll> getDiceRolls() {
+	public List<RollResult> getDiceRolls() {
 		return _diceRolls;
 	}
 
-	public void addDiceRoll(EventRoll diceRoll) {
+	public void addDiceRoll(RollResult diceRoll) {
 		_diceRolls.add(diceRoll);
 	}
 
@@ -77,4 +78,7 @@ public abstract class Event implements Serializable {
 
 	public abstract String getString();
 
+	public Arena getArena() {
+		return _arena;
+	}
 }

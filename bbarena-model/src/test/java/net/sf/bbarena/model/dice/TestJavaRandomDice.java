@@ -23,7 +23,7 @@ public class TestJavaRandomDice extends TestCase{
 	
 	public void testSixJavaRandomDice(){
 		for(int i=0; i<10000; ++i) {
-			int res = d.getRollFace(6, "");
+			int res = d.getRollFace(6);
 //			log.info("Roll d6: " + res);
 			assertTrue(res >= 1 && res <= 6);
 		}
@@ -31,7 +31,7 @@ public class TestJavaRandomDice extends TestCase{
 	
 	public void testEightJavaRandomDice(){
 		for(int i=0; i<10000; ++i) {
-			int res = d.getRollFace(8, "");
+			int res = d.getRollFace(8);
 //			log.info("Roll d8: " + res);
 			assertTrue(res >= 1 && res <= 8);
 		}
