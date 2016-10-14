@@ -59,10 +59,14 @@ public class RollResult {
     public String toString() {
         StringBuilder builder = new StringBuilder("Roll [").append(_why).append("] ")
                 .append(_roll.getDice()).append(_roll.getType())
-                .append(" = ")
-                .append(Arrays.toString(_results))
-                .append(" + ")
-                .append(_modifiers.toString());
+                .append(" ")
+                .append(Arrays.toString(_results));
+        if (_modifiers.size() > 0) {
+            builder.append(" + ")
+                    .append(_modifiers.toString());
+        }
+        builder.append(" = ")
+                .append(getSum());
         return builder.toString();
     }
 }

@@ -81,4 +81,11 @@ public abstract class Event implements Serializable {
 	public Arena getArena() {
 		return _arena;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder res = new StringBuilder("[").append(_id).append("] ");
+		res.append(getString()).append(" ").append(_diceRolls.toString());
+		return res.toString();
+	}
 }

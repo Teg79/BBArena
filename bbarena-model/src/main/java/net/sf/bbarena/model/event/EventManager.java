@@ -34,6 +34,10 @@ public class EventManager implements Serializable {
 		_arena = arena;
 	}
 
+	public Arena getArena() {
+		return _arena;
+	}
+
 	/**
 	 * Adds an event to the time line. The event will be executed when forward
 	 * is called and the current position is the position before this event.
@@ -51,7 +55,7 @@ public class EventManager implements Serializable {
 
 		listenersEventSizeChanged(_events.size());
 
-		log.info("Added Event " + res);
+		log.info("Added Event " + event.toString());
 		return res;
 	}
 
@@ -94,7 +98,7 @@ public class EventManager implements Serializable {
 		if (_current < _events.size()) {
 			Event e = _events.get(_current++);
 
-			log.info("Forward with event " + e.getId() + ": " + e.getString()
+			log.info("Forward with event " + e.getString()
 					+ " starts...");
 
 			listenersBeforeUndoEvent(e);
@@ -105,7 +109,7 @@ public class EventManager implements Serializable {
 			listenersAfterUndoEvent(e);
 
 			res = _current;
-			log.info("Forward with event " + e.getId() + ": " + e.getString()
+			log.info("Forward with event " + e.getString()
 					+ " done!");
 		}
 		return res;
@@ -165,9 +169,10 @@ public class EventManager implements Serializable {
 		}
 	}
 
-	public void addListener(EventFlowListener listener) {
+	public EventManager addListener(EventFlowListener listener) {
 		_listeners.add(listener);
 		listener.setEventManager(this);
+		return this;
 	}
 
 	public void removeListener(EventFlowListener listener) {

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.bbarena.model.Choice;
 import net.sf.bbarena.model.Coach;
 import net.sf.bbarena.model.RuleSet;
 import net.sf.bbarena.model.event.Event;
@@ -12,7 +13,11 @@ import net.sf.bbarena.model.event.EventManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Replayer implements RuleSet<ReplayChoice> {
+import static net.sf.bbarena.model.replay.ReplayChoice.EXIT;
+import static net.sf.bbarena.model.replay.ReplayChoice.NEXT;
+import static net.sf.bbarena.model.replay.ReplayChoice.PREV;
+
+public class Replayer implements RuleSet {
 
 	private static final Logger _log = LoggerFactory.getLogger(Replayer.class);
 	private List<Event> _events;
@@ -23,42 +28,41 @@ public class Replayer implements RuleSet<ReplayChoice> {
 
 	@Override
 	public void start(EventManager eventManager,
-			List<Coach<ReplayChoice>> coaches) {
+			List<Coach> coaches) {
 		boolean end = false;
-		Coach<ReplayChoice> coach = coaches.get(0);
+		Coach coach = coaches.get(0);
 		for (Event event : _events) {
 			eventManager.putEvent(event);
 		}
 		while (!end) {
-			ReplayChoice choice = coach.choice("Prev or Next?", buildChoices(eventManager));
-			switch (choice) {
-			case EXIT:
+			Choice choice = coach.choice("Prev or Next?", buildChoices(eventManager));
+
+			if (choice.equals(ReplayChoice.EXIT)) {
 				end = true;
-				break;
-			case PREV:
+
+			} else if (choice.equals(ReplayChoice.PREV)) {
 				prev(eventManager);
-				break;
-			case NEXT:
-			default:
+
+			} else {
 				next(eventManager);
-				break;
+
 			}
 		}
 	}
 
-	private Set<ReplayChoice> buildChoices(EventManager eventManager) {
-		Set<ReplayChoice> res = new HashSet<>();
+	private Set<Choice> buildChoices(EventManager eventManager) {
+		Set<Choice> res = new HashSet<>();
 		
 		if (eventManager.getCurrentPosition() == 0) {
-			res.add(ReplayChoice.EXIT);
-			res.add(ReplayChoice.NEXT);
+			res.add(EXIT);
+			res.add(NEXT);
 		} else if (eventManager.getCurrentPosition() == eventManager.getEventsSize()) {
-			res.add(ReplayChoice.EXIT);
-			res.add(ReplayChoice.PREV);
+			res.add(EXIT);
+			res.add(PREV);
 		} else {
-			res.add(ReplayChoice.EXIT);
-			res.add(ReplayChoice.NEXT);
-			res.add(ReplayChoice.PREV);
+			res.add(EXIT);
+			res.add(NEXT);
+			res.add(PREV);
 		}
 		
 		return res;

@@ -9,21 +9,25 @@ import net.sf.bbarena.model.team.Team;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class Coach<C extends Choice> {
+public abstract class Coach {
 
 	private static final Logger log = LoggerFactory.getLogger(Coach.class);
-	private List<Team> _teams;
-	
-	public Coach(Team... teams) {
-		_teams = Arrays.asList(teams);
+	private Team _team;
+    private ChoiceFilter _filter = choices -> choices;
+
+    public Coach(Team team) {
+		_team = team;
 	}
 	
-	public List<Team> getTeams() {
-		return _teams;
+	public Team getTeam() {
+		return _team;
 	}
 	
-	public C choice(String question, Set<C> choices) {
-		C res = ask(question, choices);
+	public Choice choice(String question, Set<Choice> choices) {
+
+        choices = _filter.filter(choices);
+
+		Choice res = ask(question, choices);
 
 		if (!choices.contains(res)) {
 			throw new IllegalArgumentException("Choice " + res + " not valid, valid values are: " + choices.toString());
@@ -38,8 +42,8 @@ public abstract class Coach<C extends Choice> {
 		log.info(msg.toString());
 		return res;
 	}
-	
-	public void notify(String message, C... choices) {
+
+	public void notify(String message, Set<Choice> choices) {
 		say(message, choices);
 		StringBuilder msg = new StringBuilder();
 		msg.append("notify: ")
@@ -47,8 +51,14 @@ public abstract class Coach<C extends Choice> {
 		log.info(msg.toString());
 	}
 	
-	protected abstract C ask(String question, Set<C> choices);
+	protected abstract Choice ask(String question, Set<Choice> choices);
 	
-	protected abstract void say(String message, C... choices);
-	
+	protected abstract void say(String message, Set<Choice> choices);
+
+    public void setChoiceFilter(ChoiceFilter choiceFilter) {
+        if (choiceFilter != null) {
+            _filter = choiceFilter;
+        }
+    }
+
 }

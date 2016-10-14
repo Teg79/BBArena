@@ -23,7 +23,7 @@ public class RangeRuler {
 
 	private static final long serialVersionUID = -7151698894803437642L;
 
-	public enum Range {
+	public enum Range implements Choice {
 		NO_RANGE, QUICK, SHORT, LONG, BOMB;
 
 		public char getSymbol() {

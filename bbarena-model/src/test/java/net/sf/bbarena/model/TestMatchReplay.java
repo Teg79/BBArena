@@ -18,18 +18,18 @@ import org.junit.Test;
 
 public class TestMatchReplay {
 	
-	private class RandomCoach extends Coach<ReplayChoice> {
+	private class RandomCoach extends Coach {
 
 		private final int maxSteps = 100;
 		private int steps = 0;
 		private JavaRandomizer die = new JavaRandomizer();
 
-		public RandomCoach(Team... teams) {
-			super(teams);
+		public RandomCoach(Team team) {
+			super(team);
 		}
 		
 		@Override
-		public ReplayChoice ask(String question, Set<ReplayChoice> choices) {
+		public Choice ask(String question, Set<Choice> choices) {
 			ReplayChoice res;
 			if (!choices.contains(ReplayChoice.NEXT)) {
 				res = ReplayChoice.EXIT;
@@ -52,10 +52,11 @@ public class TestMatchReplay {
 		}
 
 		@Override
-		protected void say(String message, ReplayChoice... choices) {
+		protected void say(String message, Set<Choice> choices) {
 			// TODO Auto-generated method stub
 			
 		}
+
 	}
 	
 //	private class DummyCoach extends Coach<ReplayChoice> {
@@ -97,9 +98,10 @@ public class TestMatchReplay {
 		t1.setName("T1");
 		Team t2 = new Team(1, null);
 		t2.setName("T2");
-		RandomCoach coach = new RandomCoach(t1, t2);
+		RandomCoach coach1 = new RandomCoach(t1);
+		RandomCoach coach2 = new RandomCoach(t2);
 		Replayer replayer = new Replayer(_events);
-		Match<Replayer, ReplayChoice> match = new Match<Replayer, ReplayChoice>(new RandomCoach[]{coach});
+		Match<Replayer> match = new Match<>(new RandomCoach[]{coach1, coach2});
 		match.start(replayer);
 	}
 

@@ -7,22 +7,22 @@ import java.util.List;
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.team.Team;
 
-public class Match<R extends RuleSet<C>, C extends Choice> {
+public class Match<R extends RuleSet> {
 
 	private Arena _arena;
 	private EventManager _eventManager;
 	private R _source;
-	private List<Coach<C>> _coaches;
+	private List<Coach> _coaches;
 	
-	public Match(Coach<C>... coaches) {
+	public Match(Coach... coaches) {
 		this(null, coaches);
 	}
 		
-	public Match(String pitchType, Coach<C>... coaches) {
+	public Match(String pitchType, Coach... coaches) {
 		_coaches = Arrays.asList(coaches);
 		List<Team> teams = new ArrayList<Team>();
 		for (int i = 0; i < coaches.length; i++) {
-			teams.addAll(coaches[i].getTeams());
+			teams.add(coaches[i].getTeam());
 		}
 		_arena = new Arena(pitchType, teams.toArray(new Team[teams.size()]));
 		_eventManager = new EventManager(_arena);
@@ -45,7 +45,7 @@ public class Match<R extends RuleSet<C>, C extends Choice> {
 		return _source;
 	}
 	
-	public List<Coach<C>> getCoaches() {
+	public List<Coach> getCoaches() {
 		return _coaches;
 	}
 
