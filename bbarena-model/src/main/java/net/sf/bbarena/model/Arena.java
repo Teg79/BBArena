@@ -13,6 +13,7 @@ import java.util.UUID;
 import net.sf.bbarena.model.pitch.Pitch;
 import net.sf.bbarena.model.pitch.PitchFactory;
 import net.sf.bbarena.model.team.Team;
+import net.sf.bbarena.model.team.TeamInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,8 @@ public class Arena implements Serializable {
 
 	private TurnMarker _turnMarker = null;
 
+    private Map<TeamInfo, ScoreBoard> _scoreBoards = new HashMap<>();
+    
 	private Score _score = null;
 
 	private Referee _referee = null;
@@ -122,6 +125,9 @@ public class Arena implements Serializable {
 
 		_playerManager = new PlayerManager(this);
 		_turnMarker = new TurnMarker(teams);
+		for (Team team : teams) {
+		    _scoreBoards.put(team.getTeamInfo(), new ScoreBoard());
+		}		
 
 		_score = new Score(teams);
 		_referee = new Referee(teams);
@@ -148,6 +154,10 @@ public class Arena implements Serializable {
 	public TurnMarker getTurnMarker() {
 		return _turnMarker;
 	}
+
+    public ScoreBoard getScoreBoard(TeamInfo teamInfo) {
+        return _scoreBoards.get(teamInfo);
+    }
 
 	public Score getScore() {
 		return _score;

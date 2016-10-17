@@ -8,6 +8,7 @@ import java.util.Observable;
 import net.sf.bbarena.model.team.Team;
 import net.sf.bbarena.model.team.TeamInfo;
 
+@Deprecated
 public class Score extends Observable implements Serializable {
 
 	private static final long serialVersionUID = -1511601646698905758L;
