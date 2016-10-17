@@ -27,23 +27,11 @@ import org.slf4j.LoggerFactory;
  */
 public class Arena implements Serializable {
 
-	public enum MatchStatus {
-		STARTING, PLAYING, ENDING, FINISHED;
-	}
-
 	private static final long serialVersionUID = 7731121291373282840L;
-
-	private MatchStatus _status = null;
-
-	private Date _start = null;
-
-	private Date _end = null;
 
 	private static final Logger _log = LoggerFactory.getLogger("arena");
 
-	private static final Map<String, Arena> _arenaMap = new HashMap<String, Arena>();
-
-	private String _matchId = null;
+	private Match _match = null;
 
 	private Pitch _pitch = null;
 
@@ -53,10 +41,8 @@ public class Arena implements Serializable {
 
 	private TurnMarker _turnMarker = null;
 
-    private Map<TeamInfo, ScoreBoard> _scoreBoards = new HashMap<>();
+    private List<ScoreBoard> _scoreBoards = new ArrayList<>();
     
-	private Score _score = null;
-
 	private Referee _referee = null;
 
 	private Weather _weather = Weather.getWeather(Weather.WeatherType.NICE);
@@ -68,8 +54,8 @@ public class Arena implements Serializable {
 	 * @param teams
 	 *            List of the Teams that will play in the Match
 	 */
-	public Arena(Team... teams) {
-		this(null, teams);
+	public Arena(Match match, Team... teams) {
+		this(match, null, teams);
 	}
 
 	/**
@@ -81,27 +67,8 @@ public class Arena implements Serializable {
 	 * @param teams
 	 *            List of the Teams that will play in the Match
 	 */
-	public Arena(String pitchType, Team... teams) {
-		this(pitchType, null, null, null, teams);
-	}
-
-	/**
-	 * This constructor must be used only by the persistence to load a Match
-	 *
-	 * @param pitchType
-	 *            Pitch used
-	 * @param teams
-	 *            List of the Teams that play in the Match
-	 * @param status
-	 *            Status of the Match
-	 * @param start
-	 *            Date of the start of the Match
-	 * @param end
-	 *            Date of the end of the Match (can be null)
-	 */
-	public Arena(String pitchType,
-			MatchStatus status, Date start, Date end, Team... teams) {
-		_matchId = UUID.randomUUID().toString();
+	public Arena(Match match, String pitchType, Team... teams) {
+		_match = match;
 		_teams = Arrays.asList(teams);
 
 		if (pitchType == null || pitchType.trim().length() == 0) {
@@ -113,34 +80,17 @@ public class Arena implements Serializable {
 		}
 		_log.debug("Pitch created!");
 
-		if (status == null) {
-			_status = MatchStatus.STARTING;
-			_start = new Date();
-			_end = null;
-		} else {
-			_status = status;
-			_start = start;
-			_end = end;
-		}
-
 		_playerManager = new PlayerManager(this);
 		_turnMarker = new TurnMarker(teams);
 		for (Team team : teams) {
-		    _scoreBoards.put(team.getTeamInfo(), new ScoreBoard());
+		    _scoreBoards.add(new ScoreBoard());
 		}		
 
-		_score = new Score(teams);
 		_referee = new Referee(teams);
-
-		_arenaMap.put(_matchId, this);
 	}
 
-	public static Arena getArena(Long matchId) {
-		return _arenaMap.get(matchId);
-	}
-
-	public static Set<String> getArenaIds() {
-		return _arenaMap.keySet();
+	public Match getMatch() {
+		return _match;
 	}
 
 	public Pitch getPitch() {
@@ -155,13 +105,9 @@ public class Arena implements Serializable {
 		return _turnMarker;
 	}
 
-    public ScoreBoard getScoreBoard(TeamInfo teamInfo) {
-        return _scoreBoards.get(teamInfo);
+    public ScoreBoard getScoreBoard(int team) {
+        return _scoreBoards.get(team);
     }
-
-	public Score getScore() {
-		return _score;
-	}
 
 	public Referee getReferee() {
 		return _referee;
@@ -171,46 +117,15 @@ public class Arena implements Serializable {
 		return _playerManager;
 	}
 
-	public String getMatchId() {
-		return _matchId;
-	}
-
-	public MatchStatus getStatus() {
-		return _status;
-	}
-
-	public void setStatus(MatchStatus status) {
-		_status = status;
-		if (_status == MatchStatus.FINISHED) {
-			_end = new Date();
-		}
-	}
-
-	public Date getEnd() {
-		return _end;
-	}
-
-	public Date getStart() {
-		return _start;
-	}
-
-	public MatchInfo getMatchInfo() {
-		MatchInfo res = new MatchInfo();
-
-		res.setEnd(_end);
-		res.setMatchId(_matchId);
-		res.setStart(_start);
-		res.setStatus(_status);
-		res.setScore(_score);
-
-		return res;
-	}
-
 	public Weather getWeather() {
 		return _weather;
 	}
 
 	public void setWeather(Weather weather) {
 		_weather = weather;
+	}
+
+	public List<ScoreBoard> getScoreBoards() {
+		return _scoreBoards;
 	}
 }

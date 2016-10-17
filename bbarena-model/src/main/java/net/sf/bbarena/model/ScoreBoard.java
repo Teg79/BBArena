@@ -8,7 +8,8 @@ public class ScoreBoard extends Observable implements Serializable {
     private Integer _score;
     private Integer _cas;
     private Integer _fame;
-    
+    private Integer _fans;
+
     public Integer getScore() {
         return _score;
     }
@@ -32,5 +33,13 @@ public class ScoreBoard extends Observable implements Serializable {
     public void setFame(Integer fame) {
         _fame = fame;
     }
-    
+
+
+    public void setFans(Integer fans) {
+        _fans = fans;
+    }
+
+    public Integer getFans() {
+        return _fans;
+    }
 }

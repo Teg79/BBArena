@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Set;
+
 public class ThrowInTemplateTest {
 
 	private static final Logger log = LoggerFactory.getLogger(ThrowInTemplateTest.class);
@@ -25,7 +27,12 @@ public class ThrowInTemplateTest {
 		Team t2 = new Team(2L, null);
 		t2.setName("2");
 
-		Arena arena = new Arena(t1, t2);
+		Coach c1 = new DummyCoach(t1);
+		Coach c2 = new DummyCoach(t2);
+
+		Match match = new Match(c1, c2);
+
+		Arena arena = match.getArena();
 		Pitch p = arena.getPitch();
 
 		coords = new Coordinate[] { new Coordinate(0, 0),

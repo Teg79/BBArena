@@ -2,8 +2,7 @@ package net.sf.bbarena.model;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import net.sf.bbarena.model.Arena.MatchStatus;
+import java.util.List;
 
 public class MatchInfo implements Serializable {
 
@@ -15,9 +14,9 @@ public class MatchInfo implements Serializable {
 
 	private Date end = null;
 
-	private MatchStatus status = null;
+	private Match.Status status = null;
 
-	private Score score = null;
+	private List<ScoreBoard> scoreBoards = null;
 
 	public MatchInfo() {
 	}
@@ -46,20 +45,19 @@ public class MatchInfo implements Serializable {
 		this.start = start;
 	}
 
-	public MatchStatus getStatus() {
+	public Match.Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(MatchStatus status) {
+	public void setStatus(Match.Status status) {
 		this.status = status;
 	}
 
-	public Score getScore() {
-		return score;
+	public List<ScoreBoard> getScoreBoards() {
+		return scoreBoards;
 	}
 
-	public void setScore(Score score) {
-		this.score = score;
+	public void setScoreBoards(List<ScoreBoard> scoreBoards) {
+		this.scoreBoards = scoreBoards;
 	}
-
 }

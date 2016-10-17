@@ -23,18 +23,14 @@ public class FameEvent extends GameEvent {
     @Override
     protected void doEvent(Arena arena) {
         _arena = arena;
-        MatchTeamInfo matchTeamInfo0 = _arena.getScore().getTeamsInfo().get(0);
-        matchTeamInfo0.getNotes().put("FAME", fameCoach0.toString());
-        MatchTeamInfo matchTeamInfo1 = _arena.getScore().getTeamsInfo().get(1);
-        matchTeamInfo1.getNotes().put("FAME", fameCoach1.toString());
+        _arena.getScoreBoard(0).setFame(fameCoach0);
+        _arena.getScoreBoard(1).setFame(fameCoach1);
     }
 
     @Override
     protected void undoEvent() {
-        MatchTeamInfo matchTeamInfo0 = _arena.getScore().getTeamsInfo().get(0);
-        matchTeamInfo0.getNotes().put("FAME", "0");
-        MatchTeamInfo matchTeamInfo1 = _arena.getScore().getTeamsInfo().get(1);
-        matchTeamInfo1.getNotes().put("FAME", "0");
+        _arena.getScoreBoard(0).setFame(0);
+        _arena.getScoreBoard(1).setFame(0);
     }
 
     @Override
