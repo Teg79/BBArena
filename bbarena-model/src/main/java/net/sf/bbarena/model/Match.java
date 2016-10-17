@@ -48,7 +48,6 @@ public class Match<R extends RuleSet> {
 	}
 
 	public void start(R source) {
-		_start = new Date();
 		_source = source;
 		_source.start(_eventManager, _coaches);
 	}
@@ -75,6 +74,22 @@ public class Match<R extends RuleSet> {
 
     public void setStatus(Status status) {
         _status = status;
+    }
+
+    public Date getStart() {
+        return _start;
+    }
+
+    public void setStart(Date start) {
+        _start = start;
+    }
+
+    public Date getEnd() {
+        return _end;
+    }
+
+    public void setEnd(Date end) {
+        _end = end;
     }
 
     public MatchInfo getMatchInfo() {

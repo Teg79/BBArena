@@ -115,7 +115,7 @@ public class RandomOrgRandomizer extends SecureRandom implements DieRandomizer {
 			throws IOException {
 		int face = 0;
 
-		log.info("Connecting www.random.org/integers ...");
+		log.debug("Connecting www.random.org/integers ...");
 		URL randomOrg = new URL(
 				"http://preview.random.org/integers/?num=1&min=1&max="
 						+ facesNumber + "&unique=off&format=plain&rnd=id."

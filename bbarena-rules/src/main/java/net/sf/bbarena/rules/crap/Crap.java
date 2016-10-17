@@ -54,7 +54,7 @@ public class Crap implements RuleSet {
     private void preMatchSequence(EventManager eventManager,
                                   List<Coach> coaches) {
         MatchStatusChangeEvent matchStatusChangeEvent = new MatchStatusChangeEvent(STARTING);
-        eventManager.putEvent(matchStatusChangeEvent);
+        eventManager.forward(matchStatusChangeEvent);
 
         theWeather(eventManager, coaches);
         pettyCash(eventManager, coaches);
@@ -79,7 +79,7 @@ public class Crap implements RuleSet {
         Integer result = Roll.roll(2, D6, event, "Weather", "Match").getSum();
         Weather weather = WeatherTable.getWeather(result);
         event.setNewWeather(weather);
-        eventManager.putEvent(event);
+        eventManager.forward(event);
     }
 
     /*
@@ -88,13 +88,13 @@ public class Crap implements RuleSet {
     private void postMatchSequence(EventManager eventManager,
                                    List<Coach> coaches) {
         MatchStatusChangeEvent matchStatusChangeEvent = new MatchStatusChangeEvent(ENDING);
-        eventManager.putEvent(matchStatusChangeEvent);
+        eventManager.forward(matchStatusChangeEvent);
 
         improvementRolls(eventManager, coaches);
         updateTeamRoster(eventManager, coaches);
 
         matchStatusChangeEvent = new MatchStatusChangeEvent(FINISHED);
-        eventManager.putEvent(matchStatusChangeEvent);
+        eventManager.forward(matchStatusChangeEvent);
     }
 
     private void improvementRolls(EventManager eventManager,
@@ -169,7 +169,7 @@ public class Crap implements RuleSet {
     private void theMatch(EventManager eventManager,
                           List<Coach> coaches) {
         MatchStatusChangeEvent matchStatusChangeEvent = new MatchStatusChangeEvent(PLAYING);
-        eventManager.putEvent(matchStatusChangeEvent);
+        eventManager.forward(matchStatusChangeEvent);
 
         fame(eventManager, coaches);
         // TODO Auto-generated method stub
@@ -182,13 +182,13 @@ public class Crap implements RuleSet {
         Team team1 = coaches.get(0).getTeam();
         int fans1 = (team1.getFanFactor() + Roll.roll(2, D6, fansTeam1, "Fans", "Coach " + team1.getCoach().getName()).getSum()) * 10000;
         fansTeam1.setFans(fans1);
-        eventManager.putEvent(fansTeam1);
+        eventManager.forward(fansTeam1);
 
         FansEvent fansTeam2 = new FansEvent(1);
         Team team2 = coaches.get(1).getTeam();
         int fans2 = (team2.getFanFactor() + Roll.roll(2, D6, fansTeam2, "Fans", "Coach " + team2.getCoach().getName()).getSum()) * 10000;
         fansTeam2.setFans(fans2);
-        eventManager.putEvent(fansTeam2);
+        eventManager.forward(fansTeam2);
 
         int fame = 0;
         if (fans1 > fans2) {
@@ -197,11 +197,17 @@ public class Crap implements RuleSet {
         if (fans1 >= (fans2 * 2)) {
             fame = 2;
         }
+        if (fans2 > fans1) {
+            fame = -1;
+        }
+        if (fans2 >= (fans1 * 2)) {
+            fame = -2;
+        }
         FameEvent fameEvent = new FameEvent();
         fameEvent.setFameCoach0(fame);
         fameEvent.setFameCoach1(fame * -1);
 
-        eventManager.putEvent(fameEvent);
+        eventManager.forward(fameEvent);
     }
 
     private class CrapChoiceChoiceFilter implements ChoiceFilter {

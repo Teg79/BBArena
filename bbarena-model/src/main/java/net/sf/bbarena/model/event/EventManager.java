@@ -55,7 +55,7 @@ public class EventManager implements Serializable {
 
 		listenersEventSizeChanged(_events.size());
 
-		log.info("Added Event " + event.toString());
+		log.debug("Added Event " + event.toString());
 		return res;
 	}
 
@@ -73,7 +73,7 @@ public class EventManager implements Serializable {
 
 		listenersEventSizeChanged(_events.size());
 
-		log.info("Removed last Event");
+		log.debug("Removed last Event");
 	}
 
 	public int getCurrentPosition() {
@@ -88,6 +88,11 @@ public class EventManager implements Serializable {
 		return _events.get(_current);
 	}
 
+	public int forward(Event event) {
+		putEvent(event);
+		return forward();
+	}
+
 	/**
 	 * Executes the next event in the list
 	 * 
@@ -98,7 +103,7 @@ public class EventManager implements Serializable {
 		if (_current < _events.size()) {
 			Event e = _events.get(_current++);
 
-			log.info("Forward with event " + e.getString()
+			log.debug("Forward with event " + e.toString()
 					+ " starts...");
 
 			listenersBeforeUndoEvent(e);
@@ -109,8 +114,7 @@ public class EventManager implements Serializable {
 			listenersAfterUndoEvent(e);
 
 			res = _current;
-			log.info("Forward with event " + e.getString()
-					+ " done!");
+			log.info(e.toString());
 		}
 		return res;
 	}
@@ -127,7 +131,7 @@ public class EventManager implements Serializable {
 			_current--;
 			Event e = _events.get(_current);
 
-			log.info("Backward with event " + e.getId() + ": " + e.getString()
+			log.debug("Backward with event " + e.getId() + ": " + e.getString()
 					+ " starts...");
 
 			listenersBeforeUndoEvent(e);
@@ -138,8 +142,7 @@ public class EventManager implements Serializable {
 			listenersAfterUndoEvent(e);
 
 			res = _current;
-			log.info("Backward with event " + e.getId() + ": " + e.getString()
-					+ " done!");
+			log.info("Undo " + e.toString());
 		}
 
 		return res;
