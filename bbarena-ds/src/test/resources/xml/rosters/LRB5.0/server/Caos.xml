@@ -13,11 +13,11 @@
       <attributes>
         <attributeMap>
           <entry>
-            <attribute>MA</attribute>
-            <int>6</int>
+            <attribute>ST</attribute>
+            <int>3</int>
           </entry>
           <entry>
-            <attribute>ST</attribute>
+            <attribute>AG</attribute>
             <int>3</int>
           </entry>
           <entry>
@@ -25,8 +25,8 @@
             <int>8</int>
           </entry>
           <entry>
-            <attribute>AG</attribute>
-            <int>3</int>
+            <attribute>MA</attribute>
+            <int>6</int>
           </entry>
         </attributeMap>
       </attributes>
@@ -91,20 +91,20 @@
       <attributes>
         <attributeMap>
           <entry>
-            <attribute>MA</attribute>
-            <int>5</int>
-          </entry>
-          <entry>
             <attribute>ST</attribute>
             <int>4</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
+            <int>3</int>
           </entry>
           <entry>
             <attribute>AV</attribute>
             <int>9</int>
           </entry>
           <entry>
-            <attribute>AG</attribute>
-            <int>3</int>
+            <attribute>MA</attribute>
+            <int>5</int>
           </entry>
         </attributeMap>
       </attributes>
@@ -130,20 +130,20 @@
       <attributes>
         <attributeMap>
           <entry>
-            <attribute>MA</attribute>
+            <attribute>ST</attribute>
             <int>5</int>
           </entry>
           <entry>
-            <attribute>ST</attribute>
-            <int>5</int>
+            <attribute>AG</attribute>
+            <int>2</int>
           </entry>
           <entry>
             <attribute>AV</attribute>
             <int>9</int>
           </entry>
           <entry>
-            <attribute>AG</attribute>
-            <int>2</int>
+            <attribute>MA</attribute>
+            <int>5</int>
           </entry>
         </attributeMap>
       </attributes>
