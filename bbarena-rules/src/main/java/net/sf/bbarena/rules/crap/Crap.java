@@ -5,6 +5,9 @@ import net.sf.bbarena.model.event.Die;
 import net.sf.bbarena.model.event.EventFlowListener;
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.event.game.ChangeWeatherEvent;
+import net.sf.bbarena.model.event.game.FameEvent;
+import net.sf.bbarena.model.event.game.MatchStatusChangeEvent;
+import net.sf.bbarena.model.team.Team;
 import net.sf.bbarena.rules.crap.listeners.Blizzard;
 import net.sf.bbarena.rules.crap.listeners.PouringRain;
 import net.sf.bbarena.rules.crap.listeners.SwelteringHeat;
@@ -15,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import static net.sf.bbarena.model.event.Die.D6;
 
 public class Crap implements RuleSet {
 
@@ -30,8 +35,6 @@ public class Crap implements RuleSet {
                 .addListener(new SwelteringHeat());
 
         coaches.stream().forEach(crapChoiceCoach -> crapChoiceCoach.setChoiceFilter(new CrapChoiceChoiceFilter(eventManager.getArena())));
-
-        log.info("Starting match!");
 
         log.info("Pre-Match Sequence");
         preMatchSequence(eventManager, coaches);
@@ -50,6 +53,9 @@ public class Crap implements RuleSet {
      */
     private void preMatchSequence(EventManager eventManager,
                                   List<Coach> coaches) {
+        MatchStatusChangeEvent matchStatusChangeEvent = new MatchStatusChangeEvent(Arena.MatchStatus.STARTING);
+        eventManager.putEvent(matchStatusChangeEvent);
+
         theWeather(eventManager, coaches);
         pettyCash(eventManager, coaches);
         inducements(eventManager, coaches);
@@ -70,7 +76,7 @@ public class Crap implements RuleSet {
     private void theWeather(EventManager eventManager,
                             List<Coach> coaches) {
         ChangeWeatherEvent event = new ChangeWeatherEvent();
-        Integer result = Roll.roll(2, Die.D6, event, "Weather", "Match").getSum();
+        Integer result = Roll.roll(2, D6, event, "Weather", "Match").getSum();
         Weather weather = WeatherTable.getWeather(result);
         event.setNewWeather(weather);
         eventManager.putEvent(event);
@@ -81,8 +87,14 @@ public class Crap implements RuleSet {
      */
     private void postMatchSequence(EventManager eventManager,
                                    List<Coach> coaches) {
+        MatchStatusChangeEvent matchStatusChangeEvent = new MatchStatusChangeEvent(Arena.MatchStatus.ENDING);
+        eventManager.putEvent(matchStatusChangeEvent);
+
         improvementRolls(eventManager, coaches);
         updateTeamRoster(eventManager, coaches);
+
+        matchStatusChangeEvent = new MatchStatusChangeEvent(Arena.MatchStatus.FINISHED);
+        eventManager.putEvent(matchStatusChangeEvent);
     }
 
     private void improvementRolls(EventManager eventManager,
@@ -156,8 +168,33 @@ public class Crap implements RuleSet {
      */
     private void theMatch(EventManager eventManager,
                           List<Coach> coaches) {
+        MatchStatusChangeEvent matchStatusChangeEvent = new MatchStatusChangeEvent(Arena.MatchStatus.PLAYING);
+        eventManager.putEvent(matchStatusChangeEvent);
+
+        fame(eventManager, coaches);
         // TODO Auto-generated method stub
 
+    }
+
+    private void fame(EventManager eventManager, List<Coach> coaches) {
+        FameEvent fameEvent = new FameEvent();
+
+        Team team1 = coaches.get(0).getTeam();
+        int fans1 = (team1.getFanFactor() + Roll.roll(2, D6, fameEvent, "Fame", "Coach " + team1.getCoach().getName()).getSum()) * 10000;
+        Team team2 = coaches.get(1).getTeam();
+        int fans2 = (team2.getFanFactor() + Roll.roll(2, D6, fameEvent, "Fame", "Coach " + team2.getCoach().getName()).getSum()) * 10000;
+
+        int fame = 0;
+        if (fans1 > fans2) {
+            fame = 1;
+        }
+        if (fans1 >= (fans2 * 2)) {
+            fame = 2;
+        }
+        fameEvent.setFameCoach0(fame);
+        fameEvent.setFameCoach1(fame * -1);
+
+        eventManager.putEvent(fameEvent);
     }
 
     private class CrapChoiceChoiceFilter implements ChoiceFilter {
