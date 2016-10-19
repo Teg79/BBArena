@@ -4,42 +4,33 @@ import net.sf.bbarena.model.Arena;
 import net.sf.bbarena.model.util.Concat;
 import net.sf.bbarena.model.util.Pair;
 
-public class FansEvent extends GameEvent {
+public class ChangeRerollEvent extends GameEvent {
 
-    private Integer _fans = 0;
-    private Integer _team = null;
+    private Integer _team;
+    private Integer _toAdd;
+    private Integer _prev;
 
-    public FansEvent() {
-
-    }
-
-    public FansEvent(Integer team) {
+    public ChangeRerollEvent(Integer team, Integer toAdd) {
         _team = team;
-    }
-
-    public void setTeam(Integer team) {
-        this._team = team;
-    }
-
-    public void setFans(int fans) {
-        this._fans = fans;
+        _toAdd = toAdd;
     }
 
     @Override
     protected void doEvent(Arena arena) {
         _arena = arena;
-        _arena.getScoreBoard(_team).setFans(_fans);
+        _prev = _arena.getTurnMarkers().get(_team).getRerolls();
+        _arena.getTurnMarkers().get(_team).setRerolls(_prev + _toAdd);
     }
 
     @Override
     protected void undoEvent() {
-        _arena.getScoreBoard(_team).setFans(0);
+        _arena.getTurnMarkers().get(_team).setRerolls(_prev);
     }
 
     @Override
     public String getString() {
         return Concat.buildLog(getClass(),
                 new Pair("team", _team),
-                new Pair("fans", _fans));
+                new Pair("rr", _toAdd));
     }
 }

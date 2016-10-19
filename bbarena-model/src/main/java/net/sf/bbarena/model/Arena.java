@@ -35,11 +35,11 @@ public class Arena implements Serializable {
 
 	private Pitch _pitch = null;
 
-	private List<Team> _teams = new ArrayList<Team>();
+	private List<Team> _teams = new ArrayList<>();
 
 	private PlayerManager _playerManager = null;
 
-	private TurnMarker _turnMarker = null;
+	private List<TurnMarker> _teamMarkers = new ArrayList<>();
 
     private List<ScoreBoard> _scoreBoards = new ArrayList<>();
     
@@ -81,9 +81,9 @@ public class Arena implements Serializable {
 		_log.debug("Pitch created!");
 
 		_playerManager = new PlayerManager(this);
-		_turnMarker = new TurnMarker(teams);
 		for (Team team : teams) {
-		    _scoreBoards.add(new ScoreBoard());
+			_teamMarkers.add(new TurnMarker(team));
+			_scoreBoards.add(new ScoreBoard());
 		}		
 
 		_referee = new Referee(teams);
@@ -99,10 +99,6 @@ public class Arena implements Serializable {
 
 	public List<Team> getTeams() {
 		return _teams;
-	}
-
-	public TurnMarker getTurnMarker() {
-		return _turnMarker;
 	}
 
     public ScoreBoard getScoreBoard(int team) {
@@ -123,6 +119,10 @@ public class Arena implements Serializable {
 
 	public void setWeather(Weather weather) {
 		_weather = weather;
+	}
+
+	public List<TurnMarker> getTurnMarkers() {
+		return _teamMarkers;
 	}
 
 	public List<ScoreBoard> getScoreBoards() {

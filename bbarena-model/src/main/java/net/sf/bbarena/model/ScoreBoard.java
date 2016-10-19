@@ -5,10 +5,10 @@ import java.util.Observable;
 
 public class ScoreBoard extends Observable implements Serializable {
     
-    private Integer _score;
-    private Integer _cas;
-    private Integer _fame;
-    private Integer _fans;
+    private Integer _score = 0;
+    private Integer _cas = 0;
+    private Integer _fame = 0;
+    private Integer _fans = 0;
 
     public Integer getScore() {
         return _score;

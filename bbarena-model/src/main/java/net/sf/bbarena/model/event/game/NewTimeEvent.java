@@ -17,15 +17,15 @@ public class NewTimeEvent extends GameEvent {
 	@Override
 	public void doEvent(Arena arena) {
 		_arena = arena;
-		_marker = arena.getTurnMarker().clone();
-
-		TurnMarker tm = arena.getTurnMarker();
-		tm.newTime();
+//		_marker = arena.getTurnMarker().clone();
+//
+//		TurnMarker tm = arena.getTurnMarker();
+//		tm.newTime();
 	}
 
 	@Override
 	protected void undoEvent() {
-		_arena.getTurnMarker().restore(_marker);
+//		_arena.getTurnMarker().restore(_marker);
 	}
 
 	@Override

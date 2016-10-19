@@ -2,6 +2,8 @@ package net.sf.bbarena.model.event.game;
 
 import net.sf.bbarena.model.Arena;
 import net.sf.bbarena.model.Weather;
+import net.sf.bbarena.model.util.Concat;
+import net.sf.bbarena.model.util.Pair;
 
 public class ChangeWeatherEvent extends GameEvent {
 
@@ -29,11 +31,7 @@ public class ChangeWeatherEvent extends GameEvent {
 
     @Override
     public String getString() {
-        StringBuilder res = new StringBuilder();
-        res.append(getClass().getSimpleName())
-                .append("[weather:")
-                .append(_newWeather)
-                .append("]");
-        return res.toString();
+        return Concat.buildLog(getClass(),
+                new Pair("weather", _newWeather));
     }
 }

@@ -68,7 +68,7 @@ public class TestMatchReplay {
 //		@Override
 //		public ReplayChoice ask(String question, ReplayChoice... choices) {
 //			ReplayChoice res = ReplayChoice.EXIT;
-//			for (ReplayChoice c: choices) {
+//			for (ReplayChoice c: choice) {
 //				if (c == ReplayChoice.NEXT) {
 //					res = ReplayChoice.NEXT;
 //					break;

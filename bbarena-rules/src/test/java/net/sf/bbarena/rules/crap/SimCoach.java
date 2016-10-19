@@ -16,13 +16,12 @@ public class SimCoach extends Coach {
 
     private final String _name;
     private int _answer = 0;
-    private Choice[] _answers = new Choice[]{
-            Direction.N, Direction.NW, RangeRuler.Range.QUICK
-    };
+    private Choice[] _answers;
 
     public SimCoach(String name, Team team, Choice... programmedChoices) {
         super(team);
         _name = name;
+        _answers = programmedChoices;
     }
 
     public String getName() {

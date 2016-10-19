@@ -1,11 +1,14 @@
 package net.sf.bbarena.model;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import net.sf.bbarena.model.team.Team;
 
+import net.sf.bbarena.model.util.Concat;
+import net.sf.bbarena.model.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,24 +25,43 @@ public abstract class Coach {
 	public Team getTeam() {
 		return _team;
 	}
+
+	public Choice choice(String question, Choice[] choicesArray, Choice... additionalChoices) {
+		LinkedHashSet choices = new LinkedHashSet(Arrays.asList(choicesArray));
+		for (Choice choice : additionalChoices) {
+			choices.add(choice);
+		}
+		return choice(question, choices);
+	}
+
+	public Choice choice(String question, Choice[]... choiceGroups) {
+		LinkedHashSet choices = new LinkedHashSet();
+		for (Choice[] choicesArray : choiceGroups) {
+			choices.addAll(Arrays.asList(choicesArray));
+		}
+		return choice(question, choices);
+	}
+
+	public Choice choice(String question, Choice... choices) {
+		return choice(question, new LinkedHashSet<>(Arrays.asList(choices)));
+	}
 	
 	public Choice choice(String question, Set<Choice> choices) {
 
         choices = _filter.filter(choices);
 
-		Choice res = ask(question, choices);
+		Choice res;
+		do {
+			res = ask(question, choices);
 
-		if (!choices.contains(res)) {
-			throw new IllegalArgumentException("Choice " + res + " not valid, valid values are: " + choices.toString());
-		}
+			if (!choices.contains(res)) {
+				log.warn("Choice " + res + " not valid, valid values are: " + choices.toString());
+			}
+		} while (!choices.contains(res));
 
-		StringBuilder msg = new StringBuilder();
-		msg.append("choice: ")
-			.append(question)
-			.append(" [")
-			.append(res)
-			.append("]");
-		log.info(msg.toString());
+		log.info(Concat.buildLog(getClass(),
+				new Pair("question", question),
+				new Pair("answer", res)));
 		return res;
 	}
 

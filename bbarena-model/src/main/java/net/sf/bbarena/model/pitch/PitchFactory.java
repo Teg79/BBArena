@@ -63,8 +63,10 @@ public class PitchFactory {
 
 				if(x == 0 || x == _width-1) {
 					type = SquareType.END_ZONE;
-				} else if(y < _wideZone || y >= _height-_wideZone) {
-					type = SquareType.WIDE_ZONE;
+				} else if(y < _wideZone) {
+					type = SquareType.RIGHT_WIDE_ZONE;
+				} else if(y >= _height-_wideZone) {
+					type = SquareType.LEFT_WIDE_ZONE;
 				} else if(x == _width/2 || x == (_width/2)-1) {
 					type = SquareType.LOS;
 				}

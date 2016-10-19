@@ -24,6 +24,12 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>de.vandermeer</groupId>
+			<artifactId>asciitable</artifactId>
+			<version>0.2.5</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<description>BB Arena Rules</description>
 </project>

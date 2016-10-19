@@ -17,15 +17,15 @@ public class NewTurnEvent extends GameEvent {
 	@Override
 	public void doEvent(Arena arena) {
 		_arena = arena;
-		_marker = arena.getTurnMarker().clone();
-
-		TurnMarker tm = arena.getTurnMarker();
-		tm.newTurn();
+//		_marker = arena.getTurnMarker().clone();
+//
+//		TurnMarker tm = arena.getTurnMarker();
+//		tm.newTurn();
 	}
 
 	@Override
 	protected void undoEvent() {
-		_arena.getTurnMarker().restore(_marker);
+//		_arena.getTurnMarker().restore(_marker);
 	}
 
 	@Override

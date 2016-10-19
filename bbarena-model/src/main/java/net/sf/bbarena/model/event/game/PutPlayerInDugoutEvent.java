@@ -19,7 +19,7 @@ public class PutPlayerInDugoutEvent extends PlayerEvent {
 	private Coordinate _fromPitch = null;
 	private DugoutRoom _fromDugout = null;
 
-	public PutPlayerInDugoutEvent(long playerId, String dugoutRoom) {
+public PutPlayerInDugoutEvent(long playerId, String dugoutRoom) {
 		super(playerId);
 		_dugoutRoom = dugoutRoom;
 	}
