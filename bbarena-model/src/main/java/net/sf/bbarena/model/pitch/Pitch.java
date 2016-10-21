@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import net.sf.bbarena.model.Coordinate;
 import net.sf.bbarena.model.Direction;
@@ -28,6 +29,7 @@ public class Pitch {
 
 	private final String _name;
 	private final Square[][] _squares;
+	private final Set<Square> _squareSet;
 	private final List<Dugout> _dugouts;
 	private final List<Ball>  _balls;
 	private final Set<Player> _players;
@@ -46,10 +48,13 @@ public class Pitch {
 	public Pitch(String name, int width, int height) {
 		_name = name;
 
+		_squareSet = new LinkedHashSet<>();
 		_squares = new Square[width][height];
         for (int x = 0; x < width; x++) {
         	for (int y = 0; y < height; y++) {
-				_squares[x][y] = new Square(this, new Coordinate(x, y));
+				Square square = new Square(this, new Coordinate(x, y));
+				_squareSet.add(square);
+				_squares[x][y] = square;
 			}
 		}
 
@@ -97,6 +102,12 @@ public class Pitch {
 			res = _squares[x][y];
 		}
 
+		return res;
+	}
+
+	public Set<Square> getTeamSquares(Team team) {
+		Set<Square> res = new LinkedHashSet<>();
+		_squareSet.stream().filter(square -> square.getTeamOwner() != null ? square.getTeamOwner().equals(team) : false).forEach(square -> res.add(square));
 		return res;
 	}
 
@@ -260,6 +271,21 @@ public class Pitch {
 	 */
 	public Square ballKickOff(Ball ball, Coordinate destination) {
 		return putBall(ball, destination, BallMoveType.KICK_OFF);
+	}
+
+	/**
+	 * Kick-off the Ball to a destination
+	 *
+	 * @param ball
+	 *            Ball to kick
+	 * @param direction
+	 *            Direction of the scatter
+	 * @param range
+	 *            Number of squares
+	 * @return The new Square occupied by the Ball
+	 */
+	public Square ballKickOff(Ball ball, Direction direction, int range) {
+		return moveBall(ball, direction, range, BallMoveType.KICK_OFF);
 	}
 
 	/**
@@ -595,6 +621,9 @@ public class Pitch {
 
 	void setSquare(Coordinate xy, SquareType type, Team teamOwner) {
 		Square s = new Square(this, xy, type, teamOwner);
+		Square oldSquare = _squares[xy.getX()][xy.getY()];
+		_squareSet.remove(oldSquare);
+		_squareSet.add(s);
 		_squares[xy.getX()][xy.getY()] = s;
 	}
 

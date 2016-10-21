@@ -5,6 +5,8 @@ import net.sf.bbarena.model.Coordinate;
 import net.sf.bbarena.model.exception.SquareAlreadyOccupiedException;
 import net.sf.bbarena.model.team.Player;
 import net.sf.bbarena.model.team.Team;
+import net.sf.bbarena.model.util.Concat;
+import net.sf.bbarena.model.util.Pair;
 
 /**
  * Square represents a single square on a Pitch
@@ -179,7 +181,26 @@ public class Square implements Choice {
     }
 
     public String toString() {
-        return hasPlayer() ? "X" : getType().toString();
+        return Concat.buildLog(getClass(),
+                new Pair("xy", coords));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Square square = (Square) o;
+
+        if (coords != null ? !coords.equals(square.coords) : square.coords != null) return false;
+        return pitch != null ? pitch.equals(square.pitch) : square.pitch == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = coords != null ? coords.hashCode() : 0;
+        result = 31 * result + (pitch != null ? pitch.hashCode() : 0);
+        return result;
+    }
 }

@@ -90,16 +90,22 @@ public class Coordinate implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		boolean res = false;
-		if (obj instanceof Coordinate) {
-			Coordinate c = (Coordinate)obj;
-			if (c.getX() == this.getX() && c.getY() == this.getY()) {
-				res = true;
-			}
-		}
-		
-		return res;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Coordinate that = (Coordinate) o;
+
+		if (x != that.x) return false;
+		return y == that.y;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = x;
+		result = 31 * result + y;
+		return result;
 	}
 
 	@Override

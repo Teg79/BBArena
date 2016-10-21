@@ -12,10 +12,15 @@ public class ScatterBallEvent extends BallEvent {
 
 	private Ball _ball = null;
 	private Direction _direction = null;
+	private Integer _distance = null;
 
 	public ScatterBallEvent(int ballId, int direction) {
+		this(ballId, direction, 1);
+	}
+	public ScatterBallEvent(int ballId, int direction, int distance) {
 		super(ballId);
 		_direction = Direction.getDirection(direction);
+		_distance = distance;
 	}
 
 	@Override
@@ -35,7 +40,8 @@ public class ScatterBallEvent extends BallEvent {
 	public String getString() {
 		return Concat.buildLog(getClass(),
 				new Pair("ballId", getBallId()),
-				new Pair("direction", _direction));
+				new Pair("direction", _direction),
+				_distance > 1 ? new Pair("distance", _distance) : null);
 	}
 
 	public Direction getDirection() {

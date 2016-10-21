@@ -8,9 +8,11 @@ public class Concat {
 		.append("[");
 		if (pairs != null) {
 			for (int i = 0; i < pairs.length; i++) {
-				res.append(pairs[i].toString());
-				if (i < pairs.length - 1) {
-					res.append(",");
+				if (pairs[i] != null) {
+					res.append(pairs[i].toString());
+					if (i < pairs.length - 1) {
+						res.append(",");
+					}
 				}
 			}
 		}

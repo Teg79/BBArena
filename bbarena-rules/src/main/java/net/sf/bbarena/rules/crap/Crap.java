@@ -17,8 +17,8 @@ import net.sf.bbarena.rules.crap.listeners.VerySunny;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static net.sf.bbarena.model.Match.Status.*;
 import static net.sf.bbarena.model.event.Die.D2;
@@ -185,7 +185,7 @@ public class Crap implements RuleSet {
         eventManager.forward(newTimeEvent);
 
         int choiceCoach = flip.getSum() - 1;
-        Choice choice = coaches.get(choiceCoach).choice("Kick or Receive?", FlipRoll.values());
+        Choice choice = checkChoice(coaches.get(choiceCoach).choice("Kick or Receive?", FlipRoll.values()));
 
         if (choice != null) {
             int firstCoach = 0;
@@ -199,9 +199,79 @@ public class Crap implements RuleSet {
             proceed = setUpTeam(eventManager, coaches, setUpCoach);
             if (proceed) {
                 proceed = setUpTeam(eventManager, coaches, firstCoach);
+
+                if (proceed) {
+                    proceed = kickOff(eventManager, coaches, firstCoach, setUpCoach);
+                }
+
             }
         }
 
+    }
+
+    private boolean kickOff(EventManager eventManager, List<Coach> coaches, int firstCoach, int kickingCoach) {
+        boolean proceed = true;
+
+        // Place the ball
+        Set<Square> landingSquares = eventManager.getArena().getPitch().getTeamSquares(coaches.get(firstCoach).getTeam());
+        Square destination = (Square) checkChoice(coaches.get(kickingCoach).choice("Place Ball", landingSquares.toArray(new Square[landingSquares.size()])));
+
+        if (destination != null) {
+
+            KickOffBallEvent kickOffBallEvent = new KickOffBallEvent(eventManager.getArena().getPitch().getBall().getId(), destination.getCoords().getX(), destination.getCoords().getY());
+
+            // Scatter the ball
+
+            eventManager.forward(kickOffBallEvent);
+
+
+            KickOffEvent kickOffEvent = new KickOffEvent();
+            Integer kickOffRoll = Roll.roll(2, D6, kickOffEvent, "Kick Off", coaches.get(kickingCoach).getTeam().getCoach().getName()).getSum();
+
+            // TODO: implement the kickoff table
+            switch (kickOffRoll) {
+                case 2:
+                    // Get the Ref
+                    break;
+                case 3:
+                    // Riot
+                    break;
+                case 4:
+                    // Perfect Defence
+                    break;
+                case 5:
+                    // High Kick
+                    break;
+                case 6:
+                    // Cheering Fans
+                    break;
+                case 7:
+                    // Changing Weather
+                    break;
+                case 8:
+                    // Brilliant Coaching
+                    break;
+                case 9:
+                    // Quick Snap!
+                    break;
+                case 10:
+                    // Blitz!
+                    break;
+                case 11:
+                    // Throw a Rock
+                    break;
+                case 12:
+                    // Pitch Invasion
+                    break;
+            }
+
+
+
+        } else {
+            proceed = false;
+        }
+
+        return proceed;
     }
 
     private boolean setUpTeam(EventManager eventManager, List<Coach> coaches, int team) {
@@ -212,7 +282,7 @@ public class Crap implements RuleSet {
         TeamSetUp setUpChoice = null;
         boolean valid;
         do {
-            Choice choice = coaches.get(team).choice("Set Up Players", new TeamSetUp());
+            Choice choice = checkChoice(coaches.get(team).choice("Set Up Players", new TeamSetUp()));
 
             if (choice != null) {
                 setUpChoice = (TeamSetUp) choice;
