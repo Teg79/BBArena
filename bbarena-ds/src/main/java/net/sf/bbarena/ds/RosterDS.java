@@ -13,8 +13,8 @@ public interface RosterDS {
 
 	public Roster getRoster(String name);
 
-	public List<String> getRosterNames();
+//	public List<String> getRosterNames();
 
-	public List<Roster> getRosters();
+//	public List<Roster> getRosters();
 
 }

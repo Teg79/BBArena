@@ -1,18 +1,29 @@
 package net.sf.bbarena.ds.util.xml;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 import net.sf.bbarena.ds.RosterDS;
 import net.sf.bbarena.ds.config.xml.DSXmlRosterConfig;
-import net.sf.bbarena.model.team.*;
+import net.sf.bbarena.model.team.Attributes;
 import net.sf.bbarena.model.team.Attributes.Attribute;
+import net.sf.bbarena.model.team.PlayerTemplate;
+import net.sf.bbarena.model.team.Qty;
+import net.sf.bbarena.model.team.Roster;
+import net.sf.bbarena.model.team.Skill;
+import net.sf.bbarena.model.team.SkillCategory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class XmlRosterDS implements RosterDS {
 
@@ -35,12 +46,13 @@ public class XmlRosterDS implements RosterDS {
         XStream xstream = getXStream();
 
         String xmlRosterFileName = xmlRostersDir + race + ".xml";
-        File rosterFile = new File(xmlRosterFileName);
-        FileInputStream fin;
+//        File rosterFile = new File(xmlRosterFileName);
+//        FileInputStream fin;
         try {
-            fin = new FileInputStream(rosterFile);
+//            fin = new FileInputStream(rosterFile);
 
-            InputStreamReader isr = new InputStreamReader(fin);
+//            InputStreamReader isr = new InputStreamReader(fin);
+            InputStreamReader isr = new InputStreamReader(getClass().getClassLoader().getResourceAsStream(xmlRosterFileName));
             BufferedReader br = new BufferedReader(isr);
 
             String line = br.readLine();
@@ -59,34 +71,34 @@ public class XmlRosterDS implements RosterDS {
         return roster;
     }
 
-    public List<String> getRosterNames() {
-        List<String> rosterNames = new ArrayList<String>();
+//    public List<String> getRosterNames() {
+//        List<String> rosterNames = new ArrayList<String>();
+//
+//        File rostersDir = new File(xmlRostersDir);
+//        String[] rosters = rostersDir.list(new XmlFileFilter());
+//
+//        for (int i = 0; i < rosters.length; i++) {
+//            rosterNames.add(rosters[i].split(".xml")[0]);
+//        }
+//
+//        return rosterNames;
+//    }
 
-        File rostersDir = new File(xmlRostersDir);
-        String[] rosters = rostersDir.list(new XmlFileFilter());
-
-        for (int i = 0; i < rosters.length; i++) {
-            rosterNames.add(rosters[i].split(".xml")[0]);
-        }
-
-        return rosterNames;
-    }
-
-    public List<Roster> getRosters() {
-        List<Roster> rosters = new ArrayList<Roster>();
-
-        Iterator<String> rostersIt = getRosterNames().iterator();
-
-        while (rostersIt.hasNext()) {
-            Roster roster = getRoster(rostersIt.next());
-
-            if (roster != null) {
-                rosters.add(roster);
-            }
-        }
-
-        return rosters;
-    }
+//    public List<Roster> getRosters() {
+//        List<Roster> rosters = new ArrayList<Roster>();
+//
+//        Iterator<String> rostersIt = getRosterNames().iterator();
+//
+//        while (rostersIt.hasNext()) {
+//            Roster roster = getRoster(rostersIt.next());
+//
+//            if (roster != null) {
+//                rosters.add(roster);
+//            }
+//        }
+//
+//        return rosters;
+//    }
 
     //TODO: to be removed
     public void saveRoster(Roster roster) throws FileNotFoundException {
@@ -96,10 +108,13 @@ public class XmlRosterDS implements RosterDS {
 
         PrintWriter out;
 
-        String xmlRosterFileName = xmlRostersDir + roster.getRace() + ".xml";
+        File rosterFolder = new File(xmlRostersDir);
+        rosterFolder.mkdirs();
+        String xmlRosterFileName = roster.getRace() + ".xml";
+        File outputFile = new File(System.getProperty("user.dir") + "/" + rosterFolder + xmlRosterFileName);
 
         out = new PrintWriter(
-                new BufferedOutputStream(new FileOutputStream(xmlRosterFileName)));
+                new BufferedOutputStream(new FileOutputStream(outputFile)));
 
         out.print(xmlRoster);
         out.close();

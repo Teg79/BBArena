@@ -304,13 +304,13 @@ public class XmlRosterDSTest extends TestCase {
 		assertTrue(srvxmlh.getRoster("Caos").getRace().equals("Caos"));
 	}
 
-	public void testLocalGetRosters() throws IOException{
-		List<Roster> rosters = locxmlh.getRosters();
-		
-		assertTrue(rosters != null);
-		assertTrue(rosters.size() == 2);
-		assertTrue(rosters.get(0).getRace().equals("Caos"));
-	}
+//	public void testLocalGetRosters() throws IOException{
+//		List<Roster> rosters = locxmlh.getRosters();
+//		
+//		assertTrue(rosters != null);
+//		assertTrue(rosters.size() == 2);
+//		assertTrue(rosters.get(0).getRace().equals("Caos"));
+//	}
 	
 	public void testLocalGetOrcRoster() throws IOException{
 		Roster roster = locxmlh.getRoster("Orcs");
