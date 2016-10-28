@@ -7,6 +7,12 @@ Java Open Source version of a fantasy football game, that allow roster creation,
 - Add LRB 6 rules
 - Web interface
 
+# Build the project
+Simply run
+```
+mvn clean install
+```
+
 # Test the project
 
 Test the Crap Rules (Work In Progress)
