@@ -8,4 +8,9 @@ Java Open Source version of a fantasy football game, that allow roster creation,
 - Web interface
 
 # Prototype
-![Team SetUp](/docs/team_setup.png)
+## Team SetUp
+![Team SetUp](/docs/team_setup.jpg)
+## Interception
+![Interception](/docs/interception.jpg)
+## Action Ring
+![Action Ring](/docs/action_ring.jpg)
