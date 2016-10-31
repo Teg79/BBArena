@@ -1,8 +1,11 @@
 package net.sf.bbarena.model.event.game;
 
 import net.sf.bbarena.model.Arena;
+import net.sf.bbarena.model.Coordinate;
 import net.sf.bbarena.model.Direction;
 import net.sf.bbarena.model.pitch.Ball;
+import net.sf.bbarena.model.pitch.BallMove;
+import net.sf.bbarena.model.pitch.SquareDestination;
 import net.sf.bbarena.model.util.Concat;
 import net.sf.bbarena.model.util.Pair;
 
@@ -13,6 +16,13 @@ public class ScatterBallEvent extends BallEvent {
 	private Ball _ball = null;
 	private Direction _direction = null;
 	private Integer _distance = null;
+	private Coordinate _origin;
+	private SquareDestination _destination;
+	private BallMove.BallMoveType _type = BallMove.BallMoveType.SCATTER;
+
+	public ScatterBallEvent(int ballId) {
+		super(ballId);
+	}
 
 	public ScatterBallEvent(int ballId, int direction) {
 		this(ballId, direction, 1);
@@ -23,17 +33,55 @@ public class ScatterBallEvent extends BallEvent {
 		_distance = distance;
 	}
 
+	public BallMove.BallMoveType getType() {
+		return _type;
+	}
+
+	public void setType(BallMove.BallMoveType type) {
+		_type = type;
+	}
+
+	public Ball getBall() {
+		return _ball;
+	}
+
+	public void setBall(Ball ball) {
+		_ball = ball;
+	}
+
+	public void setDirection(Direction direction) {
+		_direction = direction;
+	}
+
+	public Integer getDistance() {
+		return _distance;
+	}
+
+	public void setDistance(Integer distance) {
+		_distance = distance;
+	}
+
+	public Coordinate getOrigin() {
+		return _origin;
+	}
+
+	public SquareDestination getDestination() {
+		return _destination;
+	}
+
 	@Override
 	protected void doEvent(Arena arena) {
 		_arena = arena;
 		_ball = getBall(arena);
 
-		arena.getPitch().ballScatter(_ball, _direction);
+		_origin = _ball.getSquare().getCoords();
+		_destination = arena.getPitch().getDestination(_origin, _direction, _distance);
+		arena.getPitch().moveBall(_ball, _direction, _destination.getEffectiveDistance(), _type);
 	}
 
 	@Override
 	protected void undoEvent() {
-		_arena.getPitch().ballScatter(_ball, _direction.inverse());
+		_arena.getPitch().moveBall(_ball, _direction.inverse(), _destination.getEffectiveDistance(), _type);
 	}
 
 	@Override

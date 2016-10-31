@@ -9,10 +9,16 @@ public class SquareDestination {
 
     private final Coordinate _lastValidSquare;
     private final boolean _outOfPitch;
+    private final Integer _effectiveDistance;
 
-    public SquareDestination(Coordinate lastValidSquare, boolean outOfPitch) {
+    public SquareDestination(Coordinate lastValidSquare, boolean outOfPitch, Integer effectiveDistance) {
         _lastValidSquare = lastValidSquare;
         _outOfPitch = outOfPitch;
+        _effectiveDistance = effectiveDistance;
+    }
+
+    public Integer getEffectiveDistance() {
+        return _effectiveDistance;
     }
 
     public Coordinate getLastValidSquare() {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import net.sf.bbarena.model.Coordinate;
 import net.sf.bbarena.model.Direction;
@@ -257,18 +256,6 @@ public class Pitch {
     }
 
     /**
-     * Kick-off the Ball to a destination
-     *
-     * @param ball      Ball to kick
-     * @param direction Direction of the scatter
-     * @param range     Number of squares
-     * @return The new Square occupied by the Ball
-     */
-    public Square ballKickOff(Ball ball, Direction direction, int range) {
-        return moveBall(ball, direction, range, BallMoveType.KICK_OFF);
-    }
-
-    /**
      * Throw-In the Ball to a destination
      *
      * @param ball      Ball to kick
@@ -323,7 +310,7 @@ public class Pitch {
      *                  SCATTER, if range > 1 is THROW_IN
      * @return The new Square occupied by the Ball
      */
-    private Square moveBall(Ball ball, Direction direction, int squares,
+    public Square moveBall(Ball ball, Direction direction, int squares,
                             BallMoveType moveType) {
         if (squares < 0) {
             throw new PitchException(
@@ -364,7 +351,7 @@ public class Pitch {
         return res;
     }
 
-    private SquareDestination getDestination(Coordinate coordinate, Direction direction, int squares) {
+    public SquareDestination getDestination(Coordinate coordinate, Direction direction, int squares) {
         if (squares < 0) {
             throw new PitchException(
                     "Cannot move a negative number of squares!");
@@ -372,7 +359,8 @@ public class Pitch {
 
         boolean out = false;
         Coordinate destination = coordinate;
-        for (int i = 0; i < squares; i++) {
+        Integer i;
+        for (i = 0; i < squares; i++) {
             Square nextSquare = getNextSquare(destination, direction);
 
             if (nextSquare != null && nextSquare.getType() != SquareType.OUT) {
@@ -383,7 +371,7 @@ public class Pitch {
             }
         }
 
-        return new SquareDestination(destination, out);
+        return new SquareDestination(destination, out, i);
     }
 
     /**

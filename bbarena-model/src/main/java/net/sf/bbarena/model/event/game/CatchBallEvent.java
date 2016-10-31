@@ -13,19 +13,32 @@ public class CatchBallEvent extends BallEvent {
 
 	public static final String CATCH_ROLL = "CATCH";
 
-    private long _playerId = 0;
 	private Ball _ball = null;
 	private Player _player = null;
 
-	public CatchBallEvent(int ballId, long playerId) {
+	public CatchBallEvent(int ballId) {
 		super(ballId);
-		_playerId = playerId;
+	}
+
+	public Ball getBall() {
+		return _ball;
+	}
+
+	public void setBall(Ball ball) {
+		_ball = ball;
+	}
+
+	public Player getPlayer() {
+		return _player;
+	}
+
+	public void setPlayer(Player player) {
+		_player = player;
 	}
 
 	@Override
 	public void doEvent(Arena arena) {
 		_arena = arena;
-		_player = arena.getPlayerManager().getPlayer(_playerId);
 		_ball = getBall(arena);
 
 		arena.getPitch().ballCatch(_ball, _player);
@@ -41,11 +54,7 @@ public class CatchBallEvent extends BallEvent {
 	public String getString() {
 		return Concat.buildLog(getClass(),
 				new Pair("ballId", getBallId()),
-				new Pair("playerId", _playerId));
-	}
-
-	public long getPlayerId() {
-		return _playerId;
+				new Pair("playerId", _player.getId()));
 	}
 
 }

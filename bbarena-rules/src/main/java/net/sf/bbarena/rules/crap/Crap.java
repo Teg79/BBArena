@@ -5,10 +5,8 @@ import net.sf.bbarena.model.choice.Concede;
 import net.sf.bbarena.model.choice.FlipRoll;
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.event.game.*;
-import net.sf.bbarena.model.pitch.DefaultDogout;
-import net.sf.bbarena.model.pitch.Pitch;
-import net.sf.bbarena.model.pitch.Square;
-import net.sf.bbarena.model.pitch.TeamSetUp;
+import net.sf.bbarena.model.pitch.*;
+import net.sf.bbarena.model.team.Player;
 import net.sf.bbarena.model.team.Team;
 import net.sf.bbarena.rules.crap.listeners.Blizzard;
 import net.sf.bbarena.rules.crap.listeners.PouringRain;
@@ -19,10 +17,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static net.sf.bbarena.model.Match.Status.*;
 import static net.sf.bbarena.model.event.Die.D2;
 import static net.sf.bbarena.model.event.Die.D6;
+import static net.sf.bbarena.model.event.Die.DS;
 
 public class Crap implements RuleSet {
 
@@ -219,15 +219,12 @@ public class Crap implements RuleSet {
         if (destination != null) {
 
             KickOffBallEvent kickOffBallEvent = new KickOffBallEvent(eventManager.getArena().getPitch().getBall().getId(), destination.getCoords().getX(), destination.getCoords().getY());
-
-            // Scatter the ball
-
+            String kickerCoach = coaches.get(kickingCoach).getTeam().getCoach().getName();
+            Integer kickOffRoll = Roll.roll(2, D6, kickOffBallEvent, "Kick Off", kickerCoach).getSum();
             eventManager.forward(kickOffBallEvent);
 
-
-            KickOffEvent kickOffEvent = new KickOffEvent();
-            Integer kickOffRoll = Roll.roll(2, D6, kickOffEvent, "Kick Off", coaches.get(kickingCoach).getTeam().getCoach().getName()).getSum();
-
+            // Resolve kickoff event
+            KickOffEvent kickOffEvent = new KickOffEvent(); // Base event, extends for each kick off event
             // TODO: implement the kickoff table
             switch (kickOffRoll) {
                 case 2:
@@ -265,8 +262,32 @@ public class Crap implements RuleSet {
                     break;
             }
 
+            // Scatter the ball
+            ScatterBallEvent scatterBallEvent = new ScatterBallEvent(eventManager.getArena().getPitch().getBall().getId());
 
+            Integer directionRoll = Roll.roll(1, DS, scatterBallEvent, "Scatter direction", kickerCoach).getSum();
+            Direction direction = Direction.getDirection(directionRoll);
 
+            Integer distance = Roll.roll(1, D6, scatterBallEvent, "Scatter distance", kickerCoach).getSum();
+
+            scatterBallEvent.setDirection(direction);
+            scatterBallEvent.setDistance(distance);
+            scatterBallEvent.setType(BallMove.BallMoveType.KICK_OFF);
+
+            eventManager.forward(scatterBallEvent);
+
+            if (scatterBallEvent.getDestination().isOutOfPitch()) {
+                CatchBallEvent catchBallEvent = new CatchBallEvent(eventManager.getArena().getPitch().getBall().getId());
+                Stream<Player> playerStream = eventManager.getArena().getPitch().getPlayers().stream().filter(player -> player.getTeam().getId() == coaches.get(firstCoach).getTeam().getId());
+                Player touchback = (Player) coaches.get(firstCoach).choice("Touchback", (Choice[]) playerStream.toArray());
+                catchBallEvent.setPlayer(touchback);
+                Integer catchRoll = Roll.roll(1, D6, catchBallEvent, "Touchback", coaches.get(firstCoach).getTeam().getCoach().getName()).getSum();
+                if (catchRoll + touchback.getAg() >= 7) {
+                    // Ball catched
+                } else {
+                    // Roulette
+                }
+            }
         } else {
             proceed = false;
         }
@@ -401,6 +422,15 @@ public class Crap implements RuleSet {
         fameEvent.setFameCoach1(fame * -1);
 
         eventManager.forward(fameEvent);
+    }
+
+    private SquareDestination roulette(EventManager eventManager, ScatterBallEvent scatterBallEvent) {
+        eventManager.forward(scatterBallEvent);
+        SquareDestination destination = scatterBallEvent.getDestination();
+        if (destination.isOutOfPitch()) {
+
+        }
+        return null;
     }
 
     private Choice checkChoice(Choice choice) {

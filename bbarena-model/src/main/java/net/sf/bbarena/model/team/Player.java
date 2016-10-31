@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sf.bbarena.model.Choice;
 import net.sf.bbarena.model.pitch.Ball;
 import net.sf.bbarena.model.pitch.Square;
 import net.sf.bbarena.model.team.Attributes.Attribute;
@@ -13,7 +14,7 @@ import net.sf.bbarena.model.team.Attributes.Attribute;
  * @author f.bellentani
  *
  */
-public class Player implements Serializable {
+public class Player implements Choice, Serializable {
 
 	private static final long serialVersionUID = 6210061039167056132L;
 
