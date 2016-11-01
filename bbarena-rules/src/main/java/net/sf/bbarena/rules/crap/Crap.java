@@ -279,14 +279,14 @@ public class Crap implements RuleSet {
             if (scatterBallEvent.getDestination().isOutOfPitch()) {
                 CatchBallEvent catchBallEvent = new CatchBallEvent(eventManager.getArena().getPitch().getBall().getId());
                 Stream<Player> playerStream = eventManager.getArena().getPitch().getPlayers().stream().filter(player -> player.getTeam().getId() == coaches.get(firstCoach).getTeam().getId());
-                Player touchback = (Player) coaches.get(firstCoach).choice("Touchback", (Choice[]) playerStream.toArray());
-                catchBallEvent.setPlayer(touchback);
-                Integer catchRoll = Roll.roll(1, D6, catchBallEvent, "Touchback", coaches.get(firstCoach).getTeam().getCoach().getName()).getSum();
-                if (catchRoll + touchback.getAg() >= 7) {
+//                Player touchback = (Player) coaches.get(firstCoach).choice("Touchback", (Player[]) playerStream.toArray());
+//                catchBallEvent.setPlayer(touchback);
+//                Integer catchRoll = Roll.roll(1, D6, catchBallEvent, "Touchback", coaches.get(firstCoach).getTeam().getCoach().getName()).getSum();
+//                if (catchRoll + touchback.getAg() >= 7) {
                     // Ball catched
-                } else {
+//                } else {
                     // Roulette
-                }
+//                }
             }
         } else {
             proceed = false;
@@ -428,7 +428,7 @@ public class Crap implements RuleSet {
         eventManager.forward(scatterBallEvent);
         SquareDestination destination = scatterBallEvent.getDestination();
         if (destination.isOutOfPitch()) {
-
+            // TODO throwin
         }
         return null;
     }
