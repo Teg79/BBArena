@@ -17,12 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import static net.sf.bbarena.model.Match.Status.*;
-import static net.sf.bbarena.model.event.Die.D2;
-import static net.sf.bbarena.model.event.Die.D6;
-import static net.sf.bbarena.model.event.Die.DS;
+import static net.sf.bbarena.model.event.Die.*;
 
 public class Crap implements RuleSet {
 
@@ -278,15 +276,15 @@ public class Crap implements RuleSet {
 
             if (scatterBallEvent.getDestination().isOutOfPitch()) {
                 CatchBallEvent catchBallEvent = new CatchBallEvent(eventManager.getArena().getPitch().getBall().getId());
-                Stream<Player> playerStream = eventManager.getArena().getPitch().getPlayers().stream().filter(player -> player.getTeam().getId() == coaches.get(firstCoach).getTeam().getId());
-//                Player touchback = (Player) coaches.get(firstCoach).choice("Touchback", (Player[]) playerStream.toArray());
-//                catchBallEvent.setPlayer(touchback);
-//                Integer catchRoll = Roll.roll(1, D6, catchBallEvent, "Touchback", coaches.get(firstCoach).getTeam().getCoach().getName()).getSum();
-//                if (catchRoll + touchback.getAg() >= 7) {
+                List<Player> playerStream = eventManager.getArena().getPitch().getPlayers().stream().filter(player -> player.getTeam().getId() == coaches.get(firstCoach).getTeam().getId()).collect(Collectors.toList());
+                Player touchback = (Player) coaches.get(firstCoach).choice("Touchback", playerStream.toArray(new Player[playerStream.size()]));
+                catchBallEvent.setPlayer(touchback);
+                Integer catchRoll = Roll.roll(1, D6, catchBallEvent, "Touchback", coaches.get(firstCoach).getTeam().getCoach().getName()).getSum();
+                if (catchRoll + touchback.getAg() >= 7) {
                     // Ball catched
-//                } else {
+                } else {
                     // Roulette
-//                }
+                }
             }
         } else {
             proceed = false;
