@@ -427,8 +427,27 @@ public class Crap implements RuleSet {
         SquareDestination destination = scatterBallEvent.getDestination();
         if (destination.isOutOfPitch()) {
             // TODO throwin
+        } else {
+            Square square = eventManager.getArena().getPitch().getSquare(destination.getLastValidSquare());
+            if (square.hasPlayer()) {
+                boolean catched = false;
+                // TODO catch roll
+                if (!catched) {
+                    ScatterBallEvent failedCatch = scatterBall(scatterBallEvent, square);
+                    destination = roulette(eventManager, failedCatch);
+                }
+            }
         }
-        return null;
+        return destination;
+    }
+
+    private ScatterBallEvent scatterBall(ScatterBallEvent scatterBallEvent, Square square) {
+        ScatterBallEvent event = new ScatterBallEvent(scatterBallEvent.getBallId());
+        Direction direction = Direction.getDirection(Roll.roll(1, DS, event, "Scatter", square.getPlayer().toString()).getSum());
+        event.setDirection(direction);
+        event.setDistance(1);
+        event.setType(BallMove.BallMoveType.SCATTER);
+        return event;
     }
 
     private Choice checkChoice(Choice choice) {
