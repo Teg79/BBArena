@@ -52,7 +52,7 @@ public class TestCrap {
             row[0] = i;
             for (int x = 0; x < pitch.getWidth(); x++) {
                 Square square = pitch.getSquare(new Coordinate(x, i));
-                row[x + 1] = square.hasPlayer() ? "X" : " ";
+                row[x + 1] = square.hasBall() ? "O" : square.hasPlayer() ? square.getPlayer().hasBall() ? "XO" : "X" : " ";
             }
             table.addRow(row);
             table.addRule();

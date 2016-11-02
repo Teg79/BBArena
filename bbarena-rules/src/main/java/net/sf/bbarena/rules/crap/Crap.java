@@ -274,17 +274,17 @@ public class Crap implements RuleSet {
 
             eventManager.forward(scatterBallEvent);
 
-            if (scatterBallEvent.getDestination().isOutOfPitch()) {
+            SquareDestination squareDestination = scatterBallEvent.getDestination();
+            if (squareDestination.isOutOfPitch()) {
+                // touchback
                 CatchBallEvent catchBallEvent = new CatchBallEvent(eventManager.getArena().getPitch().getBall().getId());
                 List<Player> playerStream = eventManager.getArena().getPitch().getPlayers().stream().filter(player -> player.getTeam().getId() == coaches.get(firstCoach).getTeam().getId()).collect(Collectors.toList());
                 Player touchback = (Player) coaches.get(firstCoach).choice("Touchback", playerStream.toArray(new Player[playerStream.size()]));
                 catchBallEvent.setPlayer(touchback);
-                Integer catchRoll = Roll.roll(1, D6, catchBallEvent, "Touchback", coaches.get(firstCoach).getTeam().getCoach().getName()).getSum();
-                if (catchRoll + touchback.getAg() >= 7) {
-                    // Ball catched
-                } else {
-                    // Roulette
-                }
+                eventManager.forward(catchBallEvent);
+            } else {
+                ScatterBallEvent scatter = scatterBall(scatterBallEvent, eventManager.getArena().getPitch().getSquare(squareDestination.getLastValidSquare()), kickerCoach);
+                squareDestination = roulette(eventManager, scatter, kickerCoach);
             }
         } else {
             proceed = false;
@@ -422,28 +422,72 @@ public class Crap implements RuleSet {
         eventManager.forward(fameEvent);
     }
 
-    private SquareDestination roulette(EventManager eventManager, ScatterBallEvent scatterBallEvent) {
+    private SquareDestination roulette(EventManager eventManager, ScatterBallEvent scatterBallEvent, String coachName) {
         eventManager.forward(scatterBallEvent);
         SquareDestination destination = scatterBallEvent.getDestination();
+        Coordinate lastValidSquare = destination.getLastValidSquare();
+
         if (destination.isOutOfPitch()) {
-            // TODO throwin
+            ScatterBallEvent throwInBallEvent = new ScatterBallEvent(scatterBallEvent.getBallId());
+            Integer throwInTemplate = Roll.roll(1, D6, throwInBallEvent, "Throw In Direction", coachName).getSum();
+
+            Direction throwInDirection;
+            if (lastValidSquare.getX() == 0) { // West edge
+                if (throwInTemplate == 1 || throwInTemplate == 2) {
+                    throwInDirection = Direction.NE;
+                } else if (throwInTemplate == 3 || throwInTemplate == 4) {
+                    throwInDirection = Direction.E;
+                } else {
+                    throwInDirection = Direction.SE;
+                }
+            } else if (lastValidSquare.getX() == eventManager.getArena().getPitch().getWidth() - 1) { // East edge
+                if (throwInTemplate == 1 || throwInTemplate == 2) {
+                    throwInDirection = Direction.SW;
+                } else if (throwInTemplate == 3 || throwInTemplate == 4) {
+                    throwInDirection = Direction.W;
+                } else {
+                    throwInDirection = Direction.NW;
+                }
+            } else if (lastValidSquare.getY() == 0) { // North edge
+                if (throwInTemplate == 1 || throwInTemplate == 2) {
+                    throwInDirection = Direction.SE;
+                } else if (throwInTemplate == 3 || throwInTemplate == 4) {
+                    throwInDirection = Direction.S;
+                } else {
+                    throwInDirection = Direction.SW;
+                }
+            } else /*if (lastValidSquare.getY() == eventManager.getArena().getPitch().getHeight() - 1)*/ { // South edge
+                if (throwInTemplate == 1 || throwInTemplate == 2) {
+                    throwInDirection = Direction.NW;
+                } else if (throwInTemplate == 3 || throwInTemplate == 4) {
+                    throwInDirection = Direction.N;
+                } else {
+                    throwInDirection = Direction.NE;
+                }
+            }
+            throwInBallEvent.setDirection(throwInDirection);
+
+            Integer throwInDistance = Roll.roll(2, D6, throwInBallEvent, "Throw In Distance", coachName).getSum();
+            throwInBallEvent.setDistance(throwInDistance);
+            destination = roulette(eventManager, throwInBallEvent, coachName);
         } else {
-            Square square = eventManager.getArena().getPitch().getSquare(destination.getLastValidSquare());
+            Square square = eventManager.getArena().getPitch().getSquare(lastValidSquare);
             if (square.hasPlayer()) {
                 boolean catched = false;
                 // TODO catch roll
                 if (!catched) {
-                    ScatterBallEvent failedCatch = scatterBall(scatterBallEvent, square);
-                    destination = roulette(eventManager, failedCatch);
+                    ScatterBallEvent failedCatch = scatterBall(scatterBallEvent, square, coachName);
+                    destination = roulette(eventManager, failedCatch, coachName);
                 }
             }
         }
         return destination;
     }
 
-    private ScatterBallEvent scatterBall(ScatterBallEvent scatterBallEvent, Square square) {
+    private ScatterBallEvent scatterBall(ScatterBallEvent scatterBallEvent, Square square, String coachName) {
         ScatterBallEvent event = new ScatterBallEvent(scatterBallEvent.getBallId());
-        Direction direction = Direction.getDirection(Roll.roll(1, DS, event, "Scatter", square.getPlayer().toString()).getSum());
+        Player player = square.getPlayer();
+        Direction direction = Direction.getDirection(Roll.roll(1, DS, event, "Scatter", player != null ? player.toString() : coachName).getSum());
         event.setDirection(direction);
         event.setDistance(1);
         event.setType(BallMove.BallMoveType.SCATTER);

@@ -479,7 +479,7 @@ public final class PitchView extends net.sf.bbarena.view.PitchView implements Ev
         Ball ball = ballUi.getBall();
         Square from = ball.getOwner() == null ? ball.getSquare() : ball.getOwner().getSquare();
         Square to = from;
-        int range = e.getRange();
+        int range = e.getDistance();
         while (range-- > 0) {
             to = arena.getPitch().getNextSquare(to.getCoords(), e.getDirection());
         }
