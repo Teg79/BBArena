@@ -564,4 +564,9 @@ public class Player implements Choice, Serializable {
 		this.playable = playable;
 	}
 
+	@Override
+	public String toString() {
+		return getNum() + " " + getName();
+	}
+
 }

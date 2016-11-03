@@ -15,7 +15,7 @@ public class ScatterBallEvent extends BallEvent {
 
 	private Ball _ball = null;
 	private Direction _direction = null;
-	private Integer _distance = null;
+	private Integer _distance = 1;
 	private Coordinate _origin;
 	private SquareDestination _destination;
 	private BallMove.BallMoveType _type = BallMove.BallMoveType.SCATTER;
@@ -89,7 +89,7 @@ public class ScatterBallEvent extends BallEvent {
 		return Concat.buildLog(getClass(),
 				new Pair("ballId", getBallId()),
 				new Pair("direction", _direction),
-				_distance > 1 ? new Pair("distance", _distance) : null);
+				new Pair("distance", _distance));
 	}
 
 	public Direction getDirection() {

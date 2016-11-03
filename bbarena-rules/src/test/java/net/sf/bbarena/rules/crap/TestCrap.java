@@ -36,9 +36,10 @@ public class TestCrap {
                 prepareSetUpAway(t2));
 
         Match<Crap> match = new Match<>(c1, c2);
+        Pitch pitch = match.getArena().getPitch();
+
         match.start(new Crap());
 
-        Pitch pitch = match.getArena().getPitch();
         printPitch(pitch);
     }
 

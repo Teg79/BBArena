@@ -5,8 +5,7 @@ import net.sf.bbarena.model.team.Team;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class SimCoach extends Coach {
 
@@ -15,23 +14,23 @@ public class SimCoach extends Coach {
     private final Random _random;
     private final String _name;
     private int _answer = 0;
-    private Choice[] _answers;
+    private List<Choice> _answers;
 
     public SimCoach(String name, Team team, Choice... programmedChoices) {
-        super(team);
+        super(name, team);
         _random = new Random();
         _name = name;
-        _answers = programmedChoices;
+        _answers = new ArrayList<>(Arrays.asList(programmedChoices));
     }
 
-    public String getName() {
-        return _name;
+    public void addAnswer(Choice choice) {
+        _answers.add(choice);
     }
 
     @Override
     protected Choice ask(String question, Set<Choice> choices) {
         _log.info(_name + ": " + question + " " + choices.toString());
-        Choice answer = _answer >= _answers.length ? null : _answers[_answer++];
+        Choice answer = _answer >= _answers.size() ? null : _answers.get(_answer++);
         if (answer == null) {
             answer = randomAnswer(choices);
         }

@@ -15,13 +15,19 @@ import org.slf4j.LoggerFactory;
 public abstract class Coach {
 
 	private static final Logger log = LoggerFactory.getLogger(Coach.class);
+	private String _name;
 	private Team _team;
     private ChoiceFilter _filter = choices -> choices;
 
-    public Coach(Team team) {
+    public Coach(String name, Team team) {
+		_name = name;
 		_team = team;
 	}
-	
+
+	public String getName() {
+		return _name;
+	}
+
 	public Team getTeam() {
 		return _team;
 	}
@@ -60,6 +66,7 @@ public abstract class Coach {
 		} while (!choices.contains(res));
 
 		log.info(Concat.buildLog(getClass(),
+				new Pair("coach", _name),
 				new Pair("question", question),
 				new Pair("answer", res)));
 		return res;

@@ -27,7 +27,6 @@ public class CrapChoiceFilter implements ChoiceFilter {
         } else {
             res = choices;
         }
-        res.add(new Concede());
         return res;
     }
 }

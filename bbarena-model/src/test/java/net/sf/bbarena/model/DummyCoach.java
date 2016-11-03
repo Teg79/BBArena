@@ -6,8 +6,8 @@ import java.util.Set;
 
 public class DummyCoach extends Coach {
 
-    public DummyCoach(Team team) {
-        super(team);
+    public DummyCoach(String name, Team team) {
+        super(name, team);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class Factory {
         Team team = new Team(_teamCounter++, ORC_ROSTER);
         for (int i = 0; i < 12; i++) {
             PlayerTemplate playerTemplate = ORC_ROSTER.getPlayers().get(0);
-            Player player = new Player(PLAYER_COUNTER++, i, "Player " + (i + 1), playerTemplate, new Experience(), playerTemplate.getSkills(), Collections.emptyList());
+            Player player = new Player(PLAYER_COUNTER++, i + 1, "Player " + (i + 1), playerTemplate, new Experience(), playerTemplate.getSkills(), Collections.emptyList());
             team.addPlayer(player);
         }
         team.setReRolls(2);

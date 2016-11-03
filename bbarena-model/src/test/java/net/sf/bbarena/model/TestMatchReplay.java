@@ -24,8 +24,8 @@ public class TestMatchReplay {
 		private int steps = 0;
 		private JavaRandomizer die = new JavaRandomizer();
 
-		public RandomCoach(Team team) {
-			super(team);
+		public RandomCoach(String name, Team team) {
+			super(name, team);
 		}
 		
 		@Override
@@ -98,8 +98,8 @@ public class TestMatchReplay {
 		t1.setName("T1");
 		Team t2 = new Team(1, null);
 		t2.setName("T2");
-		RandomCoach coach1 = new RandomCoach(t1);
-		RandomCoach coach2 = new RandomCoach(t2);
+		RandomCoach coach1 = new RandomCoach("C1", t1);
+		RandomCoach coach2 = new RandomCoach("C2", t2);
 		Replayer replayer = new Replayer(_events);
 		Match<Replayer> match = new Match<>(new RandomCoach[]{coach1, coach2});
 		match.start(replayer);

@@ -27,8 +27,8 @@ public class ThrowInTemplateTest {
 		Team t2 = new Team(2L, null);
 		t2.setName("2");
 
-		Coach c1 = new DummyCoach(t1);
-		Coach c2 = new DummyCoach(t2);
+		Coach c1 = new DummyCoach("C1", t1);
+		Coach c2 = new DummyCoach("C2", t2);
 
 		Match match = new Match(c1, c2);
 
