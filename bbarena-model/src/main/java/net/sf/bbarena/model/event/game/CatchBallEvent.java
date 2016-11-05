@@ -15,6 +15,7 @@ public class CatchBallEvent extends BallEvent {
 
 	private Ball _ball = null;
 	private Player _player = null;
+	private boolean _failed = false;
 
 	public CatchBallEvent(int ballId) {
 		super(ballId);
@@ -41,13 +42,17 @@ public class CatchBallEvent extends BallEvent {
 		_arena = arena;
 		_ball = getBall(arena);
 
-		arena.getPitch().ballCatch(_ball, _player);
+		if (!_failed) {
+			arena.getPitch().ballCatch(_ball, _player);
+		}
 	}
 
 	@Override
 	public void undoEvent() {
-		Pitch pitch = _arena.getPitch();
-		pitch.ballLose(_ball, _player);
+		if (!_failed) {
+			Pitch pitch = _arena.getPitch();
+			pitch.ballLose(_ball, _player);
+		}
 	}
 
 	@Override
@@ -57,4 +62,7 @@ public class CatchBallEvent extends BallEvent {
 				new Pair("playerId", _player.getId()));
 	}
 
+    public void setFailed(boolean failed) {
+    	_failed = failed;
+    }
 }

@@ -1,7 +1,6 @@
 package net.sf.bbarena.rules.crap;
 
 import net.sf.bbarena.model.*;
-import net.sf.bbarena.model.choice.Concede;
 import net.sf.bbarena.model.choice.FlipRoll;
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.event.game.*;
@@ -353,22 +352,12 @@ public class Crap implements RuleSet {
         scatterBallEvent.setDirection(direction);
         scatterBallEvent.setDistance(distance);
         scatterBallEvent.setType(BallMove.BallMoveType.KICK_OFF);
+        eventManager.forward(scatterBallEvent);
 
+        KickOffEvent kickOffEvent = new KickOffEvent(); // Base event, extends for each kick off event
         Integer kickOffRoll = Roll.roll(2, D6, scatterBallEvent, "Kick Off", kickerCoach.getName()).getSum();
 
-        SquareDestination squareDestination = roulette(eventManager, scatterBallEvent, kickerCoach, true);
-
-        if (squareDestination == null) {
-            // touchback
-            CatchBallEvent catchBallEvent = new CatchBallEvent(ballId);
-            List<Player> playerStream = pitch.getPlayers().stream().filter(player -> player.getTeam().getId() == coaches.get(firstCoach).getTeam().getId()).collect(Collectors.toList());
-            Player touchback = (Player) coaches.get(firstCoach).choice("Touchback", playerStream.toArray(new Player[playerStream.size()]));
-            catchBallEvent.setPlayer(touchback);
-            eventManager.forward(catchBallEvent);
-        }
-
         // Resolve kickoff event
-        KickOffEvent kickOffEvent = new KickOffEvent(); // Base event, extends for each kick off event
         // TODO: implement the kickoff table
         switch (kickOffRoll) {
             case 2:
@@ -405,93 +394,35 @@ public class Crap implements RuleSet {
                 // Pitch Invasion
                 break;
         }
-    }
 
-    private SquareDestination roulette(EventManager eventManager, ScatterBallEvent scatterBallEvent, Coach coach) {
-        return roulette(eventManager, scatterBallEvent, coach, false);
-    }
-
-    private SquareDestination roulette(EventManager eventManager, ScatterBallEvent scatterBallEvent, Coach coach, boolean kickOff) {
-        return roulette(eventManager, scatterBallEvent, coach, kickOff, false);
-    }
-
-    private SquareDestination roulette(EventManager eventManager, ScatterBallEvent scatterBallEvent, Coach coach, boolean kickOff, boolean last) {
-        eventManager.forward(scatterBallEvent);
-        SquareDestination destination = scatterBallEvent.getDestination();
-        Coordinate lastValidSquare = destination.getLastValidSquare();
-
-        Square lastSquare = eventManager.getArena().getPitch().getSquare(lastValidSquare);
-        if (kickOff && (destination.isOutOfPitch() || lastSquare == null || lastSquare.getTeamOwner().equals(coach.getTeam()))) {
-
-            destination = null; // touchback
-
-        } else {
-            boolean catched = false;
-
-            if (destination.isOutOfPitch()) {
-                ThrowInBallEvent throwInBallEvent = new ThrowInBallEvent(scatterBallEvent.getBallId());
-                Integer throwInTemplate = Roll.roll(1, D6, throwInBallEvent, "Throw In Direction", coach.getName()).getSum();
-
-                Direction throwInDirection;
-                if (lastValidSquare.getX() == 0) { // West edge
-                    if (throwInTemplate == 1 || throwInTemplate == 2) {
-                        throwInDirection = Direction.NE;
-                    } else if (throwInTemplate == 3 || throwInTemplate == 4) {
-                        throwInDirection = Direction.E;
-                    } else {
-                        throwInDirection = Direction.SE;
-                    }
-                } else if (lastValidSquare.getX() == eventManager.getArena().getPitch().getWidth() - 1) { // East edge
-                    if (throwInTemplate == 1 || throwInTemplate == 2) {
-                        throwInDirection = Direction.SW;
-                    } else if (throwInTemplate == 3 || throwInTemplate == 4) {
-                        throwInDirection = Direction.W;
-                    } else {
-                        throwInDirection = Direction.NW;
-                    }
-                } else if (lastValidSquare.getY() == 0) { // North edge
-                    if (throwInTemplate == 1 || throwInTemplate == 2) {
-                        throwInDirection = Direction.SE;
-                    } else if (throwInTemplate == 3 || throwInTemplate == 4) {
-                        throwInDirection = Direction.S;
-                    } else {
-                        throwInDirection = Direction.SW;
-                    }
-                } else /*if (lastValidSquare.getY() == eventManager.getArena().getPitch().getHeight() - 1)*/ { // South edge
-                    if (throwInTemplate == 1 || throwInTemplate == 2) {
-                        throwInDirection = Direction.NW;
-                    } else if (throwInTemplate == 3 || throwInTemplate == 4) {
-                        throwInDirection = Direction.N;
-                    } else {
-                        throwInDirection = Direction.NE;
-                    }
-                }
-                throwInBallEvent.setDirection(throwInDirection);
-
-                Integer throwInDistance = Roll.roll(2, D6, throwInBallEvent, "Throw In Distance", coach.getName()).getSum();
-                throwInBallEvent.setDistance(throwInDistance);
-                destination = roulette(eventManager, throwInBallEvent, coach);
+        boolean catched = false;
+        Square lastSquare;
+        SquareDestination squareDestination = scatterBallEvent.getDestination();
+        Coordinate lastValidSquare = squareDestination.getLastValidSquare();
+        lastSquare = eventManager.getArena().getPitch().getSquare(lastValidSquare);
+        do {
+            if ((squareDestination.isOutOfPitch() || lastSquare == null || lastSquare.getTeamOwner().equals(kickerCoach.getTeam()))) {
+                // touchback
+                CatchBallEvent catchBallEvent = new CatchBallEvent(ballId);
+                List<Player> playerStream = pitch.getPlayers().stream().filter(player -> player.getTeam().getId() == coaches.get(firstCoach).getTeam().getId()).collect(Collectors.toList());
+                Player touchbackPlayer = (Player) coaches.get(firstCoach).choice("Touchback", playerStream.toArray(new Player[playerStream.size()]));
+                catchBallEvent.setPlayer(touchbackPlayer);
+                eventManager.forward(catchBallEvent);
+                catched = true;
             } else {
-                if (!kickOff && lastSquare.hasPlayer()) {
-                    // TODO catch roll
+                if (lastSquare.hasPlayer()) {
+                    catched = AgilityTable.catchRoll(eventManager, coaches.get(firstCoach));
+                }
+                if (!catched) {
+                    scatterBallEvent = Scatter.buildScatterBallEvent(ballId, lastSquare, kickerCoach);
+                    eventManager.forward(scatterBallEvent);
+                    squareDestination = scatterBallEvent.getDestination();
+                    lastValidSquare = squareDestination.getLastValidSquare();
+                    lastSquare = eventManager.getArena().getPitch().getSquare(lastValidSquare);
                 }
             }
-            if (!catched && !last) {
-                ScatterBallEvent failedCatch = scatterBall(scatterBallEvent.getBallId(), lastSquare, coach);
-                destination = roulette(eventManager, failedCatch, coach, kickOff, true);
-            }
-        }
-        return destination;
-    }
+        } while (!catched && lastSquare.hasPlayer());
 
-    private ScatterBallEvent scatterBall(Integer ballId, Square square, Coach coach) {
-        ScatterBallEvent event = new ScatterBallEvent(ballId);
-        Player player = square.getPlayer();
-        Direction direction = Direction.getDirection(Roll.roll(1, DS, event, "Scatter", player != null ? player.toString() : coach.getName()).getSum());
-        event.setDirection(direction);
-        event.setDistance(1);
-        event.setType(BallMove.BallMoveType.SCATTER);
-        return event;
     }
 
 }

@@ -140,17 +140,18 @@ public class Pitch {
     /**
      * Counts the number of active Tackle Zones in a Square
      *
-     * @param xy Square Coordinate
+     * @param xy   Square Coordinate
+     * @param team Team of the player in the square
      * @return the number of Tackle Zones
      */
-    public int getTZCount(Coordinate xy) {
+    public int getOpponentTZCount(Coordinate xy, Team team) {
         int res = 0;
 
         for (Direction d : Direction.values()) {
             Square s = getNextSquare(xy, d);
             if (s != null && s.getType() != SquareType.OUT) {
                 Player p = s.getPlayer();
-                if (p != null && p.hasTZ()) {
+                if (p != null && !p.getTeam().equals(team) && p.hasTZ()) {
                     res++;
                 }
             }
@@ -311,7 +312,7 @@ public class Pitch {
      * @return The new Square occupied by the Ball
      */
     public Square moveBall(Ball ball, Direction direction, int squares,
-                            BallMoveType moveType) {
+                           BallMoveType moveType) {
         if (squares < 0) {
             throw new PitchException(
                     "Cannot move a negative number of squares!");
@@ -455,7 +456,7 @@ public class Pitch {
 
         return res;
     }
-
+// 3455550467
     /**
      * Remove the Ball from the pitch
      *
