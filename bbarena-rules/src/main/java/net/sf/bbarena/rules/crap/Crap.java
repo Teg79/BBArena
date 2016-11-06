@@ -184,22 +184,24 @@ public class Crap implements RuleSet {
         int choiceCoach = flip.getSum() - 1;
         Choice choice = coaches.get(choiceCoach).choice("Kick or Receive?", FlipRoll.values());
 
-        if (choice != null) {
-            int firstCoach = 0;
-            int setUpCoach = 1;
-            if ((choiceCoach == 0 && choice == FlipRoll.KICK) || (choiceCoach == 1 && choice == FlipRoll.RECEIVE)) {
-                // Coach 0 receive
-                firstCoach = 1;
-                setUpCoach = 0;
-            }
-
-            setUpTeam(eventManager, coaches, setUpCoach);
-            setUpTeam(eventManager, coaches, firstCoach);
-
-            kickOff(eventManager, coaches, firstCoach, setUpCoach);
-
+        int firstCoach = 0;
+        int setUpCoach = 1;
+        if ((choiceCoach == 0 && choice == FlipRoll.KICK) || (choiceCoach == 1 && choice == FlipRoll.RECEIVE)) {
+            // Coach 0 receive
+            firstCoach = 1;
+            setUpCoach = 0;
         }
 
+        setUpTeam(eventManager, coaches, setUpCoach);
+        setUpTeam(eventManager, coaches, firstCoach);
+
+        kickOff(eventManager, coaches, firstCoach, setUpCoach);
+
+//        Coach nextCoach = coaches.get(firstCoach);
+//        while (!gameEnded(eventManager.getArena())) {
+//            newTurn(nextCoach);
+//            nextCoach =
+//        }
     }
 
     private void setUpTeam(EventManager eventManager, List<Coach> coaches, int team) {

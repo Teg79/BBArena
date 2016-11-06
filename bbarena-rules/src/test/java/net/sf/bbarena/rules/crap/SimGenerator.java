@@ -26,11 +26,12 @@ public class SimGenerator implements DieRandomizer {
 
     @Override
     public int getRollFace(int faces, String rollId) {
-        Integer roll;
+        Integer roll = null;
 
         if (_rolls.size() > _rollCounter) {
             roll = _rolls.get(_rollCounter++);
-        } else {
+        }
+        if (roll == null) {
             roll = _default.getRollFace(faces, rollId);
         }
 

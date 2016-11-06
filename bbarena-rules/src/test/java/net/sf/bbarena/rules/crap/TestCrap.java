@@ -42,16 +42,16 @@ public class TestCrap {
         c1.addAnswer(new Square(pitch, new Coordinate(16, 7)));
 
         DieRandomizer roller = new SimGenerator(
-                4, 4, // Weather
-                6, 3, // FAME c1
-                5, 6, // FAME c2
+                null, null, // Weather
+                null, null, // FAME c1
+                null, null, // FAME c2
                 1, // Flip Coin, c1 wins
                 8, 3, // Bounce W for 8
                 4, 3, // Kick Off Event
-                6, // Fail catch
+                5, // Fail catch
                 6, // Scatter
                 5, // Catch
-                8 // Scatter
+                5 // Scatter
         );
 
         Roll.setGenerator(roller);
