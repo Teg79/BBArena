@@ -1,10 +1,5 @@
 package net.sf.bbarena.model.pitch;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import net.sf.bbarena.model.Coordinate;
 import net.sf.bbarena.model.Direction;
 import net.sf.bbarena.model.RangeRuler;
@@ -14,6 +9,11 @@ import net.sf.bbarena.model.pitch.Dugout.DugoutRoom;
 import net.sf.bbarena.model.pitch.Square.SquareType;
 import net.sf.bbarena.model.team.Player;
 import net.sf.bbarena.model.team.Team;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The Pitch is the class to represent any BB Pitch. It is possible to
@@ -456,7 +456,7 @@ public class Pitch {
 
         return res;
     }
-// 3455550467
+   
     /**
      * Remove the Ball from the pitch
      *
