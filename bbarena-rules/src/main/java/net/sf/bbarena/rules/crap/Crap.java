@@ -168,7 +168,6 @@ public class Crap implements RuleSet {
      */
     private void theMatch(EventManager eventManager,
                           List<Coach> coaches) {
-        boolean proceed = true;
 
         MatchStatusChangeEvent matchStatusChangeEvent = new MatchStatusChangeEvent(PLAYING);
         eventManager.forward(matchStatusChangeEvent);
@@ -195,13 +194,20 @@ public class Crap implements RuleSet {
         setUpTeam(eventManager, coaches, setUpCoach);
         setUpTeam(eventManager, coaches, firstCoach);
 
-        kickOff(eventManager, coaches, firstCoach, setUpCoach);
+//        int nextCoach = firstCoach;
+//        while (!gameFinished()) {
 
-//        Coach nextCoach = coaches.get(firstCoach);
-//        while (!gameEnded(eventManager.getArena())) {
-//            newTurn(nextCoach);
-//            nextCoach =
+        kickOff(eventManager, coaches, firstCoach, setUpCoach);
+//            while (!driveFinished()) {
+//                playTurn(eventManager, nextCoach);
+//                nextCoach = switchCoach(nextCoach);
+//            }
+
 //        }
+    }
+
+    private int switchCoach(int coach) {
+        return coach == 0 ? 1 : 0;
     }
 
     private void setUpTeam(EventManager eventManager, List<Coach> coaches, int team) {
