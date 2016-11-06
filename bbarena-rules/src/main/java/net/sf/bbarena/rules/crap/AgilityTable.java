@@ -5,10 +5,11 @@ import net.sf.bbarena.model.Roll;
 import net.sf.bbarena.model.RollResult;
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.event.game.CatchBallEvent;
-import net.sf.bbarena.model.event.game.ScatterBallEvent;
 import net.sf.bbarena.model.pitch.Ball;
 import net.sf.bbarena.model.pitch.Pitch;
 import net.sf.bbarena.model.pitch.Square;
+import net.sf.bbarena.model.team.AttributeModifier;
+import net.sf.bbarena.model.team.Attributes;
 import net.sf.bbarena.model.team.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,13 +50,23 @@ public class AgilityTable {
         // TODO Add Catch Skill
 
         RollResult roll = Roll.roll(1, D6, catchBallEvent, "Catch", player.toString());
-        roll.addModifier(tzCount, "Takle Zone");
+        roll.addModifier(-tzCount, "Takle Zone");
         if (accurate) {
             roll.addModifier(1, "Accurate Pass");
         }
+        roll.setAttribute(new AttributeModifier(Attributes.Attribute.AG, player.getAg()));
+        roll.setTarget(TARGET);
 
-        boolean catched = player.getAg() + roll.getSum() >= TARGET;
-        catchBallEvent.setFailed(catched);
+        int result = roll.getResults()[0];
+        boolean catched;
+        if (result == 6) {
+            catched = true;
+        } else if (result == 1) {
+            catched = false;
+        } else {
+            catched = roll.getSum() >= 0;
+        }
+        catchBallEvent.setFailed(!catched);
         eventManager.forward(catchBallEvent);
 
         return catched;

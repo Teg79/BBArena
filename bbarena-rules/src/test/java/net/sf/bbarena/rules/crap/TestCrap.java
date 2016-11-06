@@ -7,7 +7,9 @@ import de.vandermeer.asciitable.v2.render.WidthAbsoluteEven;
 import de.vandermeer.asciitable.v2.themes.V2_E_TableThemes;
 import net.sf.bbarena.model.Coordinate;
 import net.sf.bbarena.model.Match;
+import net.sf.bbarena.model.Roll;
 import net.sf.bbarena.model.choice.FlipRoll;
+import net.sf.bbarena.model.dice.DieRandomizer;
 import net.sf.bbarena.model.pitch.Pitch;
 import net.sf.bbarena.model.pitch.Square;
 import net.sf.bbarena.model.pitch.TeamSetUp;
@@ -32,11 +34,27 @@ public class TestCrap {
                 FlipRoll.KICK,
                 prepareSetUpHome(t1));
         SimCoach c2 = new SimCoach("C2", t2,
-                FlipRoll.RECEIVE,
                 prepareSetUpAway(t2));
 
         Match<Crap> match = new Match<>(c1, c2);
         Pitch pitch = match.getArena().getPitch();
+
+        c1.addAnswer(new Square(pitch, new Coordinate(16, 7)));
+
+        DieRandomizer roller = new SimGenerator(
+                4, 4, // Weather
+                6, 3, // FAME c1
+                5, 6, // FAME c2
+                1, // Flip Coin, c1 wins
+                8, 3, // Bounce W for 8
+                4, 3, // Kick Off Event
+                6, // Fail catch
+                6, // Scatter
+                5, // Catch
+                8 // Scatter
+        );
+
+        Roll.setGenerator(roller);
 
         match.start(new Crap());
 

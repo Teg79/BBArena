@@ -395,7 +395,8 @@ public class Crap implements RuleSet {
                 break;
         }
 
-        boolean catched = false;
+        boolean endBouncing = false;
+        boolean bounced = false;
         Square lastSquare;
         SquareDestination squareDestination = scatterBallEvent.getDestination();
         Coordinate lastValidSquare = squareDestination.getLastValidSquare();
@@ -408,20 +409,26 @@ public class Crap implements RuleSet {
                 Player touchbackPlayer = (Player) coaches.get(firstCoach).choice("Touchback", playerStream.toArray(new Player[playerStream.size()]));
                 catchBallEvent.setPlayer(touchbackPlayer);
                 eventManager.forward(catchBallEvent);
-                catched = true;
+                endBouncing = true;
             } else {
-                if (lastSquare.hasPlayer()) {
-                    catched = AgilityTable.catchRoll(eventManager, coaches.get(firstCoach));
+                if (bounced) {
+                    endBouncing = true;
                 }
-                if (!catched) {
+                if (lastSquare.hasPlayer()) {
+                    endBouncing = AgilityTable.catchRoll(eventManager, coaches.get(firstCoach));
+                }
+                if (!endBouncing && !bounced) {
                     scatterBallEvent = Scatter.buildScatterBallEvent(ballId, lastSquare, kickerCoach);
                     eventManager.forward(scatterBallEvent);
                     squareDestination = scatterBallEvent.getDestination();
                     lastValidSquare = squareDestination.getLastValidSquare();
                     lastSquare = eventManager.getArena().getPitch().getSquare(lastValidSquare);
+                    if (!lastSquare.hasPlayer()) {
+                        bounced = true;
+                    }
                 }
             }
-        } while (!catched && lastSquare.hasPlayer());
+        } while (!endBouncing);
 
     }
 

@@ -24,7 +24,7 @@ public class RollModifier implements Serializable {
 
 	@Override
 	public String toString() {
-		return new StringBuilder(_modifier).append(" (").append(_description).append(")").toString();
+		return new StringBuilder().append(_modifier).append(" ").append(_description).toString();
 	}
 
 }

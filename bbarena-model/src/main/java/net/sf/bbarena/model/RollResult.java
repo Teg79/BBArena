@@ -1,6 +1,7 @@
 package net.sf.bbarena.model;
 
 import net.sf.bbarena.model.event.RollModifier;
+import net.sf.bbarena.model.team.AttributeModifier;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +14,8 @@ public class RollResult {
     private final String _why;
     private final String _who;
     private final List<RollModifier> _modifiers;
+    private AttributeModifier _attribute = null;
+    private Integer _target = null;
 
     protected RollResult(Roll roll, int[] results, String why, String who) {
         _roll = roll;
@@ -34,6 +37,14 @@ public class RollResult {
         _modifiers.add(modifier);
     }
 
+    public void setAttribute(AttributeModifier attribute) {
+        _attribute = attribute;
+    }
+
+    public void setTarget(Integer target) {
+        _target = target;
+    }
+
     public Roll getRoll() {
         return _roll;
     }
@@ -45,6 +56,12 @@ public class RollResult {
     public Integer getSum() {
         Integer res = Arrays.stream(_results).sum();
         res += _modifiers.stream().mapToInt(value -> value.getModifier()).sum();
+        if (_attribute != null) {
+            res += _attribute.getMod();
+        }
+        if (_target != null) {
+            res -= _target;
+        }
         return res;
     }
 
@@ -64,6 +81,12 @@ public class RollResult {
         if (_modifiers.size() > 0) {
             builder.append(" + ")
                     .append(_modifiers.toString());
+        }
+        if (_attribute != null) {
+            builder.append(" + ").append(_attribute.getMod()).append(" ").append(_attribute.getType());
+        }
+        if (_target != null) {
+            builder.append(" - ").append(_target).append(" Target");
         }
         builder.append(" = ")
                 .append(getSum());

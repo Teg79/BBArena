@@ -456,7 +456,7 @@ public class Pitch {
 
         return res;
     }
-   
+
     /**
      * Remove the Ball from the pitch
      *

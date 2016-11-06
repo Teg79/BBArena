@@ -9,7 +9,7 @@ package net.sf.bbarena.model;
  * @author f.bellentani
  */
 public enum Direction implements Choice {
-	NW, N, NE, W, E, SW, S, SE;
+	NW, N, NE, E, SE, S, SW, W;
 
 	public Direction inverse() {
 		Direction res = this;

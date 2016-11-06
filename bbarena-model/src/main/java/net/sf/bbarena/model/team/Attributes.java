@@ -34,7 +34,7 @@ public class Attributes implements Serializable {
 	private Map<Attribute, Integer> attributeMap;
 	
 	public Attributes() {
-		attributeMap = new HashMap<Attribute, Integer>(4);
+		attributeMap = new HashMap<>(4);
 	}
 	
 	public Attributes(int ma, int st, int ag, int av) {

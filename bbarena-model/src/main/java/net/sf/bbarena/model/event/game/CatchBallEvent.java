@@ -59,7 +59,8 @@ public class CatchBallEvent extends BallEvent {
 	public String getString() {
 		return Concat.buildLog(getClass(),
 				new Pair("ballId", getBallId()),
-				new Pair("playerId", _player.getId()));
+				new Pair("playerId", _player.getId()),
+				new Pair("catched", !_failed));
 	}
 
     public void setFailed(boolean failed) {

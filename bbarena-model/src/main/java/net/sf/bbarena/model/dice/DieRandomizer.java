@@ -10,5 +10,5 @@ public interface DieRandomizer {
 	/**
 	 * Return the face number, between 1 and 'facesNumber'
 	 */
-	public int getRollFace(int faces, String rollId);
+    int getRollFace(int faces, String rollId);
 }
