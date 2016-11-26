@@ -1,6 +1,9 @@
 package net.sf.bbarena.rules.crap;
 
 import net.sf.bbarena.model.*;
+import net.sf.bbarena.model.choice.Concede;
+import net.sf.bbarena.model.choice.Continue;
+import net.sf.bbarena.model.choice.EndTurn;
 import net.sf.bbarena.model.choice.FlipRoll;
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.event.game.*;
@@ -14,6 +17,7 @@ import net.sf.bbarena.rules.crap.listeners.VerySunny;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -194,16 +198,63 @@ public class Crap implements RuleSet {
         setUpTeam(eventManager, coaches, setUpCoach);
         setUpTeam(eventManager, coaches, firstCoach);
 
-//        int nextCoach = firstCoach;
-//        while (!gameFinished()) {
+        int nextCoach = firstCoach;
+        int waitingCoach = setUpCoach;
+        int drive = 1;
+        while (isGamePlaying(eventManager)) {
 
-        kickOff(eventManager, coaches, firstCoach, setUpCoach);
-//            while (!driveFinished()) {
-//                playTurn(eventManager, nextCoach);
-//                nextCoach = switchCoach(nextCoach);
-//            }
+            kickOff(eventManager, coaches, firstCoach, setUpCoach);
+            while (eventManager.getArena().getMatch().getCurrentDrive() == drive) {
+                playTurn(eventManager, nextCoach, waitingCoach, coaches);
+                waitingCoach = nextCoach;
+                nextCoach = switchCoach(nextCoach);
+            }
 
-//        }
+            drive++;
+        }
+    }
+
+    private void playTurn(EventManager eventManager, int playingCoachPos, int waitingCoachPos, List<Coach> coaches) {
+        Coach playingCoach = coaches.get(playingCoachPos);
+        Choice startTurn = playingCoach.choice("Continue?", new Continue(), new Concede());
+
+        if (startTurn instanceof Concede) {
+            // end match
+        } else {
+            moveTurnMarker(eventManager, playingCoachPos);
+
+            Set<Choice> choices = new LinkedHashSet<>();
+            playingCoach.getTeam().getPlayers().stream().filter(player ->
+                    player.getTeam().equals(playingCoach.getTeam())
+                            && player.isOnThePitch()
+                            && player.getPitchStatus() != Player.PlayerPitchStatus.PRONE
+            ).forEach(player -> choices.add(player));
+            choices.add(new EndTurn());
+
+            Choice player;
+            do {
+                player = playingCoach.choice("Next player?", choices);
+                choices.remove(player);
+
+                if (player instanceof Player) {
+                    playerTurn(player, eventManager, playingCoach);
+                }
+            } while (choices.size() > 0 && player instanceof Player);
+        }
+    }
+
+    private void playerTurn(Choice player, EventManager eventManager, Coach playingCoach) {
+        // TODO: player action
+    }
+
+    private void moveTurnMarker(EventManager eventManager, int playingCoachPos) {
+        NewTurnEvent newTurnEvent = new NewTurnEvent();
+        newTurnEvent.setCoachPos(playingCoachPos);
+        eventManager.forward(newTurnEvent);
+    }
+
+    private boolean isGamePlaying(EventManager eventManager) {
+        return eventManager.getArena().getMatch().getStatus() == PLAYING;
     }
 
     private int switchCoach(int coach) {

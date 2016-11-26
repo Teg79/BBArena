@@ -1,14 +1,14 @@
 package net.sf.bbarena.model.team;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import net.sf.bbarena.model.Choice;
 import net.sf.bbarena.model.pitch.Ball;
 import net.sf.bbarena.model.pitch.Square;
 import net.sf.bbarena.model.team.Attributes.Attribute;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * @author f.bellentani
@@ -359,13 +359,6 @@ public class Player implements Choice, Serializable {
 		return res;
 	}
 
-	/**
-	 * Setter for property status.
-	 *
-	 * @param status
-	 *            New value of property status.
-	 *
-	 */
 	public void setType(PlayerType type) {
 		this.type = type;
 	}
@@ -510,6 +503,10 @@ public class Player implements Choice, Serializable {
 
 	public void setSquare(Square square) {
 		this.square = square;
+	}
+
+	public boolean isOnThePitch() {
+		return square != null;
 	}
 
 	public boolean isInDugout() {

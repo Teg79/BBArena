@@ -1,9 +1,9 @@
 package net.sf.bbarena.model;
 
-import java.util.*;
-
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.team.Team;
+
+import java.util.*;
 
 public class Match<R extends RuleSet> {
 
@@ -26,6 +26,8 @@ public class Match<R extends RuleSet> {
 	private EventManager _eventManager;
 	private R _source;
 	private List<Coach> _coaches;
+
+    private Integer _currentDrive = 1;
 
 	private Status _status = null;
 	private Date _start = null;
@@ -67,6 +69,14 @@ public class Match<R extends RuleSet> {
 	public List<Coach> getCoaches() {
 		return _coaches;
 	}
+
+    public Integer getCurrentDrive() {
+        return _currentDrive;
+    }
+
+    public void setCurrentDrive(Integer currentDrive) {
+        _currentDrive = currentDrive;
+    }
 
     public Status getStatus() {
         return _status;
