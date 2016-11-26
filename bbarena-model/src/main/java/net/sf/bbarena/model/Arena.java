@@ -1,22 +1,15 @@
 package net.sf.bbarena.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
 import net.sf.bbarena.model.pitch.Pitch;
 import net.sf.bbarena.model.pitch.PitchFactory;
 import net.sf.bbarena.model.team.Team;
-import net.sf.bbarena.model.team.TeamInfo;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This is the starting class of the model. The Pitch will be created here and
@@ -46,6 +39,8 @@ public class Arena implements Serializable {
 	private Referee _referee = null;
 
 	private Weather _weather = Weather.getWeather(Weather.WeatherType.NICE);
+
+    private int _time = 0;
 
 	/**
 	 * This constructor must be used to create a new Match with the Default
@@ -128,4 +123,12 @@ public class Arena implements Serializable {
 	public List<ScoreBoard> getScoreBoards() {
 		return _scoreBoards;
 	}
+
+    public int getHalf() {
+        return _time;
+    }
+
+    public void setTime(int time) {
+        _time = time;
+    }
 }

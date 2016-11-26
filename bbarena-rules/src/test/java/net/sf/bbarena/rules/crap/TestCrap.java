@@ -39,7 +39,7 @@ public class TestCrap {
         Match<Crap> match = new Match<>(c1, c2);
         Pitch pitch = match.getArena().getPitch();
 
-        c1.addAnswer(new Square(pitch, new Coordinate(16, 7)));
+        c1.addAnswer(new Square(pitch, new Coordinate(15, 2)));
 
         DieRandomizer roller = new SimGenerator(
                 null, null, // Weather

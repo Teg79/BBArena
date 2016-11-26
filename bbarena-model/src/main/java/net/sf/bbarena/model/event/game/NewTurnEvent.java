@@ -51,7 +51,6 @@ public class NewTurnEvent extends GameEvent {
 	@Override
 	public String getString() {
         return Concat.buildLog(getClass(),
-
                 new Pair("coach", _coachPos),
                 new Pair("turn", _turn + 1));
     }

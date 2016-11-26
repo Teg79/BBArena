@@ -1,13 +1,9 @@
 package net.sf.bbarena.model;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-
-import net.sf.bbarena.model.exception.TurnException;
 import net.sf.bbarena.model.team.Team;
+
+import java.io.Serializable;
+import java.util.Observable;
 
 /**
  * The TurnMarker implementation is where to store all the info about turns,
@@ -33,8 +29,6 @@ public class TurnMarker extends Observable implements Serializable {
 	private Team _team = null;
 
 	private int _turn = 0;
-
-	private int _time = 0;
 
 	private int _rerolls = 0;
 
@@ -222,14 +216,6 @@ public class TurnMarker extends Observable implements Serializable {
 
 	public void setTurn(int turn) {
 		_turn = turn;
-	}
-
-	public int getTime() {
-		return _time;
-	}
-
-	public void setTime(int time) {
-		_time = time;
 	}
 
 	public int getRerolls() {

@@ -1,13 +1,12 @@
 package net.sf.bbarena.model.event;
 
+import net.sf.bbarena.model.Arena;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.bbarena.model.Arena;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class controls the events flow in the model. Can be used to send event
@@ -84,8 +83,16 @@ public class EventManager implements Serializable {
 		return _events.size();
 	}
 
-	public Event getCurrentEvent() {
-		return _events.get(_current);
+    public Event getLastEvent() {
+        Event res = null;
+        if (_current > 0) {
+            res = _events.get(_current - 1);
+        }
+        return res;
+    }
+
+    public Event getNextEvent() {
+        return _events.get(_current);
 	}
 
 	public int forward(Event event) {
@@ -106,12 +113,12 @@ public class EventManager implements Serializable {
 			log.debug("Forward with event " + e.toString()
 					+ " starts...");
 
-			listenersBeforeUndoEvent(e);
+            listenersBeforeDoEvent(e);
 
 			e.doEvent(_arena);
 			e.setExecuted(true);
 
-			listenersAfterUndoEvent(e);
+            listenersAfterDoEvent(e);
 
 			res = _current;
 			log.info(e.toString());
@@ -156,21 +163,37 @@ public class EventManager implements Serializable {
 		}
 	}
 
-	private void listenersAfterUndoEvent(Event e) {
-		if (_listeners != null) {
-			for (EventFlowListener listener : _listeners) {
-				listener.afterUndoEvent(e);
-			}
-		}
-	}
+    private void listenersAfterUndoEvent(Event e) {
+        if (_listeners != null) {
+            for (EventFlowListener listener : _listeners) {
+                listener.afterUndoEvent(e);
+            }
+        }
+    }
 
-	private void listenersBeforeUndoEvent(Event e) {
-		if (_listeners != null) {
-			for (EventFlowListener listener : _listeners) {
-				listener.beforeUndoEvent(e);
-			}
-		}
-	}
+    private void listenersBeforeUndoEvent(Event e) {
+        if (_listeners != null) {
+            for (EventFlowListener listener : _listeners) {
+                listener.beforeUndoEvent(e);
+            }
+        }
+    }
+
+    private void listenersAfterDoEvent(Event e) {
+        if (_listeners != null) {
+            for (EventFlowListener listener : _listeners) {
+                listener.afterDoEvent(e);
+            }
+        }
+    }
+
+    private void listenersBeforeDoEvent(Event e) {
+        if (_listeners != null) {
+            for (EventFlowListener listener : _listeners) {
+                listener.beforeDoEvent(e);
+            }
+        }
+    }
 
 	public EventManager addListener(EventFlowListener listener) {
 		_listeners.add(listener);

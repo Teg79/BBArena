@@ -5,15 +5,13 @@ import net.sf.bbarena.model.choice.Concede;
 import net.sf.bbarena.model.choice.Continue;
 import net.sf.bbarena.model.choice.EndTurn;
 import net.sf.bbarena.model.choice.FlipRoll;
+import net.sf.bbarena.model.event.Event;
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.event.game.*;
 import net.sf.bbarena.model.pitch.*;
 import net.sf.bbarena.model.team.Player;
 import net.sf.bbarena.model.team.Team;
-import net.sf.bbarena.rules.crap.listeners.Blizzard;
-import net.sf.bbarena.rules.crap.listeners.PouringRain;
-import net.sf.bbarena.rules.crap.listeners.SwelteringHeat;
-import net.sf.bbarena.rules.crap.listeners.VerySunny;
+import net.sf.bbarena.rules.crap.listeners.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +31,7 @@ public class Crap implements RuleSet {
     public void start(EventManager eventManager, List<Coach> coaches) {
         log.info("Loading CRAP rules...");
         eventManager
+                .addListener(new MatchTime())
                 .addListener(new Blizzard())
                 .addListener(new PouringRain())
                 .addListener(new VerySunny())
@@ -180,9 +179,9 @@ public class Crap implements RuleSet {
         teamEntersArena(eventManager, coaches, 0);
         teamEntersArena(eventManager, coaches, 1);
 
-        NewTimeEvent newTimeEvent = new NewTimeEvent();
-        RollResult flip = Roll.roll(1, D2, newTimeEvent, "Flip Coin", "Match");
-        eventManager.forward(newTimeEvent);
+        NewHalfEvent newHalfEvent = new NewHalfEvent();
+        RollResult flip = Roll.roll(1, D2, newHalfEvent, "Flip Coin", "Match");
+        eventManager.forward(newHalfEvent);
 
         int choiceCoach = flip.getSum() - 1;
         Choice choice = coaches.get(choiceCoach).choice("Kick or Receive?", FlipRoll.values());
@@ -232,14 +231,21 @@ public class Crap implements RuleSet {
             choices.add(new EndTurn());
 
             Choice player;
+            Event lastEvent;
             do {
                 player = playingCoach.choice("Next player?", choices);
                 choices.remove(player);
 
                 if (player instanceof Player) {
                     playerTurn(player, eventManager, playingCoach);
+                    if (choices.size() == 0 || (choices.size() == 1 && choices.iterator().next() instanceof EndTurn)) {
+                        eventManager.forward(new EndTurnEvent());
+                    }
+                } else {
+                    eventManager.forward(new EndTurnEvent());
                 }
-            } while (choices.size() > 0 && player instanceof Player);
+                lastEvent = eventManager.getLastEvent();
+            } while (!(lastEvent instanceof EndTurnEvent));
         }
     }
 

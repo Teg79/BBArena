@@ -4,14 +4,14 @@ import net.sf.bbarena.model.Arena;
 import net.sf.bbarena.model.TurnMarker;
 import net.sf.bbarena.model.util.Concat;
 
-public class NewTimeEvent extends GameEvent {
+public class NewHalfEvent extends GameEvent {
 
 	private static final long serialVersionUID = -1919966604189789283L;
 
 	private TurnMarker _marker = null;
 
-	public NewTimeEvent() {
-		super();
+    public NewHalfEvent() {
+        super();
 	}
 
 	@Override

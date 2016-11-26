@@ -4,7 +4,6 @@ import net.sf.bbarena.model.RollResult;
 import net.sf.bbarena.model.Weather;
 import net.sf.bbarena.model.event.BaseEventFlowListener;
 import net.sf.bbarena.model.event.Event;
-import net.sf.bbarena.model.event.EventFlowListener;
 import net.sf.bbarena.model.event.game.PassBallEvent;
 
 import java.util.Optional;
@@ -17,7 +16,7 @@ public class VerySunny extends BaseEventFlowListener {
     @Override
     public void beforeDoEvent(Event e) {
         if (e instanceof PassBallEvent
-                && Weather.getWeather(Weather.WeatherType.VERY_SUNNY).equals(e.getArena().getWeather())) {
+                && Weather.getWeather(Weather.WeatherType.VERY_SUNNY).equals(getEventManager().getArena().getWeather())) {
 
             Optional<RollResult> passRoll = e.getDiceRolls().stream().filter(
                     rollResult -> PassBallEvent.PASS_ROLL.equals(rollResult.getWhy())
