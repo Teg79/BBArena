@@ -128,7 +128,7 @@ public class Arena implements Serializable {
         return _time;
     }
 
-    public void setTime(int time) {
+    public void setHalf(int time) {
         _time = time;
     }
 }
