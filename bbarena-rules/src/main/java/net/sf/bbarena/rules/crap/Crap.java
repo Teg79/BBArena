@@ -11,7 +11,10 @@ import net.sf.bbarena.model.event.game.*;
 import net.sf.bbarena.model.pitch.*;
 import net.sf.bbarena.model.team.Player;
 import net.sf.bbarena.model.team.Team;
-import net.sf.bbarena.rules.crap.listeners.*;
+import net.sf.bbarena.rules.crap.listeners.Blizzard;
+import net.sf.bbarena.rules.crap.listeners.PouringRain;
+import net.sf.bbarena.rules.crap.listeners.SwelteringHeat;
+import net.sf.bbarena.rules.crap.listeners.VerySunny;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +34,6 @@ public class Crap implements RuleSet {
     public void start(EventManager eventManager, List<Coach> coaches) {
         log.info("Loading CRAP rules...");
         eventManager
-                .addListener(new MatchTime())
                 .addListener(new Blizzard())
                 .addListener(new PouringRain())
                 .addListener(new VerySunny())
@@ -211,13 +213,14 @@ public class Crap implements RuleSet {
     }
 
     private void playTurn(EventManager eventManager, int playingCoachPos, int waitingCoachPos, List<Coach> coaches) {
+        moveTurnMarker(eventManager, playingCoachPos);
+
         Coach playingCoach = coaches.get(playingCoachPos);
         Choice startTurn = playingCoach.choice("Continue?", new Continue()/*, new Concede()*/);
 
         if (startTurn instanceof Concede) {
             // end match
         } else {
-            moveTurnMarker(eventManager, playingCoachPos);
 
             Set<Choice> choices = new LinkedHashSet<>();
             playingCoach.getTeam().getPlayers().stream().filter(player ->
@@ -229,6 +232,7 @@ public class Crap implements RuleSet {
 
             Choice player;
             Event lastEvent;
+            boolean endTurn = false;
             do {
                 player = playingCoach.choice("Next player?", choices);
                 choices.remove(player);
@@ -242,8 +246,30 @@ public class Crap implements RuleSet {
                     eventManager.forward(new EndTurnEvent());
                 }
                 lastEvent = eventManager.getLastEvent();
+
+                if (lastEvent instanceof EndTurnEvent) {
+                    int half = eventManager.getArena().getHalf();
+                    List<TurnMarker> turnMarkers = eventManager.getArena().getTurnMarkers();
+                    if (turnMarkers.get(0).getTurn() == 8 && turnMarkers.get(1).getTurn() == 8) {
+                        if (half == 2) {
+                            EndDriveEvent endDriveEvent = new EndDriveEvent();
+                            eventManager.forward(endDriveEvent);
+                            EndGameEvent endGameEvent = new EndGameEvent();
+                            eventManager.forward(endGameEvent);
+                        } else {
+                            EndDriveEvent endDriveEvent = new EndDriveEvent();
+                            eventManager.forward(endDriveEvent);
+                            NewHalfEvent newHalfEvent = new NewHalfEvent();
+                            eventManager.forward(newHalfEvent);
+                        }
+                    }
+                    endTurn = true;
+                } else if (lastEvent instanceof TurnoverEvent) {
+                    eventManager.forward(new EndTurnEvent());
+                    endTurn = true;
+                }
             }
-            while (!(lastEvent instanceof EndTurnEvent || lastEvent instanceof EndGameEvent || lastEvent instanceof EndDriveEvent || lastEvent instanceof NewHalfEvent));
+            while (!endTurn);
         }
     }
 
