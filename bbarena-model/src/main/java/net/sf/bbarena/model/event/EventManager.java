@@ -117,11 +117,10 @@ public class EventManager implements Serializable {
 
 			e.doEvent(_arena);
 			e.setExecuted(true);
+            log.info(e.toString());
+            res = _current;
 
             listenersAfterDoEvent(e);
-
-			res = _current;
-			log.info(e.toString());
 		}
 		return res;
 	}

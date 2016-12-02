@@ -90,13 +90,10 @@ public class Crap implements RuleSet {
      */
     private void postMatchSequence(EventManager eventManager,
                                    List<Coach> coaches) {
-        MatchStatusChangeEvent matchStatusChangeEvent = new MatchStatusChangeEvent(ENDING);
-        eventManager.forward(matchStatusChangeEvent);
-
         improvementRolls(eventManager, coaches);
         updateTeamRoster(eventManager, coaches);
 
-        matchStatusChangeEvent = new MatchStatusChangeEvent(FINISHED);
+        MatchStatusChangeEvent matchStatusChangeEvent = new MatchStatusChangeEvent(FINISHED);
         eventManager.forward(matchStatusChangeEvent);
     }
 
@@ -215,7 +212,7 @@ public class Crap implements RuleSet {
 
     private void playTurn(EventManager eventManager, int playingCoachPos, int waitingCoachPos, List<Coach> coaches) {
         Coach playingCoach = coaches.get(playingCoachPos);
-        Choice startTurn = playingCoach.choice("Continue?", new Continue(), new Concede());
+        Choice startTurn = playingCoach.choice("Continue?", new Continue()/*, new Concede()*/);
 
         if (startTurn instanceof Concede) {
             // end match
@@ -245,7 +242,8 @@ public class Crap implements RuleSet {
                     eventManager.forward(new EndTurnEvent());
                 }
                 lastEvent = eventManager.getLastEvent();
-            } while (!(lastEvent instanceof EndTurnEvent));
+            }
+            while (!(lastEvent instanceof EndTurnEvent || lastEvent instanceof EndGameEvent || lastEvent instanceof EndDriveEvent || lastEvent instanceof NewHalfEvent));
         }
     }
 
@@ -346,7 +344,7 @@ public class Crap implements RuleSet {
     private void teamEntersArena(EventManager eventManager, List<Coach> coaches, int team) {
         Team fullTeam = coaches.get(team).getTeam();
 
-        refillRerolls(eventManager, team, fullTeam);
+//        refillRerolls(eventManager, team, fullTeam);
 
         fullTeam.getPlayers().stream().filter(player -> !player.isMng()).forEach(player -> {
             PutPlayerInDugoutEvent putPlayer = new PutPlayerInDugoutEvent(player.getId(), DefaultDogout.BloodBowlDugoutRoom.RESERVES.toString());
@@ -354,10 +352,10 @@ public class Crap implements RuleSet {
         });
     }
 
-    private void refillRerolls(EventManager eventManager, int team, Team fullTeam) {
-        ChangeRerollEvent rerollEvent = new ChangeRerollEvent(team, fullTeam.getReRolls());
-        eventManager.forward(rerollEvent);
-    }
+//    private void refillRerolls(EventManager eventManager, int team, Team fullTeam) {
+//        ChangeRerollEvent rerollEvent = new ChangeRerollEvent(team, fullTeam.getReRolls());
+//        eventManager.forward(rerollEvent);
+//    }
 
     private void fame(EventManager eventManager, List<Coach> coaches) {
 

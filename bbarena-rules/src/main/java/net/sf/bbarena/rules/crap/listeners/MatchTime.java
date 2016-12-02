@@ -3,10 +3,7 @@ package net.sf.bbarena.rules.crap.listeners;
 import net.sf.bbarena.model.TurnMarker;
 import net.sf.bbarena.model.event.BaseEventFlowListener;
 import net.sf.bbarena.model.event.Event;
-import net.sf.bbarena.model.event.game.EndGameEvent;
-import net.sf.bbarena.model.event.game.EndTurnEvent;
-import net.sf.bbarena.model.event.game.NewHalfEvent;
-import net.sf.bbarena.model.event.game.TurnoverEvent;
+import net.sf.bbarena.model.event.game.*;
 
 import java.util.List;
 
@@ -27,9 +24,13 @@ public class MatchTime extends BaseEventFlowListener {
             List<TurnMarker> turnMarkers = getEventManager().getArena().getTurnMarkers();
             if (turnMarkers.get(0).getTurn() == 8 && turnMarkers.get(1).getTurn() == 8) {
                 if (half == 2) {
+                    EndDriveEvent endDriveEvent = new EndDriveEvent();
+                    getEventManager().forward(endDriveEvent);
                     EndGameEvent endGameEvent = new EndGameEvent();
                     getEventManager().forward(endGameEvent);
                 } else {
+                    EndDriveEvent endDriveEvent = new EndDriveEvent();
+                    getEventManager().forward(endDriveEvent);
                     NewHalfEvent newHalfEvent = new NewHalfEvent();
                     getEventManager().forward(newHalfEvent);
                 }

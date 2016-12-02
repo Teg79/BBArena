@@ -241,7 +241,12 @@ public class TurnMarker extends Observable implements Serializable {
 	public void setStatus(TurnStatus status) {
 		_status = status;
 	}
-/**
+
+	public Team getTeam() {
+		return _team;
+	}
+
+	/**
 	 * Sets all the Team markers for a new game time.
 	 *
 	 */
