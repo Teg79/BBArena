@@ -351,10 +351,10 @@ public class Crap implements RuleSet {
 
         if (ma > 0) {
             for (int i = 0; i < ma; i++) {
-                Set<Direction> destinations = eventManager.getArena().getPitch().getAvailableDirections(player.getSquare().getCoords());
+                Pitch pitch = eventManager.getArena().getPitch();
+                Coordinate from = player.getSquare().getCoords();
+                Set<Direction> destinations = pitch.getAvailableDirections(from);
                 Direction choice = playingCoach.pick("Direction?", destinations);
-                MovePlayerEvent movePlayerEvent = new MovePlayerEvent(player.getId(), choice);
-                // roll
             }
         }
     }
