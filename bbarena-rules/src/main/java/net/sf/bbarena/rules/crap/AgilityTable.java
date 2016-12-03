@@ -26,6 +26,7 @@ public class AgilityTable {
 
     public static boolean dodgeRoll(EventManager eventManager, Coach coach, Player player, Direction direction) {
         boolean dodged = true;
+        // TODO: Shadowing, Tentacles, Dodge, Tackle...
 
         Pitch pitch = eventManager.getArena().getPitch();
         Coordinate from = player.getSquare().getCoords();
@@ -48,6 +49,10 @@ public class AgilityTable {
             } else {
                 dodged = dodge.getSum() >= 0;
             }
+        }
+        eventManager.forward(movePlayerEvent);
+        if (!dodged) {
+            ArmorTable.armorRoll(eventManager, coach, player);
         }
         return dodged;
     }

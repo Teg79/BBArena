@@ -14,8 +14,20 @@ public class PlayerPitchStatusEvent extends PlayerEvent {
 	private PlayerPitchStatus _pitchStatus = null;
 	private PlayerPitchStatus _oldPitchStatus = null;
 
+    public PlayerPitchStatusEvent(long playerId) {
+        super(playerId);
+    }
+
     public PlayerPitchStatusEvent(long playerId, PlayerPitchStatus pitchStatus) {
         super(playerId);
+        _pitchStatus = pitchStatus;
+    }
+
+    public PlayerPitchStatus getPitchStatus() {
+        return _pitchStatus;
+    }
+
+    public void setPitchStatus(PlayerPitchStatus pitchStatus) {
         _pitchStatus = pitchStatus;
     }
 
@@ -37,10 +49,6 @@ public class PlayerPitchStatusEvent extends PlayerEvent {
 		return Concat.buildLog(getClass(),
 				new Pair("playerId", getPlayerId()),
 				new Pair("pitchStatus", _pitchStatus));
-	}
-
-	public PlayerPitchStatus getPitchStatus() {
-		return _pitchStatus;
 	}
 
 }

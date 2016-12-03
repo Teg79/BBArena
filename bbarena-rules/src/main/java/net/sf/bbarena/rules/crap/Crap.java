@@ -350,11 +350,19 @@ public class Crap implements RuleSet {
         }
 
         if (ma > 0) {
+            boolean dodged = true;
             for (int i = 0; i < ma; i++) {
                 Pitch pitch = eventManager.getArena().getPitch();
                 Coordinate from = player.getSquare().getCoords();
                 Set<Direction> destinations = pitch.getAvailableDirections(from);
                 Direction choice = playingCoach.pick("Direction?", destinations);
+                dodged = AgilityTable.dodgeRoll(eventManager, playingCoach, player, choice);
+                if (!dodged) {
+                    break;
+                }
+            }
+            if (dodged) {
+                // TODO: GFI
             }
         }
     }
