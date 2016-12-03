@@ -1,16 +1,14 @@
 package net.sf.bbarena.model;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import net.sf.bbarena.model.team.Team;
-
 import net.sf.bbarena.model.util.Concat;
 import net.sf.bbarena.model.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public abstract class Coach {
 
@@ -51,7 +49,11 @@ public abstract class Coach {
 	public Choice choice(String question, Choice... choices) {
 		return choice(question, new LinkedHashSet<>(Arrays.asList(choices)));
 	}
-	
+
+	public <C extends Choice> C pick(String question, Set<C> choices) {
+		return (C) choice(question, new LinkedHashSet<>(choices));
+	}
+
 	public Choice choice(String question, Set<Choice> choices) {
 
         choices = _filter.filter(choices);

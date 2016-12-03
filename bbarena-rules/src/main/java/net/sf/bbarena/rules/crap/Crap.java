@@ -1,10 +1,7 @@
 package net.sf.bbarena.rules.crap;
 
 import net.sf.bbarena.model.*;
-import net.sf.bbarena.model.choice.Concede;
-import net.sf.bbarena.model.choice.Continue;
-import net.sf.bbarena.model.choice.EndTurn;
-import net.sf.bbarena.model.choice.FlipRoll;
+import net.sf.bbarena.model.choice.*;
 import net.sf.bbarena.model.event.Event;
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.event.game.*;
@@ -18,6 +15,7 @@ import net.sf.bbarena.rules.crap.listeners.VerySunny;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -221,13 +219,21 @@ public class Crap implements RuleSet {
         if (startTurn instanceof Concede) {
             // end match
         } else {
+            Set<Choice> actions = new LinkedHashSet<>(Arrays.asList(Action.values()));
 
+            Set<Player> stunnedPlayers = new LinkedHashSet<>();
             Set<Choice> choices = new LinkedHashSet<>();
-            playingCoach.getTeam().getPlayers().stream().filter(player ->
-                    player.getTeam().equals(playingCoach.getTeam())
-                            && player.isOnThePitch()
-                            && player.getPitchStatus() != Player.PlayerPitchStatus.PRONE
-            ).forEach(player -> choices.add(player));
+            playingCoach.getTeam().getPlayers().stream().forEach(player -> {
+                if (player.getTeam().equals(playingCoach.getTeam())
+                        && player.isOnThePitch()) {
+                    if (player.getPitchStatus() == Player.PlayerPitchStatus.PRONE) {
+                        stunnedPlayers.add(player);
+                    } else {
+                        choices.add(player);
+                    }
+                }
+            });
+
             choices.add(new EndTurn());
 
             Choice player;
@@ -238,7 +244,7 @@ public class Crap implements RuleSet {
                 choices.remove(player);
 
                 if (player instanceof Player) {
-                    playerTurn(player, eventManager, playingCoach);
+                    playerTurn((Player) player, eventManager, playingCoach, actions);
                     if (choices.size() == 0 || (choices.size() == 1 && choices.iterator().next() instanceof EndTurn)) {
                         eventManager.forward(new EndTurnEvent());
                     }
@@ -270,11 +276,87 @@ public class Crap implements RuleSet {
                 }
             }
             while (!endTurn);
+
+            // Stunned players become proned at the end of the turn
+            for (Player stunned : stunnedPlayers) {
+                new PlayerPitchStatusEvent(stunned.getId(), Player.PlayerPitchStatus.PRONE);
+            }
         }
     }
 
-    private void playerTurn(Choice player, EventManager eventManager, Coach playingCoach) {
+    private void playerTurn(Player player, EventManager eventManager, Coach playingCoach, Set<Choice> actions) {
+        Action action = (Action) playingCoach.choice("Action?", actions);
         // TODO: player action
+
+        switch (action) {
+            case MOVE:
+                actionMove(player, eventManager, playingCoach);
+                break;
+            case BLOCK:
+                actionBlock(player, eventManager, playingCoach);
+                break;
+            case BLITZ:
+                actionBlitz(player, eventManager, playingCoach);
+                break;
+            case FOUL:
+                actionFoul(player, eventManager, playingCoach);
+                break;
+            case HANDOFF:
+                actionHandOff(player, eventManager, playingCoach);
+                break;
+            case PASS:
+                actionPass(player, eventManager, playingCoach);
+                break;
+        }
+        if (action.isSingleUse()) {
+            actions.remove(action);
+        }
+    }
+
+    private void actionPass(Player player, EventManager eventManager, Coach playingCoach) {
+
+    }
+
+    private void actionHandOff(Player player, EventManager eventManager, Coach playingCoach) {
+
+    }
+
+    private void actionFoul(Player player, EventManager eventManager, Coach playingCoach) {
+
+    }
+
+    private void actionBlitz(Player player, EventManager eventManager, Coach playingCoach) {
+
+    }
+
+    private void actionBlock(Player player, EventManager eventManager, Coach playingCoach) {
+
+    }
+
+    private void actionMove(Player player, EventManager eventManager, Coach playingCoach) {
+        int ma = player.getMa();
+
+        if (player.getPitchStatus() == Player.PlayerPitchStatus.PRONE) {
+            PlayerPitchStatusEvent statusEvent = new PlayerPitchStatusEvent(player.getId(), Player.PlayerPitchStatus.STANDING);
+            if (ma < 3) {
+                RollResult roll = Roll.roll(1, D6, statusEvent, "Stand Up", player.toString());
+                if (roll.getSum() >= 4) {
+                    eventManager.forward(statusEvent);
+                }
+            } else {
+                eventManager.forward(statusEvent);
+            }
+            ma -= 3;
+        }
+
+        if (ma > 0) {
+            for (int i = 0; i < ma; i++) {
+                Set<Direction> destinations = eventManager.getArena().getPitch().getAvailableDirections(player.getSquare().getCoords());
+                Direction choice = playingCoach.pick("Direction?", destinations);
+                MovePlayerEvent movePlayerEvent = new MovePlayerEvent(player.getId(), choice);
+                // roll
+            }
+        }
     }
 
     private void moveTurnMarker(EventManager eventManager, int playingCoachPos) {

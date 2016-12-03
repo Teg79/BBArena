@@ -15,13 +15,13 @@ public class MovePlayerEvent extends PlayerEvent {
 	private Direction _direction = null;
 	private int _range = 1;
 
-	public MovePlayerEvent(long playerId, int direction) {
+	public MovePlayerEvent(long playerId, Direction direction) {
 		this(playerId, direction, 1);
 	}
 
-	public MovePlayerEvent(long playerId, int direction, int range) {
+	public MovePlayerEvent(long playerId, Direction direction, int range) {
 		super(playerId);
-		_direction = Direction.getDirection(direction);
+		_direction = direction;
 		_range = range;
 	}
 

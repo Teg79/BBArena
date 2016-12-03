@@ -14,10 +14,10 @@ public class PlayerPitchStatusEvent extends PlayerEvent {
 	private PlayerPitchStatus _pitchStatus = null;
 	private PlayerPitchStatus _oldPitchStatus = null;
 
-	public PlayerPitchStatusEvent(long playerId, int pitchStatus) {
-		super(playerId);
-		_pitchStatus = PlayerPitchStatus.getPitchStatus(pitchStatus);
-	}
+    public PlayerPitchStatusEvent(long playerId, PlayerPitchStatus pitchStatus) {
+        super(playerId);
+        _pitchStatus = pitchStatus;
+    }
 
 	@Override
 	public void doEvent(Arena arena) {

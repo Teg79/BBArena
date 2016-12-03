@@ -171,6 +171,19 @@ public class Pitch {
         return getSquare(xy.getNext(direction));
     }
 
+    public Set<Direction> getAvailableDirections(Coordinate xy) {
+        Set<Direction> res = new LinkedHashSet<>();
+
+        for (Direction direction : Direction.values()) {
+            Square nextSquare = getNextSquare(xy, direction);
+            if (nextSquare != null && !nextSquare.hasPlayer() && nextSquare.getType() != SquareType.OUT) {
+                res.add(direction);
+            }
+        }
+
+        return res;
+    }
+
     /**
      * Move a player to a Direction. If the Player will move out of the pitch a
      * PitchException will be thrown (this doesn't apply for SquareType.OUT)
