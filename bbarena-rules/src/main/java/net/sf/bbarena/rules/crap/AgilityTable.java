@@ -25,6 +25,10 @@ public class AgilityTable {
     public static final Integer TARGET = 7;
 
     public static boolean dodgeRoll(EventManager eventManager, Coach coach, Player player, Direction direction) {
+        return dodgeRoll(eventManager, coach, player, direction, false);
+    }
+
+    public static boolean dodgeRoll(EventManager eventManager, Coach coach, Player player, Direction direction, boolean gfi) {
         boolean dodged = true;
         // TODO: Shadowing, Tentacles, Dodge, Tackle...
 
@@ -32,22 +36,30 @@ public class AgilityTable {
         Coordinate from = player.getSquare().getCoords();
 
         MovePlayerEvent movePlayerEvent = new MovePlayerEvent(player.getId(), direction);
-
-        int opponentTZCount = pitch.getOpponentTZCount(from, player.getTeam());
-        if (opponentTZCount > 0) {
-            RollResult dodge = Roll.roll(1, D6, movePlayerEvent, "Dodge", player.toString());
-            dodge.addModifier(1, "Dodge Roll");
-            dodge.addModifier(-pitch.getOpponentTZCount(from.getNext(direction), player.getTeam()), "Tackle Zone");
-            dodge.setAttribute(new AttributeModifier(Attributes.Attribute.AG, player.getAg()));
-            dodge.setTarget(TARGET);
-
-            int result = dodge.getResults()[0];
-            if (result == 6) {
-                dodged = true;
-            } else if (result == 1) {
+        if (gfi) {
+            int gfiRoll = Roll.roll(1, D6, movePlayerEvent, "GFI", player.toString()).setTarget(2).getSum();
+            if (gfiRoll < 0) {
                 dodged = false;
-            } else {
-                dodged = dodge.getSum() >= 0;
+            }
+        }
+
+        if (dodged) {
+            int opponentTZCount = pitch.getOpponentTZCount(from, player.getTeam());
+            if (opponentTZCount > 0) {
+                RollResult dodge = Roll.roll(1, D6, movePlayerEvent, "Dodge", player.toString());
+                dodge.addModifier(1, "Dodge Roll");
+                dodge.addModifier(-pitch.getOpponentTZCount(from.getNext(direction), player.getTeam()), "Tackle Zone");
+                dodge.setAttribute(new AttributeModifier(Attributes.Attribute.AG, player.getAg()));
+                dodge.setTarget(TARGET);
+
+                int result = dodge.getResults()[0];
+                if (result == 6) {
+                    dodged = true;
+                } else if (result == 1) {
+                    dodged = false;
+                } else {
+                    dodged = dodge.getSum() >= 0;
+                }
             }
         }
         eventManager.forward(movePlayerEvent);

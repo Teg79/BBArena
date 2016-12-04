@@ -29,20 +29,24 @@ public class RollResult {
         return _modifiers;
     }
 
-    public void addModifier(int modifier, String description) {
+    public RollResult addModifier(int modifier, String description) {
         addModifier(new RollModifier(modifier, description));
+        return this;
     }
 
-    public void addModifier(RollModifier modifier) {
+    public RollResult addModifier(RollModifier modifier) {
         _modifiers.add(modifier);
+        return this;
     }
 
-    public void setAttribute(AttributeModifier attribute) {
+    public RollResult setAttribute(AttributeModifier attribute) {
         _attribute = attribute;
+        return this;
     }
 
-    public void setTarget(Integer target) {
+    public RollResult setTarget(Integer target) {
         _target = target;
+        return this;
     }
 
     public Roll getRoll() {
