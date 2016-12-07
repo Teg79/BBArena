@@ -391,7 +391,22 @@ public class Crap implements RuleSet {
     private void setUpTeam(EventManager eventManager, List<Coach> coaches, int team) {
 
         Pitch pitch = eventManager.getArena().getPitch();
-        long playablePlayers = pitch.getDugouts().get(team).getPlayers(DefaultDogout.BloodBowlDugoutRoom.RESERVES).stream().filter(player -> player.isPlayable()).count();
+        Set<Choice> playerStream = pitch.getDugouts().get(team).getPlayers(DefaultDogout.BloodBowlDugoutRoom.RESERVES).stream().filter(player -> player.isPlayable()).collect(Collectors.toSet());
+        long playablePlayers = playerStream.size();
+
+        if (playablePlayers < 3) {
+            // TODO: ask concede
+        }
+//
+//        boolean done = false;
+//        boolean valid = false;
+//        do {
+//            if (valid) {
+//
+//            }
+//            coaches.get(team).choice("Pick a player", playerStream);
+//
+//        } while (done);
 
         TeamSetUp setUpChoice = null;
         boolean valid;
