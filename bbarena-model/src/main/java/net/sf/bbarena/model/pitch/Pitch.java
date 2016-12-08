@@ -107,6 +107,12 @@ public class Pitch {
         return res;
     }
 
+    public Set<Square> getEmptyTeamSquares(Team team) {
+        Set<Square> res = new LinkedHashSet<>();
+        _squareSet.stream().filter(square -> square.getTeamOwner() != null ? square.getTeamOwner().equals(team) && !square.hasPlayer() : false).forEach(square -> res.add(square));
+        return res;
+    }
+
     public List<Ball> getBalls() {
         return _balls;
     }

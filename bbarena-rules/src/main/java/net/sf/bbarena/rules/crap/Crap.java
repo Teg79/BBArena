@@ -397,39 +397,53 @@ public class Crap implements RuleSet {
         if (playablePlayers < 3) {
             // TODO: ask concede
         }
-//
-//        boolean done = false;
-//        boolean valid = false;
-//        do {
-//            if (valid) {
-//
-//            }
-//            coaches.get(team).choice("Pick a player", playerStream);
-//
-//        } while (done);
 
-        TeamSetUp setUpChoice = null;
-        boolean valid;
+        boolean done = false;
+        TeamSetUp setUp = new TeamSetUp();
+        Continue continueChoice = new Continue();
         do {
-            Choice choice = coaches.get(team).choice("Set Up Players", new TeamSetUp());
+            Choice choice = coaches.get(team).choice("Pick a player", playerStream);
+            if (choice instanceof Player) {
+                Player player = (Player) choice;
+                Set<Square> teamSquares = pitch.getEmptyTeamSquares(coaches.get(team).getTeam());
+                Square square = coaches.get(team).pick("Put player in", teamSquares);
 
-            if (choice != null) {
-                setUpChoice = (TeamSetUp) choice;
-                valid = validateSetUp(setUpChoice, playablePlayers, pitch);
-                if (!valid) {
-                    log.warn("Invalid Set Up");
+                PutPlayerInPitchEvent putPlayerInPitchEvent = new PutPlayerInPitchEvent(player.getId(), square.getCoords().getX(), square.getCoords().getY());
+                eventManager.forward(putPlayerInPitchEvent);
+
+                setUp.placePlayer(player.getId(), square.getCoords().getX(), square.getCoords().getY());
+                if (validateSetUp(setUp, playablePlayers, pitch)) {
+                    playerStream.add(continueChoice);
+                } else {
+                    playerStream.remove(continueChoice);
                 }
             } else {
-                valid = true;
+                done = true;
             }
-        } while (!valid);
+        } while (!done);
 
-        final TeamSetUp setUp = setUpChoice;
-        setUpChoice.getSetUp().keySet().stream().forEach(key -> {
-            Coordinate coordinate = setUp.getSetUp().get(key);
-            PutPlayerInPitchEvent putPlayerInPitchEvent = new PutPlayerInPitchEvent(key, coordinate.getX(), coordinate.getY());
-            eventManager.forward(putPlayerInPitchEvent);
-        });
+//        TeamSetUp setUpChoice = null;
+//        boolean valid;
+//        do {
+//            Choice choice = coaches.get(team).choice("Set Up Players", new TeamSetUp());
+//
+//            if (choice != null) {
+//                setUpChoice = (TeamSetUp) choice;
+//                valid = validateSetUp(setUpChoice, playablePlayers, pitch);
+//                if (!valid) {
+//                    log.warn("Invalid Set Up");
+//                }
+//            } else {
+//                valid = true;
+//            }
+//        } while (!valid);
+//
+//        final TeamSetUp setUp = setUpChoice;
+//        setUpChoice.getSetUp().keySet().stream().forEach(key -> {
+//            Coordinate coordinate = setUp.getSetUp().get(key);
+//            PutPlayerInPitchEvent putPlayerInPitchEvent = new PutPlayerInPitchEvent(key, coordinate.getX(), coordinate.getY());
+//            eventManager.forward(putPlayerInPitchEvent);
+//        });
     }
 
     private boolean validateSetUp(TeamSetUp teamSetUp, long playablePlayers, Pitch pitch) {

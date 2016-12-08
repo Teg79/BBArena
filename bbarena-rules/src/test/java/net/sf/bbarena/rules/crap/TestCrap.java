@@ -30,11 +30,55 @@ public class TestCrap {
         Team t1 = Factory.buildTeam();
         Team t2 = Factory.buildTeam();
 
+        Iterator<Player> p1Iterator = t1.getPlayers().iterator();
         SimCoach c1 = new SimCoach("C1", t1,
                 FlipRoll.KICK,
-                prepareSetUpHome(t1));
+                p1Iterator.next(),
+                new Square(new Coordinate(12, 6)),
+                p1Iterator.next(),
+                new Square(new Coordinate(12, 7)),
+                p1Iterator.next(),
+                new Square(new Coordinate(12, 8)),
+                p1Iterator.next(),
+                new Square(new Coordinate(10, 2)),
+                p1Iterator.next(),
+                new Square(new Coordinate(10, 5)),
+                p1Iterator.next(),
+                new Square(new Coordinate(10, 9)),
+                p1Iterator.next(),
+                new Square(new Coordinate(10, 12)),
+                p1Iterator.next(),
+                new Square(new Coordinate(9, 1)),
+                p1Iterator.next(),
+                new Square(new Coordinate(9, 4)),
+                p1Iterator.next(),
+                new Square(new Coordinate(9, 10)),
+                p1Iterator.next(),
+                new Square(new Coordinate(9, 13)));
+        Iterator<Player> p2Iterator = t2.getPlayers().iterator();
         SimCoach c2 = new SimCoach("C2", t2,
-                prepareSetUpAway(t2));
+                p2Iterator.next(),
+                new Square(new Coordinate(13, 6)),
+                p2Iterator.next(),
+                new Square(new Coordinate(13, 7)),
+                p2Iterator.next(),
+                new Square(new Coordinate(13, 8)),
+                p2Iterator.next(),
+                new Square(new Coordinate(15, 2)),
+                p2Iterator.next(),
+                new Square(new Coordinate(15, 5)),
+                p2Iterator.next(),
+                new Square(new Coordinate(15, 9)),
+                p2Iterator.next(),
+                new Square(new Coordinate(15, 12)),
+                p2Iterator.next(),
+                new Square(new Coordinate(16, 1)),
+                p2Iterator.next(),
+                new Square(new Coordinate(16, 4)),
+                p2Iterator.next(),
+                new Square(new Coordinate(16, 10)),
+                p2Iterator.next(),
+                new Square(new Coordinate(16, 13)));
 
         Match<Crap> match = new Match<>(c1, c2);
         Pitch pitch = match.getArena().getPitch();

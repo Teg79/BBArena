@@ -61,6 +61,10 @@ public class Square implements Choice {
 
     private String special = null;
 
+    public Square(Coordinate xy) {
+        this(null, xy);
+    }
+
     public Square(Pitch pitch, Coordinate xy) {
         this(pitch, xy, SquareType.NORMAL, null);
     }
@@ -188,19 +192,15 @@ public class Square implements Choice {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Square)) return false;
 
         Square square = (Square) o;
 
-        if (coords != null ? !coords.equals(square.coords) : square.coords != null) return false;
-        return pitch != null ? pitch.equals(square.pitch) : square.pitch == null;
-
+        return coords != null ? coords.equals(square.coords) : square.coords == null;
     }
 
     @Override
     public int hashCode() {
-        int result = coords != null ? coords.hashCode() : 0;
-        result = 31 * result + (pitch != null ? pitch.hashCode() : 0);
-        return result;
+        return coords != null ? coords.hashCode() : 0;
     }
 }
