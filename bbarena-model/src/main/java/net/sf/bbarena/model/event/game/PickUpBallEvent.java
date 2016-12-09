@@ -16,6 +16,7 @@ public class PickUpBallEvent extends BallEvent {
     private long _playerId = 0;
 	private Ball _ball = null;
 	private Player _player = null;
+	private boolean _failed = false;
 
 	public PickUpBallEvent(int ballId, long playerId) {
 		super(ballId);
@@ -28,24 +29,32 @@ public class PickUpBallEvent extends BallEvent {
 		_player = arena.getPlayerManager().getPlayer(_playerId);
 		_ball = getBall(arena);
 
-		arena.getPitch().ballPickUp(_ball, _player);
+		if (!_failed) {
+			arena.getPitch().ballPickUp(_ball, _player);
+		}
 	}
 
 	@Override
 	public void undoEvent() {
-		Pitch pitch = _arena.getPitch();
-		pitch.ballLose(_ball, _player);
+		if (!_failed) {
+			Pitch pitch = _arena.getPitch();
+			pitch.ballLose(_ball, _player);
+		}
 	}
 
 	@Override
 	public String getString() {
 		return Concat.buildLog(getClass(),
 				new Pair("ballId", getBallId()),
-				new Pair("playerId", _playerId));
+				new Pair("playerId", _playerId),
+				new Pair("catched", !_failed));
 	}
 
 	public long getPlayerId() {
 		return _playerId;
 	}
 
+	public void setFailed(boolean failed) {
+		_failed = failed;
+	}
 }

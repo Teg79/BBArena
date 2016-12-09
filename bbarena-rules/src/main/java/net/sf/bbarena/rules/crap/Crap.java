@@ -370,6 +370,13 @@ public class Crap implements RuleSet {
                         gfi = true;
                     }
                 }
+                Coordinate to = from.getNext(choice);
+                if (pitch.getSquare(to).hasBall()) {
+                    boolean pickupRoll = AgilityTable.pickupRoll(eventManager, playingCoach);
+                    if (!pickupRoll) {
+                        break;
+                    }
+                }
             }
         }
     }
@@ -421,29 +428,6 @@ public class Crap implements RuleSet {
                 done = true;
             }
         } while (!done);
-
-//        TeamSetUp setUpChoice = null;
-//        boolean valid;
-//        do {
-//            Choice choice = coaches.get(team).choice("Set Up Players", new TeamSetUp());
-//
-//            if (choice != null) {
-//                setUpChoice = (TeamSetUp) choice;
-//                valid = validateSetUp(setUpChoice, playablePlayers, pitch);
-//                if (!valid) {
-//                    log.warn("Invalid Set Up");
-//                }
-//            } else {
-//                valid = true;
-//            }
-//        } while (!valid);
-//
-//        final TeamSetUp setUp = setUpChoice;
-//        setUpChoice.getSetUp().keySet().stream().forEach(key -> {
-//            Coordinate coordinate = setUp.getSetUp().get(key);
-//            PutPlayerInPitchEvent putPlayerInPitchEvent = new PutPlayerInPitchEvent(key, coordinate.getX(), coordinate.getY());
-//            eventManager.forward(putPlayerInPitchEvent);
-//        });
     }
 
     private boolean validateSetUp(TeamSetUp teamSetUp, long playablePlayers, Pitch pitch) {
@@ -503,11 +487,6 @@ public class Crap implements RuleSet {
             eventManager.forward(putPlayer);
         });
     }
-
-//    private void refillRerolls(EventManager eventManager, int team, Team fullTeam) {
-//        ChangeRerollEvent rerollEvent = new ChangeRerollEvent(team, fullTeam.getReRolls());
-//        eventManager.forward(rerollEvent);
-//    }
 
     private void fame(EventManager eventManager, List<Coach> coaches) {
 

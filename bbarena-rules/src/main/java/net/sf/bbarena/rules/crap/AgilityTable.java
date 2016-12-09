@@ -4,6 +4,7 @@ import net.sf.bbarena.model.*;
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.event.game.CatchBallEvent;
 import net.sf.bbarena.model.event.game.MovePlayerEvent;
+import net.sf.bbarena.model.event.game.PickUpBallEvent;
 import net.sf.bbarena.model.pitch.Ball;
 import net.sf.bbarena.model.pitch.Pitch;
 import net.sf.bbarena.model.pitch.Square;
@@ -55,11 +56,8 @@ public class AgilityTable {
                 int result = dodge.getResults()[0];
                 if (result == 6) {
                     dodged = true;
-                } else if (result == 1) {
-                    dodged = false;
-                } else {
-                    dodged = dodge.getSum() >= 0;
-                }
+                } else
+                    dodged = result != 1 && dodge.getSum() >= 0;
             }
         }
         eventManager.forward(movePlayerEvent);
@@ -105,15 +103,46 @@ public class AgilityTable {
         boolean catched;
         if (result == 6) {
             catched = true;
-        } else if (result == 1) {
-            catched = false;
-        } else {
-            catched = roll.getSum() >= 0;
-        }
+        } else
+            catched = result != 1 && roll.getSum() >= 0;
         catchBallEvent.setFailed(!catched);
         eventManager.forward(catchBallEvent);
 
         return catched;
+    }
+
+    public static boolean pickupRoll(EventManager eventManager, Coach coach) {
+        Pitch pitch = eventManager.getArena().getPitch();
+        Ball ball = pitch.getBall();
+        Square square = ball.getSquare();
+        Player player = square.getPlayer();
+        if (player == null) {
+            String msg = "No player on the ball square!";
+            _log.error(msg);
+            throw new IllegalArgumentException(msg);
+        }
+
+        PickUpBallEvent pickUpBallEvent = new PickUpBallEvent(ball.getId(), player.getId());
+
+        int tzCount = pitch.getOpponentTZCount(square.getCoords(), player.getTeam());
+        // TODO Add Sure Hands Skill
+
+        RollResult roll = Roll.roll(1, D6, pickUpBallEvent, "PickUp", player.toString());
+        roll.addModifier(1, "PickUp Roll");
+        roll.addModifier(-tzCount, "Takle Zone");
+        roll.setAttribute(new AttributeModifier(Attributes.Attribute.AG, player.getAg()));
+        roll.setTarget(TARGET);
+
+        int result = roll.getResults()[0];
+        boolean pickedUp;
+        if (result == 6) {
+            pickedUp = true;
+        } else
+            pickedUp = result != 1 && roll.getSum() >= 0;
+        pickUpBallEvent.setFailed(!pickedUp);
+        eventManager.forward(pickUpBallEvent);
+
+        return pickedUp;
     }
 
 }
