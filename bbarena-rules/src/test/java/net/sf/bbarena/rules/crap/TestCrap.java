@@ -8,6 +8,8 @@ import de.vandermeer.asciitable.v2.themes.V2_E_TableThemes;
 import net.sf.bbarena.model.Coordinate;
 import net.sf.bbarena.model.Match;
 import net.sf.bbarena.model.Roll;
+import net.sf.bbarena.model.choice.Concede;
+import net.sf.bbarena.model.choice.Continue;
 import net.sf.bbarena.model.choice.FlipRoll;
 import net.sf.bbarena.model.dice.DieRandomizer;
 import net.sf.bbarena.model.pitch.Pitch;
@@ -54,7 +56,8 @@ public class TestCrap {
                 p1Iterator.next(),
                 new Square(new Coordinate(9, 10)),
                 p1Iterator.next(),
-                new Square(new Coordinate(9, 13)));
+                new Square(new Coordinate(9, 13)),
+                new Continue());
         Iterator<Player> p2Iterator = t2.getPlayers().iterator();
         SimCoach c2 = new SimCoach("C2", t2,
                 p2Iterator.next(),
@@ -78,7 +81,8 @@ public class TestCrap {
                 p2Iterator.next(),
                 new Square(new Coordinate(16, 10)),
                 p2Iterator.next(),
-                new Square(new Coordinate(16, 13)));
+                new Square(new Coordinate(16, 13)),
+                new Continue());
 
         Match<Crap> match = new Match<>(c1, c2);
         Pitch pitch = match.getArena().getPitch();
