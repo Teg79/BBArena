@@ -8,7 +8,6 @@ import de.vandermeer.asciitable.v2.themes.V2_E_TableThemes;
 import net.sf.bbarena.model.Coordinate;
 import net.sf.bbarena.model.Match;
 import net.sf.bbarena.model.Roll;
-import net.sf.bbarena.model.choice.Concede;
 import net.sf.bbarena.model.choice.Continue;
 import net.sf.bbarena.model.choice.FlipRoll;
 import net.sf.bbarena.model.dice.DieRandomizer;

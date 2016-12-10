@@ -8,8 +8,8 @@ import java.util.Set;
 
 public class CoachUi extends Coach {
 
-    public CoachUi(Team team) {
-        super(team);
+    public CoachUi(String name, Team team) {
+        super(name, team);
     }
 
     @Override

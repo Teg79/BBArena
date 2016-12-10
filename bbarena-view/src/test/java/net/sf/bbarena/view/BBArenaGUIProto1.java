@@ -233,8 +233,8 @@ public final class BBArenaGUIProto1 {
         awayTeam.setName("The Orc Team");
         createTeamPlayers(awayTeam, 100, 16, orcNames);
 
-        Coach homeCoach = new CoachUi(homeTeam);
-        Coach awayCoach = new CoachUi(awayTeam);
+        Coach homeCoach = new CoachUi("home coach", homeTeam);
+        Coach awayCoach = new CoachUi("away coach", awayTeam);
 
         Match match = new Match(homeCoach, awayCoach);
         arena = match.getArena();
