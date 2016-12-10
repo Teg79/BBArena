@@ -1,8 +1,10 @@
 package bbarena.server;
 
+import net.sf.bbarena.model.Match;
 import net.sf.bbarena.model.event.Event;
 import net.sf.bbarena.model.event.EventFlowListener;
 import net.sf.bbarena.model.event.EventManager;
+import net.sf.bbarena.model.event.game.MatchStatusChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +34,16 @@ public class SessionEventListener implements EventFlowListener {
             _session.getBasicRemote().sendText(e.getString());
         } catch (IOException e1) {
             _log.warn("Error sending message to " + _session.getQueryString());
+        }
+        if (e instanceof MatchStatusChangeEvent) {
+            MatchStatusChangeEvent matchStatusChangeEvent = (MatchStatusChangeEvent) e;
+            if (matchStatusChangeEvent.getMatchStatus() == Match.Status.FINISHED) {
+                try {
+                    _session.close();
+                } catch (IOException e1) {
+                    _log.warn("Error closing session " + _session.getQueryString());
+                }
+            }
         }
     }
 

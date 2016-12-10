@@ -14,7 +14,6 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.EOFException;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,23 +29,7 @@ public class MatchEndpoint {
         _logger.info("Message for match " + match + " coach " + coach + ": " + message);
         // Delivery message to Arena engine
 
-        try {
-            session.getBasicRemote().sendText("ciao");
-            session.getBasicRemote().sendText("ciao1");
-            session.getBasicRemote().sendText("ciao2");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "OK";
-    }
-
-    @OnOpen
-    public void onOpen(Session session, @PathParam("match") String match, @PathParam("coach") String coach) {
-        _logger.info("Open session for match " + match + " coach " + coach);
-        // Add session
-
-        MatchServer matchServer = new MatchServer();
-        _servers.put(session, matchServer);
+        MatchServer matchServer = _servers.get(session);
 
         Team t1 = Factory.buildTeam();
         Team t2 = Factory.buildTeam();
@@ -117,6 +100,18 @@ public class MatchEndpoint {
                 5 // Scatter
         );
         matchServer.start(c1, c2, roller, new SessionEventListener(session));
+
+        return "Started";
+    }
+
+    @OnOpen
+    public void onOpen(Session session, @PathParam("match") String match, @PathParam("coach") String coach) {
+        _logger.info("Open session for match " + match + " coach " + coach);
+        // Add session
+
+        MatchServer matchServer = new MatchServer();
+        _servers.put(session, matchServer);
+
     }
 
     @OnClose

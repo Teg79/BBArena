@@ -40,4 +40,8 @@ public class MatchStatusChangeEvent extends GameEvent {
                 .append("]");
         return res.toString();
     }
+
+    public Match.Status getMatchStatus() {
+        return _nextMatchStatus;
+    }
 }
