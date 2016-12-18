@@ -32,7 +32,7 @@ public class TestServer {
 
         // Create deploy file
         WebArchive war = ShrinkWrap.create(WebArchive.class)
-                .addPackage("bbarena.server")
+//                .addPackage("bbarena.server")
                 .addAsLibraries(files);
 //        war.merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class)
 //                        .importDirectory("src/main/webapp").as(GenericArchive.class),
