@@ -3,14 +3,13 @@ package bbarena.server;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.Filters;
-import org.jboss.shrinkwrap.api.GenericArchive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URI;
@@ -23,6 +22,8 @@ import java.net.URL;
 @RunWith(Arquillian.class)
 public class TestServer {
 
+    private static final Logger _logger = LoggerFactory.getLogger(TestServer.class);
+
     @Deployment
     public static WebArchive createDeployment() {
         // Import Maven runtime dependencies
@@ -33,33 +34,31 @@ public class TestServer {
         WebArchive war = ShrinkWrap.create(WebArchive.class)
                 .addPackage("bbarena.server")
                 .addAsLibraries(files);
-        war.merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class)
-                        .importDirectory("/Users/teg/Dev/GitHub/BBArena/bbarena-server/src/main").as(GenericArchive.class),
-                "/", Filters.includeAll());
+//        war.merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class)
+//                        .importDirectory("src/main/webapp").as(GenericArchive.class),
+//                "/", Filters.includeAll());
 
         // Show the deploy structure
-        System.out.println(war.toString(true));
+        _logger.info(war.toString(true));
 
         return war;
     }
 
     @Test
     public void testServer(@ArquillianResource URL url) throws InterruptedException, URISyntaxException {
-        System.out.println(url.toString());
-
         // open websocket
-        URI endpointURI = new URI("ws://" + url.getHost() + ":" + url.getPort() + "/" + url.getPath() + "/match/m/c");
-        System.out.println(endpointURI.toString());
+        URI endpointURI = new URI("ws://" + url.getHost() + ":" + url.getPort() + url.getPath() + "match/m/c");
+        _logger.info(endpointURI.toString());
         final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(endpointURI);
 
         // add listener
         clientEndPoint.addMessageHandler(message -> System.out.println(message));
 
         // send message to websocket
-        clientEndPoint.sendMessage("{'event':'addChannel','channel':'ok_btccny_ticker'}");
+        clientEndPoint.sendMessage("start match");
 
         // wait 5 seconds for messages from websocket
-        Thread.sleep(5000);
+        Thread.sleep(1000);
 
     }
 }

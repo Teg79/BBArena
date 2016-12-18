@@ -126,7 +126,7 @@ public class MatchEndpoint {
         if (throwable instanceof EOFException) {
             _logger.info("Connection lost on session for match " + match + " coach " + coach);
         } else {
-            _logger.info("Error on session for match " + match + " coach " + coach, throwable);
+            _logger.info("Error on session for match " + match + " coach " + coach + ": " + throwable.getMessage());
         }
     }
 }
