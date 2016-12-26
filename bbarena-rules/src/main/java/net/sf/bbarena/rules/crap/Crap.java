@@ -7,6 +7,7 @@ import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.event.game.*;
 import net.sf.bbarena.model.pitch.*;
 import net.sf.bbarena.model.team.Player;
+import net.sf.bbarena.model.team.PlayerPitchStatus;
 import net.sf.bbarena.model.team.Team;
 import net.sf.bbarena.rules.crap.listeners.Blizzard;
 import net.sf.bbarena.rules.crap.listeners.PouringRain;
@@ -226,7 +227,7 @@ public class Crap implements RuleSet {
             playingCoach.getTeam().getPlayers().stream().forEach(player -> {
                 if (player.getTeam().equals(playingCoach.getTeam())
                         && player.isOnThePitch()) {
-                    if (player.getPitchStatus() == Player.PlayerPitchStatus.PRONE) {
+                    if (player.getPitchStatus() == PlayerPitchStatus.PRONE) {
                         stunnedPlayers.add(player);
                     } else {
                         choices.add(player);
@@ -279,7 +280,7 @@ public class Crap implements RuleSet {
 
             // Stunned players become proned at the end of the turn
             for (Player stunned : stunnedPlayers) {
-                new PlayerPitchStatusEvent(stunned.getId(), Player.PlayerPitchStatus.PRONE);
+                new PlayerPitchStatusEvent(stunned.getId(), PlayerPitchStatus.PRONE);
             }
         }
     }
@@ -336,8 +337,8 @@ public class Crap implements RuleSet {
     private void actionMove(Player player, EventManager eventManager, Coach playingCoach) {
         int ma = player.getMa();
 
-        if (player.getPitchStatus() == Player.PlayerPitchStatus.PRONE) {
-            PlayerPitchStatusEvent statusEvent = new PlayerPitchStatusEvent(player.getId(), Player.PlayerPitchStatus.STANDING);
+        if (player.getPitchStatus() == PlayerPitchStatus.PRONE) {
+            PlayerPitchStatusEvent statusEvent = new PlayerPitchStatusEvent(player.getId(), PlayerPitchStatus.STANDING);
             if (ma < 3) {
                 RollResult roll = Roll.roll(1, D6, statusEvent, "Stand Up", player.toString());
                 if (roll.getSum() >= 4) {

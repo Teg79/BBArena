@@ -2,7 +2,6 @@ package net.sf.bbarena.model.event.game;
 
 import net.sf.bbarena.model.Arena;
 import net.sf.bbarena.model.team.Player;
-import net.sf.bbarena.model.team.Player.PlayerPitchStatus;
 import net.sf.bbarena.model.util.Concat;
 import net.sf.bbarena.model.util.Pair;
 

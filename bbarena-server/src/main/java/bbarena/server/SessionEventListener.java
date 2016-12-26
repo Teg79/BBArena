@@ -9,6 +9,7 @@ import net.sf.bbarena.model.event.Event;
 import net.sf.bbarena.model.event.EventFlowListener;
 import net.sf.bbarena.model.event.EventManager;
 import net.sf.bbarena.model.event.game.MatchStatusChangeEvent;
+import net.sf.bbarena.model.team.Team;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,9 @@ public class SessionEventListener implements EventFlowListener {
         try {
             XStream xStream = new XStream(new JsonHierarchicalStreamDriver());
             xStream.registerConverter(new ArenaConverter());
+            xStream.setMode(XStream.ID_REFERENCES);
+            xStream.omitField(Team.class, "players");
+            xStream.omitField(Team.class, "roster");
             String json = xStream.toXML(new Envelope(e));
             _session.getBasicRemote().sendText(json);
         } catch (IOException e1) {

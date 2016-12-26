@@ -30,7 +30,7 @@ public class Roster implements Serializable {
 	
 	public boolean addPlayer(PlayerTemplate player) {
 		boolean res;
-		player.setRoster(this);
+//		player.setRoster(this);
 		res = this.players.add(player);
 		
 		return res;

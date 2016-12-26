@@ -18,22 +18,6 @@ public class Player implements Choice, Serializable {
 
 	private static final long serialVersionUID = 6210061039167056132L;
 
-	public enum PlayerType {
-		NORMAL, STAR, JOURNEYMAN, MERCENARY
-	}
-
-	public enum PlayerPitchStatus {
-		STANDING, PRONE, STUNNED;
-
-		public static PlayerPitchStatus getPitchStatus(int pitchStatus) {
-			PlayerPitchStatus res = null;
-			if(pitchStatus >= 1 && pitchStatus <= 8) {
-				res = PlayerPitchStatus.values()[pitchStatus];
-			}
-			return res;
-		}
-	}
-
 	private PlayerTemplate template = null;
 
 	private long id = 0;

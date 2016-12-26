@@ -7,6 +7,8 @@ var game = new Phaser.Game(width, height, Phaser.AUTO, null, {preload: preload, 
 //initialize some variables
 var cursors;
 var speed = 175;
+var home;
+var away;
 
 // WS
 var wsUri = "ws://localhost:8080/bbarena-server/match/m/c";
@@ -27,7 +29,9 @@ function onMessage(evt)
 {
         writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
         var json = JSON.parse(evt.data);
-
+        var envelope = json["bbarena.server.json.Envelope"];
+        var type = envelope._type;
+        window["fire" + type](envelope._event);
 }
 
 function onError(evt)
@@ -43,7 +47,7 @@ function doSend(message)
 
 function writeToScreen(message)
 {
-    console.info(message);
+    console.debug(message);
 }
 
 function preload() {
@@ -87,14 +91,9 @@ function create() {
 	//initialize keyboard arrows for the game controls
 	cursors = game.input.keyboard.createCursorKeys();
 
-	//add player sprite
 	player = game.add.sprite(width*0.5, height*0.5, 'player');
-	//set anchor point to center of the sprite
 	player.anchor.set(0.5);
-	//enable physics for the player body
 	game.physics.enable(player, Phaser.Physics.ARCADE);
-	//make the player collide with the bounds of the world
-	player.body.collideWorldBounds = true;
 
     // crete teams
     home = game.add.group();
@@ -119,6 +118,7 @@ function update() {
 
 }
 
-function putPlayerInPitchEvent(msg) {
+function firePutPlayerInPitchEvent(msg) {
+	home.create(width*0.1, height*0.1, 'food');
     console.info(msg);
 }

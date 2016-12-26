@@ -7,7 +7,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import net.sf.bbarena.model.Arena;
 import net.sf.bbarena.model.pitch.Pitch;
-import net.sf.bbarena.model.team.PlayerTemplate;
 import net.sf.bbarena.model.team.Team;
 
 /**
@@ -18,8 +17,8 @@ public class ArenaConverter implements Converter {
     public boolean canConvert(Class clazz) {
         return clazz.isAssignableFrom(Arena.class)
                 || clazz.isAssignableFrom(Pitch.class)
-                || clazz.isAssignableFrom(Team.class)
-                || clazz.isAssignableFrom(PlayerTemplate.class);
+                || clazz.isAssignableFrom(Team.class);
+        //|| clazz.isAssignableFrom(PlayerTemplate.class);
     }
 
     public void marshal(Object value, HierarchicalStreamWriter writer,
