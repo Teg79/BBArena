@@ -1,5 +1,6 @@
 package bbarena.server;
 
+import com.thoughtworks.xstream.XStream;
 import net.sf.bbarena.model.Match;
 import net.sf.bbarena.model.event.Event;
 import net.sf.bbarena.model.event.EventFlowListener;
@@ -31,6 +32,8 @@ public class SessionEventListener implements EventFlowListener {
     @Override
     public void afterDoEvent(Event e) {
         try {
+            XStream xStream = new XStream();
+            String json = xStream.toXML(e);
             _session.getBasicRemote().sendText(e.getString());
         } catch (IOException e1) {
             _log.warn("Error sending message to " + _session.getQueryString());

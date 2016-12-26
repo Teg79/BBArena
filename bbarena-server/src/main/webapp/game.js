@@ -12,6 +12,35 @@ var speed = 175;
 var score = 0;
 var scoreText;
 
+// WS
+var wsUri = "ws://localhost:8080/bbarena-server/match/m/c";
+websocket = new WebSocket(wsUri);
+websocket.onopen = function(evt) { onOpen(evt) };
+websocket.onclose = function(evt) { onClose(evt) };
+websocket.onmessage = function(evt) { onMessage(evt) };
+websocket.onerror = function(evt) { onError(evt) };
+
+function onOpen(evt)
+{
+}
+
+function onClose(evt)
+{
+}
+
+function onMessage(evt)
+{
+}
+
+function onError(evt)
+{
+}
+
+function doSend(message)
+{
+    websocket.send(message);
+}
+
 function preload() {
 	//set background color of canvas
 	game.stage.backgroundColor = '#093';
@@ -29,6 +58,7 @@ function preload() {
 	game.load.image('chaos-beast2', 'asset/icons/chaos/cbeastman2.png');
 	game.load.image('chaos-beast3', 'asset/icons/chaos/cbeastman3.png');
 	game.load.image('chaos-beast4', 'asset/icons/chaos/cbeastman4.png');
+
 }
 function create() {
 	//start arcade physics engine
@@ -47,6 +77,10 @@ function create() {
 	//make the player collide with the bounds of the world
 	player.body.collideWorldBounds = true;
 
+    // crete teams
+    home = game.add.group();
+    away = game.add.group();
+
 	//create a group called food and add 4 food pieces to the game
 	food = game.add.group();
 	food.create(width*0.1, height*0.1, 'food');
@@ -60,8 +94,6 @@ function create() {
 	//enable physics for the food
 	game.physics.enable(food, Phaser.Physics.ARCADE);
 
-	//place score text on the screen
-	scoreText = game.add.text(5, 3, score);
 }
 function update() {
 
