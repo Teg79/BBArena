@@ -1,6 +1,9 @@
 package bbarena.server;
 
+import bbarena.server.json.ArenaConverter;
+import bbarena.server.json.Envelope;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import net.sf.bbarena.model.Match;
 import net.sf.bbarena.model.event.Event;
 import net.sf.bbarena.model.event.EventFlowListener;
@@ -32,9 +35,10 @@ public class SessionEventListener implements EventFlowListener {
     @Override
     public void afterDoEvent(Event e) {
         try {
-            XStream xStream = new XStream();
-            String json = xStream.toXML(e);
-            _session.getBasicRemote().sendText(e.getString());
+            XStream xStream = new XStream(new JsonHierarchicalStreamDriver());
+            xStream.registerConverter(new ArenaConverter());
+            String json = xStream.toXML(new Envelope(e));
+            _session.getBasicRemote().sendText(json);
         } catch (IOException e1) {
             _log.warn("Error sending message to " + _session.getQueryString());
         }

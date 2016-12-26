@@ -5,50 +5,58 @@ var height = 450;
 var game = new Phaser.Game(width, height, Phaser.AUTO, null, {preload: preload, create: create, update: update});
 
 //initialize some variables
-var player;
-var food;
 var cursors;
 var speed = 175;
-var score = 0;
-var scoreText;
 
 // WS
 var wsUri = "ws://localhost:8080/bbarena-server/match/m/c";
-websocket = new WebSocket(wsUri);
-websocket.onopen = function(evt) { onOpen(evt) };
-websocket.onclose = function(evt) { onClose(evt) };
-websocket.onmessage = function(evt) { onMessage(evt) };
-websocket.onerror = function(evt) { onError(evt) };
+var websocket;
 
 function onOpen(evt)
 {
+    doSend('Start');
+        writeToScreen("CONNECTED");
 }
 
 function onClose(evt)
 {
+        writeToScreen("DISCONNECTED");
 }
 
 function onMessage(evt)
 {
+        writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+        var json = JSON.parse(evt.data);
+
 }
 
 function onError(evt)
 {
+        writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
 }
 
 function doSend(message)
 {
     websocket.send(message);
+    writeToScreen("SENT: " + message);
+}
+
+function writeToScreen(message)
+{
+    console.info(message);
 }
 
 function preload() {
+    websocket = new WebSocket(wsUri);
+    websocket.onopen = function(evt) { onOpen(evt) };
+    websocket.onclose = function(evt) { onClose(evt) };
+    websocket.onmessage = function(evt) { onMessage(evt) };
+    websocket.onerror = function(evt) { onError(evt) };
+
 	//set background color of canvas
 	game.stage.backgroundColor = '#093';
 
 	//load assets
-	game.load.image('player', 'asset/icons/chaos/cwarrior1.png');
-	game.load.image('food', 'asset/icons/chaos/cbeastman1.png');
-
 	game.load.image('field-nice', 'asset/field/nice.jpg');
 	game.load.image('chaos-warrior1', 'asset/icons/chaos/cwarrior1.png');
 	game.load.image('chaos-warrior2', 'asset/icons/chaos/cwarrior2.png');
@@ -58,7 +66,18 @@ function preload() {
 	game.load.image('chaos-beast2', 'asset/icons/chaos/cbeastman2.png');
 	game.load.image('chaos-beast3', 'asset/icons/chaos/cbeastman3.png');
 	game.load.image('chaos-beast4', 'asset/icons/chaos/cbeastman4.png');
+	game.load.image('orc-bob1', 'asset/icons/orc/oblackorc1b.png');
+	game.load.image('orc-bob2', 'asset/icons/orc/oblackorc2b.png');
+	game.load.image('orc-blitzer1', 'asset/icons/orc/oblitzer1b.png');
+	game.load.image('orc-blitzer2', 'asset/icons/orc/oblitzer2b.png');
+	game.load.image('orc-blitzer3', 'asset/icons/orc/oblitzer3b.png');
+	game.load.image('orc-line1', 'asset/icons/orc/olineman1b.png');
+	game.load.image('orc-line2', 'asset/icons/orc/olineman2b.png');
+	game.load.image('orc-line3', 'asset/icons/orc/olineman3b.png');
+	game.load.image('orc-thrower1', 'asset/icons/orc/othrower1b.png');
+	game.load.image('orc-thrower2', 'asset/icons/orc/othrower2b.png');
 
+    output = document.getElementById("output");
 }
 function create() {
 	//start arcade physics engine
@@ -92,42 +111,14 @@ function create() {
 		food.children[i].anchor.set(0.5);
 	}
 	//enable physics for the food
-	game.physics.enable(food, Phaser.Physics.ARCADE);
+	game.physics.enable(home, Phaser.Physics.ARCADE);
+	game.physics.enable(away, Phaser.Physics.ARCADE);
 
 }
 function update() {
 
-	//move the player up and down based on keyboard arrows
-	if (cursors.up.isDown) {
-		player.body.velocity.y = -speed;
-	}
-	else if (cursors.down.isDown) {
-		player.body.velocity.y = speed;
-	}
-	else {
-		player.body.velocity.y = 0;
-	}
-
-	//move the player right and left based on keyboard arrows
-	if (cursors.left.isDown) {
-		player.body.velocity.x = -speed;
-	}
-	else if (cursors.right.isDown) {
-		player.body.velocity.x = speed;
-	}
-	else {
-		player.body.velocity.x = 0;
-	}
-
-	//call eatFood function when the player and a piece of food overlap
-	game.physics.arcade.overlap(player, food, eatFood);
 }
 
-//eatFood function
-function eatFood(player, food) {
-	//remove the piece of food
-	food.kill();
-	//update the score
-	score++;
-	scoreText.text = score;
+function putPlayerInPitchEvent(msg) {
+    console.info(msg);
 }
