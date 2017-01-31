@@ -10,11 +10,10 @@ public class KickOffEvent extends GameEvent {
 
     @Override
     protected void doEvent(Arena arena) {
-        _arena = arena;
     }
 
     @Override
-    protected void undoEvent() {
+    protected void undoEvent(Arena arena) {
     }
 
     @Override

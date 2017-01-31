@@ -22,7 +22,6 @@ public class RemoveBallEvent extends BallEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_arena = arena;
 		_ball = getBall(arena);
 		_fromPlayer = _ball.getOwner();
 		if (_ball.getSquare() != null) {
@@ -34,8 +33,8 @@ public class RemoveBallEvent extends BallEvent {
 	}
 
 	@Override
-	public void undoEvent() {
-		Pitch pitch = _arena.getPitch();
+	public void undoEvent(Arena arena) {
+		Pitch pitch = arena.getPitch();
 
 		if (_fromPlayer != null) {
 			pitch.ballPickUp(_ball, _fromPlayer);

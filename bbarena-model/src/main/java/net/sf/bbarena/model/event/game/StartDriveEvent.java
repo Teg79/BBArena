@@ -1,7 +1,6 @@
 package net.sf.bbarena.model.event.game;
 
 import net.sf.bbarena.model.Arena;
-import net.sf.bbarena.model.TurnMarker;
 import net.sf.bbarena.model.util.Concat;
 
 public class StartDriveEvent extends GameEvent {
@@ -14,11 +13,10 @@ public class StartDriveEvent extends GameEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_arena = arena;
 	}
 
 	@Override
-	protected void undoEvent() {
+	protected void undoEvent(Arena arena) {
 	}
 
 	@Override

@@ -18,14 +18,13 @@ public class PlayerPlayableEvent extends PlayerEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_arena = arena;
 		_player = getPlayer(arena);
 		_oldPlayable = _player.isPlayable();
 		_player.setPlayable(_playable);
 	}
 
 	@Override
-	public void undoEvent() {
+	public void undoEvent(Arena arena) {
 		_player.setPlayable(_oldPlayable);
 	}
 

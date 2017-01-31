@@ -16,19 +16,18 @@ public class MatchStatusChangeEvent extends GameEvent {
 
     @Override
     protected void doEvent(Arena arena) {
-        _arena = arena;
-        _prevMatchStatus = _arena.getMatch().getStatus();
-        _arena.getMatch().setStatus(_nextMatchStatus);
+        _prevMatchStatus = arena.getMatch().getStatus();
+        arena.getMatch().setStatus(_nextMatchStatus);
         if (Match.Status.STARTING == _nextMatchStatus) {
-            _arena.getMatch().setStart(new Date());
+            arena.getMatch().setStart(new Date());
         } else if (Match.Status.FINISHED == _nextMatchStatus) {
-            _arena.getMatch().setEnd(new Date());
+            arena.getMatch().setEnd(new Date());
         }
     }
 
     @Override
-    protected void undoEvent() {
-        _arena.getMatch().setStatus(_prevMatchStatus);
+    protected void undoEvent(Arena arena) {
+        arena.getMatch().setStatus(_prevMatchStatus);
     }
 
     @Override

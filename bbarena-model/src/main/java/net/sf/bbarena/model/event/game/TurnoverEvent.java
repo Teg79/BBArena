@@ -16,7 +16,7 @@ public class TurnoverEvent extends GameEvent {
     }
 
     @Override
-    protected void undoEvent() {
+    protected void undoEvent(Arena arena) {
     }
 
     @Override

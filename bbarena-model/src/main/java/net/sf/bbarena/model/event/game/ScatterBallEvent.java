@@ -71,7 +71,6 @@ public class ScatterBallEvent extends BallEvent {
 
 	@Override
 	protected void doEvent(Arena arena) {
-		_arena = arena;
 		_ball = getBall(arena);
 
 		_origin = _ball.getSquare().getCoords();
@@ -80,8 +79,8 @@ public class ScatterBallEvent extends BallEvent {
 	}
 
 	@Override
-	protected void undoEvent() {
-		_arena.getPitch().moveBall(_ball, _direction.inverse(), _destination.getEffectiveDistance(), _type);
+	protected void undoEvent(Arena arena) {
+		arena.getPitch().moveBall(_ball, _direction.inverse(), _destination.getEffectiveDistance(), _type);
 	}
 
 	@Override

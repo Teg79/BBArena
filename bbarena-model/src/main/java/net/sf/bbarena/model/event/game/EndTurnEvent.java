@@ -13,11 +13,10 @@ public class EndTurnEvent extends GameEvent {
 
     @Override
     public void doEvent(Arena arena) {
-        _arena = arena;
     }
 
     @Override
-    protected void undoEvent() {
+    protected void undoEvent(Arena arena) {
     }
 
     @Override

@@ -19,14 +19,13 @@ public class ChangeWeatherEvent extends GameEvent {
 
     @Override
     protected void doEvent(Arena arena) {
-        _arena = arena;
-        _oldWeather = _arena.getWeather();
+        _oldWeather = arena.getWeather();
         arena.setWeather(_newWeather);
     }
 
     @Override
-    protected void undoEvent() {
-        _arena.setWeather(_oldWeather);
+    protected void undoEvent(Arena arena) {
+        arena.setWeather(_oldWeather);
     }
 
     @Override

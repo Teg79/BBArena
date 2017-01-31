@@ -27,13 +27,12 @@ public class FansEvent extends GameEvent {
 
     @Override
     protected void doEvent(Arena arena) {
-        _arena = arena;
-        _arena.getScoreBoard(_team).setFans(_fans);
+        arena.getScoreBoard(_team).setFans(_fans);
     }
 
     @Override
-    protected void undoEvent() {
-        _arena.getScoreBoard(_team).setFans(0);
+    protected void undoEvent(Arena arena) {
+        arena.getScoreBoard(_team).setFans(0);
     }
 
     @Override

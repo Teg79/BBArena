@@ -3,9 +3,9 @@ package net.sf.bbarena.model.event.game;
 import net.sf.bbarena.model.Arena;
 import net.sf.bbarena.model.Coordinate;
 import net.sf.bbarena.model.pitch.Dugout;
+import net.sf.bbarena.model.pitch.Dugout.DugoutRoom;
 import net.sf.bbarena.model.pitch.Pitch;
 import net.sf.bbarena.model.pitch.Square;
-import net.sf.bbarena.model.pitch.Dugout.DugoutRoom;
 import net.sf.bbarena.model.team.Player;
 import net.sf.bbarena.model.util.Concat;
 import net.sf.bbarena.model.util.Pair;
@@ -25,7 +25,6 @@ public PutPlayerInDugoutEvent(long playerId, String dugoutRoom) {
 	}
 
 	public void doEvent(Arena arena) {
-		_arena = arena;
 		_player = getPlayer(arena);
 		DugoutRoom to = arena.getPitch().getDugout(_player.getTeam()).getRoom(_dugoutRoom);
 
@@ -42,8 +41,8 @@ public PutPlayerInDugoutEvent(long playerId, String dugoutRoom) {
 		pitch.putPlayer(_player, to);
 	}
 
-	public void undoEvent() {
-		Pitch pitch = _arena.getPitch();
+	public void undoEvent(Arena arena) {
+		Pitch pitch = arena.getPitch();
 		if (_fromPitch != null) {
 			pitch.putPlayer(_player, _fromPitch);
 		} else {

@@ -10,7 +10,6 @@ public class PlayerPitchStatusEvent extends PlayerEvent {
 
 	private static final long serialVersionUID = 1790786618254181381L;
 
-	private Player _player = null;
 	private PlayerPitchStatus _pitchStatus = null;
 	private PlayerPitchStatus _oldPitchStatus = null;
 
@@ -33,15 +32,15 @@ public class PlayerPitchStatusEvent extends PlayerEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_arena = arena;
-		_player = getPlayer(arena);
-		_oldPitchStatus = _player.getPitchStatus();
-		_player.setPitchStatus(_pitchStatus);
+		Player player = getPlayer(arena);
+		_oldPitchStatus = player.getPitchStatus();
+		player.setPitchStatus(_pitchStatus);
 	}
 
 	@Override
-	public void undoEvent() {
-		_player.setPitchStatus(_oldPitchStatus);
+	public void undoEvent(Arena arena) {
+		Player player = getPlayer(arena);
+		player.setPitchStatus(_oldPitchStatus);
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package net.sf.bbarena.model.event;
 
+import net.sf.bbarena.model.Arena;
+import net.sf.bbarena.model.RollResult;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.bbarena.model.Arena;
-import net.sf.bbarena.model.RollResult;
 
 public abstract class Event implements Serializable {
 
@@ -43,7 +43,6 @@ public abstract class Event implements Serializable {
 
 	private static final long serialVersionUID = -9143193751782902257L;
 
-	protected Arena _arena = null;
 	private int _id = 0;
 	private List<RollResult> _diceRolls = new ArrayList<>();
 	private boolean _executed = false;
@@ -66,7 +65,7 @@ public abstract class Event implements Serializable {
 
 	protected abstract void doEvent(Arena arena);
 
-	protected abstract void undoEvent();
+    protected abstract void undoEvent(Arena arena);
 
 	public boolean isExecuted() {
 		return _executed;
@@ -77,10 +76,6 @@ public abstract class Event implements Serializable {
 	}
 
 	public abstract String getString();
-
-	public Arena getArena() {
-		return _arena;
-	}
 
 	@Override
 	public String toString() {

@@ -11,7 +11,6 @@ public class MovePlayerEvent extends PlayerEvent {
 
 	private static final long serialVersionUID = 2911617554463404375L;
 
-	private Player _player = null;
 	private Direction _direction = null;
 	private int _range = 1;
 
@@ -26,16 +25,16 @@ public class MovePlayerEvent extends PlayerEvent {
 	}
 
 	public void doEvent(Arena arena) {
-		_arena = arena;
-		_player = getPlayer(arena);
+		Player player = getPlayer(arena);
 
 		Pitch pitch = arena.getPitch();
-		pitch.movePlayer(_player, _direction, _range);
+		pitch.movePlayer(player, _direction, _range);
 	}
 
-	public void undoEvent() {
-		Pitch pitch = _arena.getPitch();
-		pitch.movePlayer(_player, _direction.inverse(), _range);
+	public void undoEvent(Arena arena) {
+		Pitch pitch = arena.getPitch();
+		Player player = getPlayer(arena);
+		pitch.movePlayer(player, _direction.inverse(), _range);
 	}
 
 	@Override

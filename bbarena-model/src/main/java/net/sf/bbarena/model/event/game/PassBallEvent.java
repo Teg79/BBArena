@@ -25,7 +25,6 @@ public class PassBallEvent extends BallEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_arena = arena;
 		_ball = getBall(arena);
 
 		Pitch pitch = arena.getPitch();
@@ -35,8 +34,8 @@ public class PassBallEvent extends BallEvent {
 	}
 
 	@Override
-	public void undoEvent() {
-		Pitch pitch = _arena.getPitch();
+	public void undoEvent(Arena arena) {
+		Pitch pitch = arena.getPitch();
 		pitch.ballCatch(_ball, _from);
 	}
 

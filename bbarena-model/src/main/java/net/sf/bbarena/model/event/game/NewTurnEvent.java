@@ -28,8 +28,7 @@ public class NewTurnEvent extends GameEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_arena = arena;
-        TurnMarker turnMarker = _arena.getTurnMarkers().get(_coachPos);
+        TurnMarker turnMarker = arena.getTurnMarkers().get(_coachPos);
         turnMarker.setStatus(TurnMarker.TurnStatus.PLAYING);
         _rerolls = turnMarker.getRerolls();
         _turn = turnMarker.getTurn();
@@ -40,8 +39,8 @@ public class NewTurnEvent extends GameEvent {
     }
 
 	@Override
-	protected void undoEvent() {
-        TurnMarker turnMarker = _arena.getTurnMarkers().get(_coachPos);
+    protected void undoEvent(Arena arena) {
+        TurnMarker turnMarker = arena.getTurnMarkers().get(_coachPos);
         turnMarker.setStatus(TurnMarker.TurnStatus.DONE);
         turnMarker.setUsedReroll(_usedReroll);
         turnMarker.setTurn(_turn);

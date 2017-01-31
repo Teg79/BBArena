@@ -142,7 +142,7 @@ public class EventManager implements Serializable {
 
 			listenersBeforeUndoEvent(e);
 
-			e.undoEvent();
+			e.undoEvent(_arena);
 			e.setExecuted(false);
 
 			listenersAfterUndoEvent(e);

@@ -20,14 +20,13 @@ public class AddPlayerExperienceEvent extends RosterEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_arena = arena;
 		_player = getPlayer(arena);
-		_arena.getPlayerManager().addPlayerExperience(_player, _newExperience);
+		arena.getPlayerManager().addPlayerExperience(_player, _newExperience);
 	}
 
 	@Override
-	public void undoEvent() {
-		_arena.getPlayerManager().subPlayerExperience(_player, _newExperience);
+	public void undoEvent(Arena arena) {
+		arena.getPlayerManager().subPlayerExperience(_player, _newExperience);
 	}
 
 	@Override

@@ -20,7 +20,6 @@ public class LoseBallEvent extends BallEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_arena = arena;
 		_player = arena.getPlayerManager().getPlayer(_playerId);
 		_ball = getBall(arena);
 
@@ -28,8 +27,8 @@ public class LoseBallEvent extends BallEvent {
 	}
 
 	@Override
-	public void undoEvent() {
-		Pitch pitch = _arena.getPitch();
+	public void undoEvent(Arena arena) {
+		Pitch pitch = arena.getPitch();
 		pitch.ballPickUp(_ball, _player);
 	}
 

@@ -14,16 +14,14 @@ public class EndDriveEvent extends GameEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_arena = arena;
-
-        _oldDrive = _arena.getMatch().getCurrentDrive();
-        _arena.getMatch().setCurrentDrive(_oldDrive + 1);
-    }
+		_oldDrive = arena.getMatch().getCurrentDrive();
+		arena.getMatch().setCurrentDrive(_oldDrive + 1);
+	}
 
 	@Override
-	protected void undoEvent() {
-        _arena.getMatch().setCurrentDrive(_oldDrive);
-    }
+	protected void undoEvent(Arena arena) {
+		arena.getMatch().setCurrentDrive(_oldDrive);
+	}
 
 	@Override
 	public String getString() {

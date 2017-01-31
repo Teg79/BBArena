@@ -1,8 +1,6 @@
 package net.sf.bbarena.model.event.game;
 
 import net.sf.bbarena.model.Arena;
-import net.sf.bbarena.model.MatchTeamInfo;
-import net.sf.bbarena.model.Weather;
 
 public class FameEvent extends GameEvent {
 
@@ -22,15 +20,14 @@ public class FameEvent extends GameEvent {
 
     @Override
     protected void doEvent(Arena arena) {
-        _arena = arena;
-        _arena.getScoreBoard(0).setFame(fameCoach0);
-        _arena.getScoreBoard(1).setFame(fameCoach1);
+        arena.getScoreBoard(0).setFame(fameCoach0);
+        arena.getScoreBoard(1).setFame(fameCoach1);
     }
 
     @Override
-    protected void undoEvent() {
-        _arena.getScoreBoard(0).setFame(0);
-        _arena.getScoreBoard(1).setFame(0);
+    protected void undoEvent(Arena arena) {
+        arena.getScoreBoard(0).setFame(0);
+        arena.getScoreBoard(1).setFame(0);
     }
 
     @Override

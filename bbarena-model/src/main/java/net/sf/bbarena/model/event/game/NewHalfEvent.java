@@ -19,11 +19,9 @@ public class NewHalfEvent extends GameEvent {
 
     @Override
     public void doEvent(Arena arena) {
-        _arena = arena;
-
-        _half = _arena.getHalf();
-        _arena.setHalf(_half + 1);
-        List<TurnMarker> turnMarkers = _arena.getTurnMarkers();
+        _half = arena.getHalf();
+        arena.setHalf(_half + 1);
+        List<TurnMarker> turnMarkers = arena.getTurnMarkers();
         for (TurnMarker turnMarker : turnMarkers) {
             TurnMarker oldMarker = new TurnMarker(turnMarker.getTeam());
             oldMarker.setRerolls(turnMarker.getRerolls());
@@ -39,12 +37,12 @@ public class NewHalfEvent extends GameEvent {
     }
 
     @Override
-    protected void undoEvent() {
-        _arena.setHalf(_half);
+    protected void undoEvent(Arena arena) {
+        arena.setHalf(_half);
 
-        for (int i = 0; i < _arena.getTurnMarkers().size(); i++) {
+        for (int i = 0; i < arena.getTurnMarkers().size(); i++) {
             TurnMarker oldMarker = _oldMarkers.get(i);
-            TurnMarker turnMarker = _arena.getTurnMarkers().get(i);
+            TurnMarker turnMarker = arena.getTurnMarkers().get(i);
             turnMarker.setStatus(oldMarker.getStatus());
             turnMarker.setTurn(oldMarker.getTurn());
             turnMarker.setUsedReroll(oldMarker.isUsedReroll());

@@ -15,14 +15,13 @@ public class EndGameEvent extends GameEvent {
 
     @Override
     public void doEvent(Arena arena) {
-        _arena = arena;
-        _prevStatus = _arena.getMatch().getStatus();
-        _arena.getMatch().setStatus(Match.Status.ENDING);
+        _prevStatus = arena.getMatch().getStatus();
+        arena.getMatch().setStatus(Match.Status.ENDING);
     }
 
     @Override
-    protected void undoEvent() {
-        _arena.getMatch().setStatus(_prevStatus);
+    protected void undoEvent(Arena arena) {
+        arena.getMatch().setStatus(_prevStatus);
     }
 
     @Override

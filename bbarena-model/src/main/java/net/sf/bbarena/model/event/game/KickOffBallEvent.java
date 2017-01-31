@@ -21,7 +21,6 @@ public class KickOffBallEvent extends BallEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		this._arena = arena;
 		_ball = getBall(arena);
 
 		Pitch pitch = arena.getPitch();
@@ -29,8 +28,8 @@ public class KickOffBallEvent extends BallEvent {
 	}
 
 	@Override
-	public void undoEvent() {
-		Pitch pitch = _arena.getPitch();
+	public void undoEvent(Arena arena) {
+		Pitch pitch = arena.getPitch();
 		pitch.ballRemove(_ball);
 	}
 

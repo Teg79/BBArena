@@ -39,7 +39,6 @@ public class CatchBallEvent extends BallEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_arena = arena;
 		_ball = getBall(arena);
 
 		if (!_failed) {
@@ -48,9 +47,9 @@ public class CatchBallEvent extends BallEvent {
 	}
 
 	@Override
-	public void undoEvent() {
+	public void undoEvent(Arena arena) {
 		if (!_failed) {
-			Pitch pitch = _arena.getPitch();
+			Pitch pitch = arena.getPitch();
 			pitch.ballLose(_ball, _player);
 		}
 	}
