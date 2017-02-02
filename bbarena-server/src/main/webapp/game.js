@@ -122,6 +122,10 @@ function fireScatterBallEvent(msg) {
     ball.y = msg._destination._lastValidSquare.y;
 }
 
+function fireTouchBackEvent(msg) {
+
+}
+
 function fireCatchBallEvent(msg) {
 }
 
@@ -134,4 +138,33 @@ function firePutPlayerInDugoutEvent(msg) {
     var team = msg._coach == 0 ? home : away;
 	var player = team.create(-square, square, msg._player.team.roster.race + '-' + msg._player.template.position);
 	playersMap.set(msg._player.id, player);
+}
+
+function fireMovePlayerEvent(msg) {
+    var deltaX = msg._range * square;
+    var deltaY = msg._range * square;
+
+    if (msg._direction == 'N') {
+        deltaX = -deltaX;
+        deltaY = 0;
+    } else if (msg._direction == 'NE') {
+        deltaY = -deltaY;
+    } else if (msg._direction == 'E') {
+        deltaX = 0;
+    } else if (msg._direction == 'SE') {
+
+    } else if (msg._direction == 'S') {
+        deltaX = 0;
+    } else if (msg._direction == 'SW') {
+        deltaX = -deltaX;
+    } else if (msg._direction == 'W') {
+        deltaX = -deltaX;
+        deltaY = 0;
+    } else if (msg._direction == 'NW') {
+        deltaX = -deltaX;
+        deltaY = -deltaY;
+    }
+
+    playersMap.get(msg.playerId).x += deltaX;
+    playersMap.get(msg.playerId).y += deltaY;
 }
