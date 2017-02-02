@@ -14,6 +14,7 @@ public class PutPlayerInDugoutEvent extends PlayerEvent {
 
 	private static final long serialVersionUID = -3430391401528941474L;
 
+	private Integer _coach = null;
 	private Player _player = null;
 	private String _dugoutRoom = null;
 	private Coordinate _fromPitch = null;
@@ -26,6 +27,7 @@ public PutPlayerInDugoutEvent(long playerId, String dugoutRoom) {
 
 	public void doEvent(Arena arena) {
 		_player = getPlayer(arena);
+		_coach = arena.getTeams().indexOf(_player.getTeam());
 		DugoutRoom to = arena.getPitch().getDugout(_player.getTeam()).getRoom(_dugoutRoom);
 
 		Pitch pitch = arena.getPitch();

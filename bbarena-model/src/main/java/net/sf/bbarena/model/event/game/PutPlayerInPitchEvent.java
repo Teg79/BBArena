@@ -13,7 +13,6 @@ public class PutPlayerInPitchEvent extends PlayerEvent {
 
 	private static final long serialVersionUID = 4021761692648543307L;
 
-	private Player _player = null;
 	private Coordinate _to = null;
 	private DugoutRoom _fromDugout = null;
 	private Coordinate _fromSquare = null;
@@ -24,26 +23,27 @@ public class PutPlayerInPitchEvent extends PlayerEvent {
 	}
 
 	public void doEvent(Arena arena) {
-		_player = getPlayer(arena);
-		Pitch pitch = arena.getPitch();
+        Player player = getPlayer(arena);
+        Pitch pitch = arena.getPitch();
 
-		if (_player.isInDugout()) {
-			Dugout dugout = pitch.getDugout(_player.getTeam());
-			_fromDugout = dugout.getRoom(_player);
-		} else if (_player.getSquare() != null){
-			_fromSquare = _player.getSquare().getCoords();
-		}
-		pitch.putPlayer(_player, _to);
-	}
+        if (player.isInDugout()) {
+            Dugout dugout = pitch.getDugout(player.getTeam());
+            _fromDugout = dugout.getRoom(player);
+        } else if (player.getSquare() != null) {
+            _fromSquare = player.getSquare().getCoords();
+        }
+        pitch.putPlayer(player, _to);
+    }
 
 	public void undoEvent(Arena arena) {
 		Pitch pitch = arena.getPitch();
+        Player player = getPlayer(arena);
 
-		if(_fromDugout != null) {
-			pitch.putPlayer(_player, _fromDugout);
-		} else if(_fromSquare != null) {
-			pitch.putPlayer(_player, _fromSquare);
-		}
+        if (_fromDugout != null) {
+            pitch.putPlayer(player, _fromDugout);
+        } else if(_fromSquare != null) {
+            pitch.putPlayer(player, _fromSquare);
+        }
 	}
 
 	@Override
