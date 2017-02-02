@@ -13,7 +13,6 @@ public class ScatterBallEvent extends BallEvent {
 
 	private static final long serialVersionUID = -6262949311066708660L;
 
-	private Ball _ball = null;
 	private Direction _direction = null;
 	private Integer _distance = 1;
 	private Coordinate _origin;
@@ -41,13 +40,9 @@ public class ScatterBallEvent extends BallEvent {
 		_type = type;
 	}
 
-	public Ball getBall() {
-		return _ball;
-	}
-
 	public void setBall(Ball ball) {
-		_ball = ball;
-	}
+        ball = ball;
+    }
 
 	public void setDirection(Direction direction) {
 		_direction = direction;
@@ -71,17 +66,18 @@ public class ScatterBallEvent extends BallEvent {
 
 	@Override
 	protected void doEvent(Arena arena) {
-		_ball = getBall(arena);
+        Ball ball = getBall(arena);
 
-		_origin = _ball.getSquare().getCoords();
-		_destination = arena.getPitch().getDestination(_origin, _direction, _distance);
-		arena.getPitch().moveBall(_ball, _direction, _destination.getEffectiveDistance(), _type);
-	}
+        _origin = ball.getSquare().getCoords();
+        _destination = arena.getPitch().getDestination(_origin, _direction, _distance);
+        arena.getPitch().moveBall(ball, _direction, _destination.getEffectiveDistance(), _type);
+    }
 
 	@Override
 	protected void undoEvent(Arena arena) {
-		arena.getPitch().moveBall(_ball, _direction.inverse(), _destination.getEffectiveDistance(), _type);
-	}
+        Ball ball = getBall(arena);
+        arena.getPitch().moveBall(ball, _direction.inverse(), _destination.getEffectiveDistance(), _type);
+    }
 
 	@Override
 	public String getString() {

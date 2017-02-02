@@ -11,6 +11,7 @@ var square = 30;
 var home;
 var away;
 var playersMap = new Map();
+var ball;
 
 // WS
 var wsUri = "ws://localhost:8080/bbarena-server/match/m/c";
@@ -64,6 +65,7 @@ function preload() {
 
 	//load assets
 	game.load.image('field-nice', 'asset/field/nice.jpg');
+	game.load.image('ball-onfield', 'asset/field/icons/ball_onfield.png');
 	game.load.image('Chaos-Chaos Warrior', 'asset/icons/chaos/cwarrior1.png');
 	game.load.image('chaos-warrior2', 'asset/icons/chaos/cwarrior2.png');
 	game.load.image('chaos-warrior3', 'asset/icons/chaos/cwarrior3.png');
@@ -93,9 +95,9 @@ function create() {
 	//initialize keyboard arrows for the game controls
 	cursors = game.input.keyboard.createCursorKeys();
 
-	player = game.add.sprite(width*0.5, height*0.5, 'orc-bob1');
-	player.anchor.set(0.5);
-	game.physics.enable(player, Phaser.Physics.ARCADE);
+	ball = game.add.sprite(-square, -square, 'ball-onfield');
+	ball.anchor.set(0.5);
+	game.physics.enable(ball, Phaser.Physics.ARCADE);
 
     // crete teams
     home = game.add.group();
@@ -108,6 +110,19 @@ function create() {
 }
 function update() {
 
+}
+
+function fireKickOffBallEvent(msg) {
+    ball.x = msg._to.x * square;
+    ball.y = msg._to.y * square;
+}
+
+function fireScatterBallEvent(msg) {
+    ball.x = msg._destination._lastValidSquare.x;
+    ball.y = msg._destination._lastValidSquare.y;
+}
+
+function fireCatchBallEvent(msg) {
 }
 
 function firePutPlayerInPitchEvent(msg) {

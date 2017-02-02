@@ -13,53 +13,40 @@ public class CatchBallEvent extends BallEvent {
 
 	public static final String CATCH_ROLL = "CATCH";
 
-	private Ball _ball = null;
-	private Player _player = null;
-	private boolean _failed = false;
+    private long _playerId;
+    private boolean _failed = false;
 
-	public CatchBallEvent(int ballId) {
-		super(ballId);
-	}
-
-	public Ball getBall() {
-		return _ball;
-	}
-
-	public void setBall(Ball ball) {
-		_ball = ball;
-	}
-
-	public Player getPlayer() {
-		return _player;
-	}
-
-	public void setPlayer(Player player) {
-		_player = player;
-	}
+    public CatchBallEvent(int ballId, long playerId) {
+        super(ballId);
+        _playerId = playerId;
+    }
 
 	@Override
 	public void doEvent(Arena arena) {
-		_ball = getBall(arena);
+        Ball ball = getBall(arena);
+        Player player = arena.getPlayerManager().getPlayer(_playerId);
 
 		if (!_failed) {
-			arena.getPitch().ballCatch(_ball, _player);
-		}
+            arena.getPitch().ballCatch(ball, player);
+        }
 	}
 
 	@Override
 	public void undoEvent(Arena arena) {
 		if (!_failed) {
 			Pitch pitch = arena.getPitch();
-			pitch.ballLose(_ball, _player);
-		}
+            Ball ball = getBall(arena);
+            Player player = arena.getPlayerManager().getPlayer(_playerId);
+            pitch.ballLose(ball, player);
+        }
 	}
 
 	@Override
 	public String getString() {
 		return Concat.buildLog(getClass(),
 				new Pair("ballId", getBallId()),
-				new Pair("playerId", _player.getId()),
-				new Pair("catched", !_failed));
+                new Pair("playerId", _playerId),
+                new Pair("catched", !_failed));
 	}
 
     public void setFailed(boolean failed) {

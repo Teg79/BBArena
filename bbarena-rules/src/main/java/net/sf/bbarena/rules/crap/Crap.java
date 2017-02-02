@@ -599,10 +599,9 @@ public class Crap implements RuleSet {
         do {
             if ((squareDestination.isOutOfPitch() || lastSquare == null || lastSquare.getTeamOwner().equals(kickerCoach.getTeam()))) {
                 // touchback
-                CatchBallEvent catchBallEvent = new CatchBallEvent(ballId);
                 List<Player> playerStream = pitch.getPlayers().stream().filter(player -> player.getTeam().getId() == coaches.get(firstCoach).getTeam().getId()).collect(Collectors.toList());
                 Player touchbackPlayer = (Player) coaches.get(firstCoach).choice("Touchback", playerStream.toArray(new Player[playerStream.size()]));
-                catchBallEvent.setPlayer(touchbackPlayer);
+                CatchBallEvent catchBallEvent = new CatchBallEvent(ballId, touchbackPlayer.getId());
                 eventManager.forward(catchBallEvent);
                 endBouncing = true;
             } else {

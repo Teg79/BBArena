@@ -82,9 +82,7 @@ public class AgilityTable {
             throw new IllegalArgumentException(msg);
         }
 
-        CatchBallEvent catchBallEvent = new CatchBallEvent(ball.getId());
-        catchBallEvent.setBall(ball);
-        catchBallEvent.setPlayer(player);
+        CatchBallEvent catchBallEvent = new CatchBallEvent(ball.getId(), player.getId());
 
         int tzCount = pitch.getOpponentTZCount(square.getCoords(), player.getTeam());
         // pitch.getPlayersInRange()

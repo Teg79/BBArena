@@ -11,7 +11,6 @@ public class KickOffBallEvent extends BallEvent {
 
 	private static final long serialVersionUID = 941485053747283672L;
 
-	private Ball _ball = null;
 	private Coordinate _to = null;
 
 	public KickOffBallEvent(int ballId, int toX, int toY) {
@@ -21,16 +20,17 @@ public class KickOffBallEvent extends BallEvent {
 
 	@Override
 	public void doEvent(Arena arena) {
-		_ball = getBall(arena);
+		Ball ball = getBall(arena);
 
 		Pitch pitch = arena.getPitch();
-		pitch.ballKickOff(_ball, _to);
+		pitch.ballKickOff(ball, _to);
 	}
 
 	@Override
 	public void undoEvent(Arena arena) {
+		Ball ball = getBall(arena);
 		Pitch pitch = arena.getPitch();
-		pitch.ballRemove(_ball);
+		pitch.ballRemove(ball);
 	}
 
 	@Override
