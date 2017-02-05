@@ -31,8 +31,8 @@ public class MatchEndpoint {
 
         MatchServer matchServer = _servers.get(session);
 
-        Team t1 = Factory.buildTeam();
-        Team t2 = Factory.buildTeam();
+        Team t1 = Factory.buildOrcTeam();
+        Team t2 = Factory.buildChaosTeam();
 
         Iterator<Player> p1Iterator = t1.getPlayers().iterator();
         RemoteCoach c1 = new RemoteCoach(session, "C1", t1,

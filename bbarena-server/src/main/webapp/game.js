@@ -14,6 +14,7 @@ var playersMap = new Map();
 var ball;
 
 // WS
+// var wsUri = "ws://mafateg.no-ip.biz:8888/bbarena/match/m/c";
 var wsUri = "ws://localhost:8080/bbarena-server/match/m/c";
 var websocket;
 
@@ -118,8 +119,8 @@ function fireKickOffBallEvent(msg) {
 }
 
 function fireScatterBallEvent(msg) {
-    ball.x = msg._destination._lastValidSquare.x;
-    ball.y = msg._destination._lastValidSquare.y;
+    ball.x = msg._destination._lastValidSquare.x * square;
+    ball.y = msg._destination._lastValidSquare.y * square;
 }
 
 function fireTouchBackEvent(msg) {
