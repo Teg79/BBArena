@@ -11,7 +11,7 @@ public class PlayerTemplate implements Serializable {
 
 	private static final long serialVersionUID = 6807201986807754711L;
 
-	//	private Roster roster;
+	private Roster roster;
 	private String race;
 	private Qty quantity;
 	private String position;
@@ -91,13 +91,13 @@ public class PlayerTemplate implements Serializable {
 		return getQuantity().toString() + " " + getPosition() + " " + getAttributes().toString() + " " + getSkillsString() + " " + getNormalString() + " " + getDoublesString();
 	}
 
-//	public Roster getRoster() {
-//		return roster;
-//	}
-//
-//	protected void setRoster(Roster roster) {
-//		this.roster = roster;
-//	}
+	public Roster getRoster() {
+		return roster;
+	}
+
+	protected void setRoster(Roster roster) {
+		this.roster = roster;
+	}
 
 	public boolean isDouble(Skill skill) {
 		return isInCategories(doubles, skill);

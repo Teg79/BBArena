@@ -12,8 +12,8 @@
     <packaging>war</packaging>
 
     <properties>
-        <!--<tomcat8x.url>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.8/tomcat-8.5.8.zip</tomcat8x.url>-->
-        <tomcat8x.url>file:///Users/teg</tomcat8x.url>
+        <tomcat8x.url>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.8/tomcat-8.5.8.zip</tomcat8x.url>
+        <!--<tomcat8x.url>file:///Users/teg</tomcat8x.url>-->
         <tomee.version>7.0.2</tomee.version>
     </properties>
 
