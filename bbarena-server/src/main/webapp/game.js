@@ -1,4 +1,6 @@
 //set width and height variables for game
+/*eslint-env browser*/
+/*globals Phaser */
 var width = 780;
 var height = 450;
 //create game object and initialize the canvas
@@ -12,10 +14,11 @@ var home;
 var away;
 var playersMap = new Map();
 var ball;
+var output;
 
 // WS
 // var wsUri = "ws://mafateg.no-ip.biz:8888/bbarena/match/m/c";
-var wsUri = "ws://localhost:8080/bbarena-server/match/m/c";
+var wsUri = "ws://" + location.host + "/bbarena-server/match/m/c";
 var websocket;
 
 function onOpen(evt)
