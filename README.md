@@ -21,16 +21,10 @@ cd bbarena-rules
 mvn test -Dtest=TestCrap
 ```
 
-Test with the Swing Prototype
-```
-cd bbarena-view
-mvn exec:java -Dexec.mainClass="net.sf.bbarena.view.BBArenaGUIProto1"
-```
-
 # Prototype
 ## Team SetUp
-![Team SetUp](/docs/team_setup.jpg)
+![Team SetUp](docs/team_setup.jpg)
 ## Interception
-![Interception](/docs/interception.jpg)
+![Interception](docs/interception.jpg)
 ## Action Ring
-![Action Ring](/docs/action_ring.jpg)
+![Action Ring](docs/action_ring.jpg)
