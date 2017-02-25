@@ -6,6 +6,7 @@ Java Open Source version of a fantasy football game, that allow roster creation,
 - Add events and hooks
 - Add LRB 6 rules
 - Web interface
+- OPENSHIFT
 
 # Build the project
 Simply run
