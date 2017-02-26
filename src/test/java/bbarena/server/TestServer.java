@@ -1,20 +1,20 @@
 package bbarena.server;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+//import org.jboss.arquillian.container.test.api.Deployment;
+//import org.jboss.arquillian.junit.Arquillian;
+//import org.jboss.arquillian.test.api.ArquillianResource;
+//import org.jboss.shrinkwrap.api.ShrinkWrap;
+//import org.jboss.shrinkwrap.api.spec.WebArchive;
+//import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+//import org.junit.Test;
+//import org.junit.runner.RunWith;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+//
+//import java.io.File;
+//import java.net.URI;
+//import java.net.URISyntaxException;
+//import java.net.URL;
 
 /**
  * Created by teg on 18/12/16.
