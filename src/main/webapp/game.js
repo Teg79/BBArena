@@ -17,8 +17,7 @@ var ball;
 var output;
 
 // WS
-// var wsUri = "ws://mafateg.no-ip.biz:8888/bbarena/match/m/c";
-var wsUri = "ws://" + location.host + "/bbarena-server/match/m/c";
+var wsUri = "ws://" + location.host + "/bbarena/match/m/c";
 var websocket;
 
 function onOpen(evt)

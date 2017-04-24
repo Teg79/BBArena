@@ -2,11 +2,14 @@
 Java Open Source version of a fantasy football game, that allow roster creation, network play, match report generation and easy rules customization.
 
 # Roadmap
+## Done
 - Modernize the model
 - Add events and hooks
+## Work In Progress
 - Add LRB 6 rules
 - Web interface
-- OPENSHIFT
+## To Do
+- Add BB2 rules
 
 # Build the project
 Simply run
@@ -18,9 +21,16 @@ mvn clean install
 
 Test the Crap Rules (Work In Progress)
 ```
-cd bbarena-rules
 mvn test -Dtest=TestCrap
 ```
+
+# Run the server
+
+Launch the web server with
+```
+mvn cargo:run
+```
+And the connect with a browser with [http://localhost:8080/bbarena](http://localhost:8080/bbarena)
 
 # Prototype
 ## Team SetUp
