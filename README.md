@@ -30,7 +30,7 @@ Launch the web server with
 ```
 mvn cargo:run
 ```
-And the connect with a browser with [http://localhost:8080/bbarena](http://localhost:8080/bbarena)
+And connect with a browser with [http://localhost:8080/bbarena](http://localhost:8080/bbarena)
 
 # Prototype
 ## Team SetUp
