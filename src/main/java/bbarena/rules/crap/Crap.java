@@ -38,7 +38,7 @@ public class Crap implements RuleSet {
                 .addListener(new VerySunny())
                 .addListener(new SwelteringHeat());
 
-        coaches.stream().forEach(crapChoiceCoach -> crapChoiceCoach.setChoiceFilter(new CrapChoiceFilter(eventManager.getArena())));
+        coaches.forEach(crapChoiceCoach -> crapChoiceCoach.setChoiceFilter(new CrapChoiceFilter(eventManager.getArena())));
 
         log.info("Pre-Match Sequence");
         preMatchSequence(eventManager, coaches);
@@ -224,7 +224,7 @@ public class Crap implements RuleSet {
 
             Set<Player> stunnedPlayers = new LinkedHashSet<>();
             Set<Choice> choices = new LinkedHashSet<>();
-            playingCoach.getTeam().getPlayers().stream().forEach(player -> {
+            playingCoach.getTeam().getPlayers().forEach(player -> {
                 if (player.getTeam().equals(playingCoach.getTeam())
                         && player.isOnThePitch()) {
                     if (player.getPitchStatus() == PlayerPitchStatus.PRONE) {
@@ -399,7 +399,7 @@ public class Crap implements RuleSet {
     private void setUpTeam(EventManager eventManager, List<Coach> coaches, int team) {
 
         Pitch pitch = eventManager.getArena().getPitch();
-        Set<Choice> playerStream = pitch.getDugouts().get(team).getPlayers(DefaultDogout.BloodBowlDugoutRoom.RESERVES).stream().filter(player -> player.isPlayable()).collect(Collectors.toSet());
+        Set<Choice> playerStream = pitch.getDugouts().get(team).getPlayers(DefaultDogout.BloodBowlDugoutRoom.RESERVES).stream().filter(Player::isPlayable).collect(Collectors.toSet());
         long playablePlayers = playerStream.size();
 
         if (playablePlayers < 3) {
@@ -444,7 +444,7 @@ public class Crap implements RuleSet {
                 break check;
             }
 
-            teamSetUp.getSetUp().keySet().stream().forEach(key -> {
+            teamSetUp.getSetUp().keySet().forEach(key -> {
                 Coordinate coordinate = teamSetUp.getSetUp().get(key);
                 Square square = pitch.getSquare(coordinate);
                 if (square.getTeamOwner().getPlayers().stream().filter(player -> player.getId() == key).count() == 0) {
