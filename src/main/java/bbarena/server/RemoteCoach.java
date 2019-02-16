@@ -52,6 +52,12 @@ public class RemoteCoach extends Coach {
             _log.warn("Error sending message to " + _session.getQueryString());
         }
 
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+
+        }
+
         return answer;
     }
 
