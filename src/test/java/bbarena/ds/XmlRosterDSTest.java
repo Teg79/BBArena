@@ -1,12 +1,12 @@
 package bbarena.ds;
 
-import junit.framework.TestCase;
 import bbarena.ds.util.xml.XmlRosterDS;
 import bbarena.model.team.Attributes.Attribute;
 import bbarena.model.team.PlayerTemplate;
 import bbarena.model.team.Roster;
 import bbarena.model.team.Skill;
 import bbarena.model.team.SkillCategory;
+import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,12 +37,12 @@ public class XmlRosterDSTest extends TestCase {
 		SkillCategory agility = new SkillCategory('A',"Agility", "Agility skills");
 		SkillCategory passing = new SkillCategory('P',"Passing", "Passing skills");
 		
-		Skill horns = Skill.getSkill("Horns");
-		Skill loner = Skill.getSkill("Loner");
-		Skill frenzy = Skill.getSkill("Frenzy");
-		Skill mblow = Skill.getSkill("Mighty blow");
-		Skill tSkull = Skill.getSkill("Thick skull");
-		Skill wAnimal = Skill.getSkill("Wild animal");
+		Skill horns = Skill.Companion.getSkill("Horns");
+		Skill loner = Skill.Companion.getSkill("Loner");
+		Skill frenzy = Skill.Companion.getSkill("Frenzy");
+		Skill mblow = Skill.Companion.getSkill("Mighty blow");
+		Skill tSkull = Skill.Companion.getSkill("Thick skull");
+		Skill wAnimal = Skill.Companion.getSkill("Wild animal");
 		
 		//------------- Beastmen --------------------------
 		
@@ -141,18 +141,18 @@ public class XmlRosterDSTest extends TestCase {
 		SkillCategory agility = new SkillCategory('A',"Agility", "Agility skills");
 		SkillCategory passing = new SkillCategory('P',"Passing", "Passing skills");
 		
-		Skill rStuff = Skill.getSkill("Right stuff");
-		Skill dodge = Skill.getSkill("Dodge");
-		Skill stunty = Skill.getSkill("Stunty");
-		Skill sHands = Skill.getSkill("Sure hands");
-		Skill pass = Skill.getSkill("Pass");
-		Skill block = Skill.getSkill("Block");
-		Skill loner = Skill.getSkill("Loner");
-		Skill aHungry = Skill.getSkill("Always Hungry");
-		Skill mblow = Skill.getSkill("Mighty blow");
-		Skill rStupid = Skill.getSkill("Really stupid");
-		Skill regeneration = Skill.getSkill("Regeneration");
-		Skill ttMate = Skill.getSkill("Throw team-mate");
+		Skill rStuff = Skill.Companion.getSkill("Right stuff");
+		Skill dodge = Skill.Companion.getSkill("Dodge");
+		Skill stunty = Skill.Companion.getSkill("Stunty");
+		Skill sHands = Skill.Companion.getSkill("Sure hands");
+		Skill pass = Skill.Companion.getSkill("Pass");
+		Skill block = Skill.Companion.getSkill("Block");
+		Skill loner = Skill.Companion.getSkill("Loner");
+		Skill aHungry = Skill.Companion.getSkill("Always Hungry");
+		Skill mblow = Skill.Companion.getSkill("Mighty blow");
+		Skill rStupid = Skill.Companion.getSkill("Really stupid");
+		Skill regeneration = Skill.Companion.getSkill("Regeneration");
+		Skill ttMate = Skill.Companion.getSkill("Throw team-mate");
 		
 		//------------- Linemen --------------------------
 		

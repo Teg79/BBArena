@@ -1,19 +1,18 @@
 package bbarena.model;
 
-import java.util.Iterator;
-import java.util.List;
-
 import bbarena.model.RangeRuler.Range;
 import bbarena.model.exception.PitchException;
 import bbarena.model.pitch.Pitch;
-import bbarena.model.pitch.PitchFactory;
+import bbarena.model.rules.bb.PitchFactory;
 import bbarena.model.team.Player;
 import bbarena.model.team.Team;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author f.bellentani
@@ -39,7 +38,7 @@ public class TestRangeRuler {
 		Team t2 = new Team(2L, null);
 		t2.setName("2");
 
-		pitch = PitchFactory.getPitch(t1, t2);
+		pitch = PitchFactory.Companion.getPitch(t1, t2);
 		ruler = new RangeRuler(pitch);
 
 		// Put players on the pitch

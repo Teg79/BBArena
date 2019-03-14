@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class SimGenerator implements DieRandomizer {
 
-    private final DieRandomizer _default = RandomOrgRandomizer.getInstance();
+    private final DieRandomizer _default = RandomOrgRandomizer.Companion.getInstance();
     private final List<Integer> _rolls;
     private int _rollCounter = 0;
 

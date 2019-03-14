@@ -1,10 +1,5 @@
 package bbarena.rules.crap;
 
-import de.vandermeer.asciitable.v2.RenderedTable;
-import de.vandermeer.asciitable.v2.V2_AsciiTable;
-import de.vandermeer.asciitable.v2.render.V2_AsciiTableRenderer;
-import de.vandermeer.asciitable.v2.render.WidthAbsoluteEven;
-import de.vandermeer.asciitable.v2.themes.V2_E_TableThemes;
 import bbarena.model.Coordinate;
 import bbarena.model.Match;
 import bbarena.model.Roll;
@@ -16,6 +11,11 @@ import bbarena.model.pitch.Square;
 import bbarena.model.pitch.TeamSetUp;
 import bbarena.model.team.Player;
 import bbarena.model.team.Team;
+import de.vandermeer.asciitable.v2.RenderedTable;
+import de.vandermeer.asciitable.v2.V2_AsciiTable;
+import de.vandermeer.asciitable.v2.render.V2_AsciiTableRenderer;
+import de.vandermeer.asciitable.v2.render.WidthAbsoluteEven;
+import de.vandermeer.asciitable.v2.themes.V2_E_TableThemes;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +101,7 @@ public class TestCrap {
                 5 // Scatter
         );
 
-        Roll.setGenerator(roller);
+        Roll.Companion.setGenerator(roller);
 
         match.start(new Crap());
 

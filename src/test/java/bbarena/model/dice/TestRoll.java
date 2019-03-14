@@ -2,12 +2,11 @@ package bbarena.model.dice;
 
 import bbarena.model.Roll;
 import bbarena.model.event.Die;
-
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class TestRoll {
 
@@ -16,7 +15,7 @@ public class TestRoll {
 	@Test
 	public void testRoll() {
 		for (int i = 0; i < 100; i++) {
-			Roll roll = new Roll(1, Die.D68, RandomOrgRandomizer.getInstance());
+			Roll roll = new Roll(1, Die.D68, RandomOrgRandomizer.Companion.getInstance());
 			log.info(roll.getResults()[0] + " ");
 			int res = roll.getResults()[0];
 			assertTrue(
@@ -28,7 +27,7 @@ public class TestRoll {
 					(res >= 61 && res <= 68));
 		}
 		for (int i = 0; i < 100; i++) {
-			Roll roll = new Roll(1, Die.D6, RandomOrgRandomizer.getInstance());
+			Roll roll = new Roll(1, Die.D6, RandomOrgRandomizer.Companion.getInstance());
 			log.info(roll.getResults()[0] + " ");
 			int res = roll.getResults()[0];
 			assertTrue(res >= 1 && res <= 6);

@@ -1,8 +1,8 @@
 package bbarena.model;
 
 import bbarena.model.pitch.Pitch;
-import bbarena.model.pitch.PitchFactory;
 import bbarena.model.pitch.Square;
+import bbarena.model.rules.bb.PitchFactory;
 import bbarena.model.team.Team;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ public class TestPitchFactory {
         t1.setName("1");
         Team t2 = new Team(2L, null);
         t2.setName("2");
-        Pitch p = PitchFactory.getPitch(t1, t2);
+        Pitch p = PitchFactory.Companion.getPitch(t1, t2);
         log.debug("Pitch created");
         for(int x = 0; x < p.getWidth(); x++) {
             StringBuilder line = new StringBuilder();

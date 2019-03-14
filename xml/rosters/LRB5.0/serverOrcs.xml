@@ -1,0 +1,301 @@
+<roster>
+  <race>Orcs</race>
+  <description>Orcs have been playing Blood Bowl since the game was invented, and Orc teams such as the Gouged Eye and Severed Heads are amongst the best in the league. Orc teams are tough and hard-hitting, grinding down the opposition&#x92;s line to create gaps for their excellent Orc Blitzers to exploit.</description>
+  <players>
+    <playertemplate>
+      <quantity>
+        <min>0</min>
+        <max>16</max>
+      </quantity>
+      <position>Linemen</position>
+      <cost>50000</cost>
+      <attributes>
+        <attributeMap>
+          <entry>
+            <attribute>MA</attribute>
+            <int>5</int>
+          </entry>
+          <entry>
+            <attribute>ST</attribute>
+            <int>3</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
+            <int>3</int>
+          </entry>
+          <entry>
+            <attribute>AV</attribute>
+            <int>9</int>
+          </entry>
+        </attributeMap>
+      </attributes>
+      <skills/>
+      <normal>
+        <skillcategory>
+          <id>G</id>
+          <name>General</name>
+          <description>General skills</description>
+          <skills class="sorted-set"/>
+        </skillcategory>
+      </normal>
+      <doubles>
+        <skillcategory>
+          <id>A</id>
+          <name>Agility</name>
+          <description>Agility skills</description>
+          <skills class="sorted-set"/>
+        </skillcategory>
+        <skillcategory>
+          <id>S</id>
+          <name>Strenght</name>
+          <description>Strenght skills</description>
+          <skills class="sorted-set"/>
+        </skillcategory>
+        <skillcategory>
+          <id>P</id>
+          <name>Passing</name>
+          <description>Passing skills</description>
+          <skills class="sorted-set"/>
+        </skillcategory>
+      </doubles>
+    </playertemplate>
+    <playertemplate>
+      <quantity>
+        <min>0</min>
+        <max>4</max>
+      </quantity>
+      <position>Goblins</position>
+      <cost>40000</cost>
+      <attributes>
+        <attributeMap>
+          <entry>
+            <attribute>MA</attribute>
+            <int>6</int>
+          </entry>
+          <entry>
+            <attribute>ST</attribute>
+            <int>2</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
+            <int>3</int>
+          </entry>
+          <entry>
+            <attribute>AV</attribute>
+            <int>7</int>
+          </entry>
+        </attributeMap>
+      </attributes>
+      <skills>
+        <skill>
+          <name>Right stuff</name>
+        </skill>
+        <skill>
+          <name>Dodge</name>
+        </skill>
+        <skill>
+          <name>Stunty</name>
+        </skill>
+      </skills>
+      <normal>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory"/>
+      </normal>
+      <doubles>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[2]"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[3]"/>
+      </doubles>
+    </playertemplate>
+    <playertemplate>
+      <quantity>
+        <min>0</min>
+        <max>2</max>
+      </quantity>
+      <position>Throwers</position>
+      <cost>70000</cost>
+      <attributes>
+        <attributeMap>
+          <entry>
+            <attribute>MA</attribute>
+            <int>5</int>
+          </entry>
+          <entry>
+            <attribute>ST</attribute>
+            <int>3</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
+            <int>3</int>
+          </entry>
+          <entry>
+            <attribute>AV</attribute>
+            <int>8</int>
+          </entry>
+        </attributeMap>
+      </attributes>
+      <skills>
+        <skill>
+          <name>Sure hands</name>
+        </skill>
+        <skill>
+          <name>Pass</name>
+        </skill>
+      </skills>
+      <normal>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[3]"/>
+      </normal>
+      <doubles>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[2]"/>
+      </doubles>
+    </playertemplate>
+    <playertemplate>
+      <quantity>
+        <min>0</min>
+        <max>4</max>
+      </quantity>
+      <position>Black Orc Blockers</position>
+      <cost>80000</cost>
+      <attributes>
+        <attributeMap>
+          <entry>
+            <attribute>MA</attribute>
+            <int>4</int>
+          </entry>
+          <entry>
+            <attribute>ST</attribute>
+            <int>4</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
+            <int>2</int>
+          </entry>
+          <entry>
+            <attribute>AV</attribute>
+            <int>9</int>
+          </entry>
+        </attributeMap>
+      </attributes>
+      <skills/>
+      <normal>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[2]"/>
+      </normal>
+      <doubles>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[3]"/>
+      </doubles>
+    </playertemplate>
+    <playertemplate>
+      <quantity>
+        <min>0</min>
+        <max>4</max>
+      </quantity>
+      <position>Blitzers</position>
+      <cost>80000</cost>
+      <attributes>
+        <attributeMap>
+          <entry>
+            <attribute>MA</attribute>
+            <int>6</int>
+          </entry>
+          <entry>
+            <attribute>ST</attribute>
+            <int>3</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
+            <int>3</int>
+          </entry>
+          <entry>
+            <attribute>AV</attribute>
+            <int>9</int>
+          </entry>
+        </attributeMap>
+      </attributes>
+      <skills>
+        <skill>
+          <name>Block</name>
+        </skill>
+      </skills>
+      <normal>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[2]"/>
+      </normal>
+      <doubles>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[3]"/>
+      </doubles>
+    </playertemplate>
+    <playertemplate>
+      <quantity>
+        <min>0</min>
+        <max>1</max>
+      </quantity>
+      <position>Troll</position>
+      <cost>110000</cost>
+      <attributes>
+        <attributeMap>
+          <entry>
+            <attribute>MA</attribute>
+            <int>4</int>
+          </entry>
+          <entry>
+            <attribute>ST</attribute>
+            <int>5</int>
+          </entry>
+          <entry>
+            <attribute>AG</attribute>
+            <int>1</int>
+          </entry>
+          <entry>
+            <attribute>AV</attribute>
+            <int>9</int>
+          </entry>
+        </attributeMap>
+      </attributes>
+      <skills>
+        <skill>
+          <name>Loner</name>
+        </skill>
+        <skill>
+          <name>Always Hungry</name>
+        </skill>
+        <skill>
+          <name>Mighty blow</name>
+        </skill>
+        <skill>
+          <name>Really stupid</name>
+        </skill>
+        <skill>
+          <name>Regeneration</name>
+        </skill>
+        <skill>
+          <name>Throw team-mate</name>
+        </skill>
+      </skills>
+      <normal>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[2]"/>
+      </normal>
+      <doubles>
+        <skillcategory reference="../../../playertemplate/normal/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory"/>
+        <skillcategory reference="../../../playertemplate/doubles/skillcategory[3]"/>
+      </doubles>
+    </playertemplate>
+  </players>
+  <rerolls>
+    <min>0</min>
+    <max>8</max>
+  </rerolls>
+  <rerollCost>60000</rerollCost>
+  <starsId>
+    <string>Bomber Dribblesnot</string>
+    <string>Ripper</string>
+    <string>Grashnak Blackhoof</string>
+    <string>Scrappa Sorehead</string>
+    <string>Ugroth Bolgrot</string>
+    <string>Varag Ghoul-Chewer</string>
+  </starsId>
+</roster>

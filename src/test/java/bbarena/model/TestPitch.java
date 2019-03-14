@@ -2,7 +2,7 @@ package bbarena.model;
 
 import bbarena.model.exception.PitchException;
 import bbarena.model.pitch.Pitch;
-import bbarena.model.pitch.PitchFactory;
+import bbarena.model.rules.bb.PitchFactory;
 import bbarena.model.team.Player;
 import bbarena.model.team.Team;
 import org.junit.Before;
@@ -28,7 +28,7 @@ public class TestPitch {
         Team t2 = new Team(2L, null);
         t2.setName("2");
 
-        pitch = PitchFactory.getPitch(t1, t2);
+        pitch = PitchFactory.Companion.getPitch(t1, t2);
 
         // Put players on the pitch
         for (int i = 0; i < pitch.getHeight() * pitch.getWidth(); i++) {
